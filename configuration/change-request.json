@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T18:15:51.129Z",
+  "createdAt": "2026-10-30T20:22:38.336Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -16,9 +16,9 @@
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "no",
     "changeAnnouncement": "yes",
-    "announcementMode": "edit",
-    "mainStripBackgroundColor": "#ffd24f",
-    "updatePhotoOfMonth": "no"
+    "announcementMode": "restore_default",
+    "mainStripBackgroundColor": "#ffc400",
+    "updatePhotoOfMonth": "unchanged"
   },
   "changeSchedules": {
     "settings": {
@@ -31,21 +31,21 @@
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
+    "announcementText": "",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
-    "mainStripTextColor": "#18384d",
-    "mainStripBackgroundColor": "#ffd24f",
+    "mainStripTextColor": "#0759a8",
+    "mainStripBackgroundColor": "#ffc400",
     "announcementTextColors": {
-      "defaultStrip": "#18384d",
-      "customStrip": "#2214db"
+      "defaultStrip": "#0759a8",
+      "customStrip": "#0759a8"
     },
     "announcementBackgroundColors": {
-      "mainStrip": "#ffd24f",
+      "mainStrip": "#ffc400",
       "secondStrip": "#f3a6c8"
     },
     "announcementMarqueeSpeedsSeconds": {
       "standardStrip": 83,
-      "customStrip": 14
+      "customStrip": 83
     },
     "photoOfMonth": "",
     "photoOfMonthFileName": "",
