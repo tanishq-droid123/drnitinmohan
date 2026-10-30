@@ -4856,7 +4856,14 @@ input,select,textarea{font-size:16px;max-width:100%}
   function route(){
     var isAdmin = location.hash.toLowerCase() === "#admin";
     portal.hidden = !isAdmin;
-    if(isAdmin){ render(); portal.scrollIntoView({behavior:"smooth",block:"start"}); }
+    if(isAdmin){
+      render();
+      portal.scrollIntoView({behavior:"smooth",block:"start"});
+    } else {
+      // Leaving #admin for the main site immediately ends the login session.
+      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+      render();
+    }
   }
   loginForm.addEventListener("submit",function(event){
     event.preventDefault();
@@ -4875,6 +4882,9 @@ input,select,textarea{font-size:16px;max-width:100%}
     render();
   });
   window.addEventListener("hashchange",route);
+  window.addEventListener("pagehide",function(){
+    try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+  });
   function initAdminRoute(){ route(); }
   if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",initAdminRoute);
   else initAdminRoute();
