@@ -1,0 +1,35 @@
+{
+  "formTitle": "KidsGastro Website Change Request",
+  "doctor": "Dr. Nitin Mohan",
+  "createdAt": "2026-10-30T13:50:53.933Z",
+  "timezone": "Asia/Kolkata",
+  "notice": "This is a request only. It does not modify or publish the website.",
+  "changes": {
+    "showAppointmentButton": "no",
+    "hideAppointmentButton": "yes",
+    "showWhatsAppButton": "no",
+    "hideWhatsAppButton": "yes",
+    "changeAnnouncement": "yes",
+    "slowAnimations": "no",
+    "speedAnimations": "yes",
+    "pauseAnimations": "no",
+    "changePhotos": "no",
+    "updateTextOrDoctorDetails": "no",
+    "changeDesign": "no",
+    "otherChange": "no"
+  },
+  "details": {
+    "announcementText": "maintenance work going on                     please wait",
+    "otherInstructions": ""
+  },
+  "duration": "permanent",
+  "schedule": {
+    "startDateTime": "",
+    "endDateTime": "",
+    "activateTemporary": false
+  },
+  "request": {
+    "requestedBy": "",
+    "requestDate": "2026-10-30"
+  }
+}
