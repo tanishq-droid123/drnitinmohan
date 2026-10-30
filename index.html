@@ -43,6 +43,60 @@
   },true);
 })();
 </script>
+
+<script id="kg-header-logo-clean-home-navigation">
+(() => {
+  // The header logo is always a clean link to the homepage.
+  // On the homepage, clicking it scrolls to the top without adding "#" or "#top".
+  const logoSelector = '.header .nav > a.brand, .header a.brand';
+  const normalizeLogo = () => {
+    document.querySelectorAll(logoSelector).forEach(link => {
+      link.setAttribute('href', '/');
+      link.removeAttribute('data-href');
+    });
+  };
+
+  normalizeLogo();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', normalizeLogo, { once: true });
+  }
+
+  document.addEventListener('click', event => {
+    const logo = event.target && event.target.closest
+      ? event.target.closest(logoSelector)
+      : null;
+    if (!logo) return;
+
+    // Preserve open-in-new-tab, middle-click, and modifier-key behaviour.
+    if (event.button !== 0 || event.metaKey || event.ctrlKey ||
+        event.shiftKey || event.altKey) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (currentPath === '/') {
+      try {
+        window.history.replaceState(
+          window.history.state,
+          '',
+          window.location.pathname + window.location.search
+        );
+      } catch (_) {}
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto'
+          : 'smooth'
+      });
+    } else {
+      window.location.assign('/');
+    }
+  }, true);
+})();
+</script>
+
 <style id="final-navigation-and-button-rules">.secondary-nav{display:none!important}.opd-hours>.eyebrow{display:none}.opd-hours h2{font-size:0!important;margin:0 0 14px!important}.opd-hours h2::before{content:none!important;display:none!important}.opd-hours h2::after{content:"OPD Timings";font-size:1.55rem;line-height:1.2}.btn,.updated-map-link,.newsletter-section .newsletter-controls .btn{background:#fff!important;border-color:#fff!important;color:#0759a8!important}.btn:hover,.updated-map-link:hover,.newsletter-section .newsletter-controls .btn:hover{background:#eaf2f8!important;border-color:#eaf2f8!important;color:#064b8d!important}.booking-toggle,.booking-dialog-actions .booking-submit{background:#ffc400!important;border-color:#ffc400!important;color:#123c77!important}.booking-toggle:hover,.booking-dialog-actions .booking-submit:hover{background:#f1b900!important;border-color:#f1b900!important}.hero .eyebrow,.hero h1{color:#fff!important}.faq-item summary{color:#123c77!important}
 /* Updated circular KidsGastro logo used consistently throughout the site */
 .circular-brand-logo{display:inline-block;object-fit:contain;object-position:center;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;line-height:1;vertical-align:middle}
@@ -2384,6 +2438,66 @@ html.kg-tab-hidden .kg-cosmos-background,html.kg-tab-hidden .kg-cosmos-backgroun
 }
 </style>
 
+
+<style id="kg-cosmos-blue-panel-motion-restore">
+/* Restore only the requested decorative space scene in blue panels. */
+.kg-cosmos-host > .kg-cosmos-background,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-system,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-orbit,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-planet,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-bound-satellite,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-bound-starship,
+.kg-cosmos-host > .kg-cosmos-background .kg-flying-craft,
+.kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet-streak {
+  animation-play-state: running !important;
+}
+.kg-cosmos-host > .kg-cosmos-background {
+  display: block !important;
+  visibility: visible !important;
+  opacity: .72 !important;
+}
+@media (max-width: 600px) {
+  .kg-cosmos-host > .kg-cosmos-background { opacity: .55 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-orbit,
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-planet,
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-bound-satellite,
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-bound-starship,
+  .kg-cosmos-host > .kg-cosmos-background .kg-flying-craft,
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet-streak {
+    animation-duration: 28s !important;
+    animation-iteration-count: infinite !important;
+  }
+  .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-sun {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+</style>
+
+<style id="kg-cosmos-explicit-orbit-motion-override">
+/* Explicitly restart the moving objects; the central star and orbit track remain static. */
+.kg-cosmos-host .kg-cosmos-planet {
+  animation: kg-gravity-orbit var(--dur,30s) linear infinite !important;
+  offset-distance: 0% !important;
+}
+.kg-cosmos-host .kg-cosmos-bound-satellite {
+  animation: kg-gravity-orbit var(--craft-dur,var(--dur,30s)) linear infinite !important;
+}
+.kg-cosmos-host .kg-cosmos-bound-starship {
+  animation: kg-gravity-orbit var(--ship-dur,var(--dur,30s)) linear infinite !important;
+}
+.kg-cosmos-host .kg-flying-craft {
+  animation: kg-gravity-orbit var(--craft-time,20s) linear infinite !important;
+}
+.kg-cosmos-host .kg-cosmos-comet-streak {
+  animation: kg-cosmos-comet-cross var(--comet-time,7s) linear var(--comet-delay,0s) infinite !important;
+}
+.kg-cosmos-host .kg-cosmos-nebula {
+  animation: kg-nebula-drift var(--speed,24s) ease-in-out infinite alternate !important;
+}
+</style>
 </head><body><div aria-label="Appointment announcement" class="offline-appointment-marquee" role="region"><div class="offline-appointment-marquee__track"><span class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span><span aria-hidden="true" class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span></div></div><a class="skip-link" href="/?focus=main">Skip to content</a>
 <header class="header"><nav aria-label="Main navigation" class="nav container"><a class="brand" href="/"><img alt="Dr. Nitin Mohan KidsGastro logo" class="mark circular-brand-logo" data-embedded-logo="true" decoding="async" loading="eager" src="/assets/1000273559.webp"/><span>KidsGastro by Dr. Nitin Mohan</span></a><button aria-controls="hamburger-panel" aria-expanded="false" aria-label="Open navigation" class="toggle">☰</button><div aria-hidden="true" class="hamburger-panel" hidden="" id="hamburger-panel"></div><div class="links" id="links">
 <details class="nav-dropdown"><summary>Treatments<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/treatments/"><b>Paediatric Gastroenterology</b></a><a href="/treatments/"><b>Paediatric Hepatology — Liver Diseases</b></a><a href="/treatments/"><b>Paediatric Pancreatology — Pancreatic Disorders</b></a><a href="/treatments/"><b>Paediatric Biliary Tract Diseases</b></a><a href="/treatments/"><b>Paediatric Nutrition and Growth</b></a></div></details><details class="nav-dropdown"><summary>Services<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/services/"><b>Paediatric Gastrointestinal Procedures</b></a><a href="/services/"><b>Hepatology Procedures &amp; Investigations</b></a><a href="/services/"><b>Pancreatic Investigations</b></a><a href="/services/"><b>Biliary Tract Investigations</b></a><a href="/services/"><b>Gastrointestinal Diagnostic Investigations</b></a><a href="/services/"><b>Nutrition &amp; Growth Assessment</b></a></div></details><a class="nav-direct-link" href="/faqs/"><svg aria-hidden="true" class="kg-nav-icon" focusable="false" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.4-1.8 3M12 17.2h.01"></path></svg>FAQs</a><a class="nav-direct-link" href="/blog/">Blog</a><details class="nav-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 9h8M8 12.5h5"></path></svg><span>Testimonials</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/testimonials/"><b>Patient &amp; family testimonials</b><small>Read all patient and family experiences</small></a></div></details><details class="nav-dropdown kg-gallery-nav-dropdown"><summary>Gallery<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/gallery/"><b>KidsGastro Photo Gallery</b><small>Photos and clinical activities</small></a></div></details><details class="nav-dropdown"><summary>Health Library<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/latest/"><b>Latest from KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></b><small>Stories, videos and audio</small></a><a href="/publications/"><b>Research articles &amp; publications</b><small>Published work by Dr. Nitin Mohan</small></a><a href="/newsletter/"><b>Family newsletter</b><small>Request clinic updates</small></a></div></details><details class="nav-dropdown"><summary>Contact Info<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="tel:+919821020576"><b>Phone</b><small>+91 98210 20576</small></a><a href="/clinic/"><b>Churamani Multispeciality Hospital</b><small>Hisar, Haryana</small></a><a href="/clinic/"><b>View map</b><small>Google Maps location</small></a></div></details><details class="nav-dropdown nav-login-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20Z"></path></svg><span>Login</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a class="kg-admin-menu-link" href="/?admin=1"><b>Login</b></a></div></details></div><form class="site-search" id="site-search" role="search"><label class="sr-only" for="site-search-input">Search this website</label><input autocomplete="off" id="site-search-input" placeholder="Search this website" type="search"/><button aria-label="Search this website" type="submit">⌕</button><span aria-live="polite" class="search-status" id="search-status" role="status"></span></form></nav></header>
@@ -5220,26 +5334,115 @@ input,select,textarea{font-size:16px;max-width:100%}
 @media(prefers-reduced-motion:reduce){.header.kg-cosmos-host>.kg-cosmos-background{display:none!important}}
 </style>
 <script id="kg-cosmos-background-script">
-(()=>{const init=()=>{/* User-requested decorative background motion: do not suppress the scene based on OS motion preference. */
-const selectors=['.header','.hero','.hero-grid > div:first-child','.strip','.strip-grid > div','.newsletter-section','.social-section','.social-intro','.latest-section','.hospital-map-section','.appointment-panel','.opd-hours','.photo-reel-section','.footer','.footer-contact-band','.secondary-page-content .newsletter-panel','.secondary-page-content .secondary-facts article','.secondary-page-content .secondary-hospital > div'];
-const hosts=[...new Set(selectors.flatMap(sel=>[...document.querySelectorAll(sel)]))].filter(el=>{const c=getComputedStyle(el).backgroundColor;return el&&!el.querySelector(':scope > .kg-cosmos-background')&&(/0b347e|0759a8|0b65b4|#0b347e|#0759a8/i.test(el.getAttribute('style')||'')||['header','newsletter-section','social-section','social-intro','latest-section','hospital-map-section','appointment-panel','opd-hours','photo-reel-section','strip','footer','footer-contact-band'].some(x=>el.classList.contains(x))||c!=='rgba(0, 0, 0, 0)');});
-const rand=(a,b)=>Math.random()*(b-a)+a;
-hosts.forEach(host=>{const cs=getComputedStyle(host);if(!/0, 89, 168|11, 52, 126|7, 89, 168|11, 101, 180|23, 63, 141|39, 59, 59/i.test(cs.backgroundColor+' '+(host.getAttribute('style')||''))&&!['header','newsletter-section','social-section','latest-section','hospital-map-section','appointment-panel','opd-hours','photo-reel-section','strip'].some(x=>host.classList.contains(x)))return;
-host.classList.add('kg-cosmos-host');const layer=document.createElement('div');layer.className='kg-cosmos-background';layer.setAttribute('aria-hidden','true');
-/* Each system is self-contained: a pure-white central star, an ellipse, and a planet bound to that ellipse. Outer systems move more slowly (illustrative Kepler-like timing). */
-const systems=Math.max(1,Math.min(host.clientWidth<600?1:3,Math.round(host.clientWidth/620)));
-for(let i=0;i<systems;i++){const cx=rand(22,78),cy=rand(24,76),ow=rand(90,Math.min(190,Math.max(100,host.clientWidth*.25))),oh=ow*rand(.42,.68),tilt=rand(-38,38),duration=22+i*18+rand(0,8);
-const system=document.createElement('div');system.className='kg-cosmos-system';system.style.setProperty('--cx',cx+'%');system.style.setProperty('--cy',cy+'%');system.style.setProperty('--ow',ow+'px');system.style.setProperty('--oh',oh+'px');system.style.setProperty('--tilt',tilt+'deg');system.style.setProperty('--dur',duration+'s');
-const orbit=document.createElement('i');orbit.className='kg-cosmos-orbit';
-const star=document.createElement('i');star.className='kg-cosmos-sun';star.style.setProperty('--size',Math.max(8,Math.min(15,ow*.075))+'px');
-const planet=document.createElement('i');planet.className='kg-cosmos-planet';planet.style.setProperty('--ps',Math.max(4,Math.min(9,ow*.045))+'px');
-/* Restore the user's earlier satellites and starships, bound to this system's existing orbit. */
-const satellite=document.createElement('i');satellite.className='kg-cosmos-bound-satellite';satellite.setAttribute('aria-hidden','true');
-satellite.style.setProperty('--craft-size',Math.max(3,Math.min(5,ow*.026))+'px');satellite.style.setProperty('--craft-dur',(duration*.72)+'s');satellite.style.setProperty('--craft-phase',rand(18,78)+'%');
-const ship=document.createElement('span');ship.className='kg-cosmos-bound-starship';ship.setAttribute('aria-hidden','true');ship.style.setProperty('--ship-dur',(duration*1.18)+'s');ship.style.setProperty('--ship-phase',rand(8,88)+'%');
-ship.innerHTML='<svg viewBox="0 0 48 20" class="kg-starship-svg" focusable="false" aria-hidden="true"><path d="M3 10 15 5 33 6 45 10 33 14 15 15Z"/><path class="window" d="M19 8h8v4h-8z"/><path d="M8 10 1 7v6Z"/></svg>';
-system.append(orbit,star,planet,satellite,ship);layer.appendChild(system);}
-host.prepend(layer);(window.__kgIO||(window.__kgIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('kg-offscreen',!e.isIntersecting)),{rootMargin:'120px'}))).observe(host);});};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();})();
+(() => {
+  const selectors = [
+    '.header', '.hero', '.hero-grid > div:first-child', '.strip',
+    '.strip-grid > div', '.newsletter-section', '.social-section',
+    '.social-intro', '.latest-section', '.hospital-map-section',
+    '.appointment-panel', '.opd-hours', '.photo-reel-section',
+    '.footer', '.footer-contact-band',
+    '.secondary-page-content .newsletter-panel',
+    '.secondary-page-content .secondary-facts article',
+    '.secondary-page-content .secondary-hospital > div'
+  ];
+  const initialized = new WeakSet();
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  function isBlueHost(el) {
+    const bg = getComputedStyle(el).backgroundColor;
+    const inline = el.getAttribute('style') || '';
+    return /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/i.test(bg + ' ' + inline) ||
+      ['header','newsletter-section','social-section','social-intro','latest-section',
+       'hospital-map-section','appointment-panel','opd-hours','photo-reel-section',
+       'strip','footer','footer-contact-band'].some(c => el.classList.contains(c));
+  }
+
+  function addScene(host) {
+    if (!host || initialized.has(host) || host.querySelector(':scope > .kg-cosmos-background')) return;
+    if (!isBlueHost(host)) return;
+    initialized.add(host);
+
+    host.classList.add('kg-cosmos-host');
+    const layer = document.createElement('div');
+    layer.className = 'kg-cosmos-background';
+    layer.setAttribute('aria-hidden', 'true');
+
+    const width = Math.max(host.clientWidth || window.innerWidth, 320);
+    const count = Math.max(1, Math.min(width < 600 ? 1 : 3, Math.round(width / 620)));
+
+    for (let i = 0; i < count; i++) {
+      const cx = rand(22, 78), cy = rand(24, 76);
+      const ow = rand(90, Math.min(190, Math.max(100, width * .25)));
+      const oh = ow * rand(.42, .68);
+      const duration = 22 + i * 18 + rand(0, 8);
+
+      const system = document.createElement('div');
+      system.className = 'kg-cosmos-system';
+      system.style.setProperty('--cx', cx + '%');
+      system.style.setProperty('--cy', cy + '%');
+      system.style.setProperty('--ow', ow + 'px');
+      system.style.setProperty('--oh', oh + 'px');
+      system.style.setProperty('--tilt', rand(-38, 38) + 'deg');
+      system.style.setProperty('--dur', duration + 's');
+
+      const orbit = document.createElement('i');
+      orbit.className = 'kg-cosmos-orbit';
+
+      const star = document.createElement('i');
+      star.className = 'kg-cosmos-sun';
+      star.style.setProperty('--size', Math.max(8, Math.min(15, ow * .075)) + 'px');
+
+      const planet = document.createElement('i');
+      planet.className = 'kg-cosmos-planet';
+      planet.style.setProperty('--ps', Math.max(4, Math.min(9, ow * .045)) + 'px');
+
+      const satellite = document.createElement('i');
+      satellite.className = 'kg-cosmos-bound-satellite';
+      satellite.setAttribute('aria-hidden', 'true');
+      satellite.style.setProperty('--craft-size', Math.max(3, Math.min(5, ow * .026)) + 'px');
+      satellite.style.setProperty('--craft-dur', (duration * .72) + 's');
+      satellite.style.setProperty('--craft-phase', rand(18, 78) + '%');
+
+      const ship = document.createElement('span');
+      ship.className = 'kg-cosmos-bound-starship';
+      ship.setAttribute('aria-hidden', 'true');
+      ship.style.setProperty('--ship-dur', (duration * 1.18) + 's');
+      ship.style.setProperty('--ship-phase', rand(8, 88) + '%');
+      ship.innerHTML = '<svg viewBox="0 0 48 20" class="kg-starship-svg" focusable="false" aria-hidden="true"><path d="M3 10 15 5 33 6 45 10 33 14 15 15Z"/><path class="window" d="M19 8h8v4h-8z"/><path d="M8 10 1 7v6Z"/></svg>';
+
+      system.append(orbit, star, planet, satellite, ship);
+      layer.appendChild(system);
+    }
+
+    host.prepend(layer);
+  }
+
+  function scan(root = document) {
+    selectors.forEach(selector => {
+      if (root.matches && root.matches(selector)) addScene(root);
+      root.querySelectorAll?.(selector).forEach(addScene);
+    });
+  }
+
+  function start() {
+    scan();
+    // Route renderers and later page modules can add/rebuild blue panels after load.
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        record.addedNodes.forEach(node => {
+          if (node.nodeType === 1) scan(node);
+        });
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+})();
 </script>
 <style id="kg-restore-bound-spacecraft">
 /* Restore satellites and starships as clean white clipart bound to each existing orbital system. */
