@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T20:22:38.336Z",
+  "createdAt": "2026-10-30T20:33:17.961Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -15,14 +15,14 @@
     "disableRezeptRxBookingOption": "no",
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "no",
-    "changeAnnouncement": "yes",
-    "announcementMode": "restore_default",
+    "changeAnnouncement": "no",
+    "announcementMode": "unchanged",
     "mainStripBackgroundColor": "#ffc400",
-    "updatePhotoOfMonth": "unchanged"
+    "updatePhotoOfMonth": "yes"
   },
   "changeSchedules": {
     "settings": {
-      "announcementMarquee": {
+      "photoOfTheMonth": {
         "duration": "permanent",
         "scheduleGroupId": null
       }
@@ -47,10 +47,10 @@
       "standardStrip": 83,
       "customStrip": 83
     },
-    "photoOfMonth": "",
-    "photoOfMonthFileName": "",
+    "photoOfMonth": "configuration/photo-of-the-month/abcd.jpg",
+    "photoOfMonthFileName": "abcd.jpg",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
-    "photoCaption": "",
+    "photoCaption": "An infant and his mother visiting Dr. Nitin Mohan",
     "otherInstructions": ""
   },
   "duration": "permanent",
