@@ -4573,9 +4573,12 @@ input,select,textarea{font-size:16px;max-width:100%}
       settings[key] = items[0].value;
     }
 
-    // The request JSON is a temporary, opt-in layer above the permanent defaults
-    // and any older temporary_overrides.json entries.
-    if (activeRequest(requestFile, now)) {
+    // A permanent request applies whenever its JSON is present. A temporary
+    // request applies only when explicitly activated and inside its time window.
+    const requestIsApplicable = !!(requestFile && requestFile.changes && (
+      requestFile.duration === "permanent" || activeRequest(requestFile, now)
+    ));
+    if (requestIsApplicable) {
       const changes = requestFile.changes || {};
       if (changes.hideAppointmentButton === "yes" && changes.showAppointmentButton !== "yes") {
         settings.appointmentButtonVisible = false;
@@ -4594,6 +4597,14 @@ input,select,textarea{font-size:16px;max-width:100%}
         if (typeof text === "string" && text.trim().length > 0 && text.length <= 300) {
           settings.marqueeText = text;
         }
+      }
+
+      // Translate the form's YES/NO animation choices into the numeric speed
+      // understood by the display settings layer. Speed-up is 1.5x; slow-down 0.75x.
+      if (changes.speedAnimations === "yes" && changes.slowAnimations !== "yes") {
+        settings.animationSpeed = 1.5;
+      } else if (changes.slowAnimations === "yes" && changes.speedAnimations !== "yes") {
+        settings.animationSpeed = 0.75;
       }
     }
 
