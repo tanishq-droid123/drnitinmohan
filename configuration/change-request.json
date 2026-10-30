@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T16:13:54.500Z",
+  "createdAt": "2026-10-30T16:33:48.986Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -12,7 +12,7 @@
     "enableWhatsAppBookingOption": "no",
     "disableWhatsAppBookingOption": "no",
     "enableRezeptRxBookingOption": "no",
-    "disableRezeptRxBookingOption": "yes",
+    "disableRezeptRxBookingOption": "no",
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "no",
     "changeAnnouncement": "yes",
@@ -22,10 +22,6 @@
   },
   "changeSchedules": {
     "settings": {
-      "rezepRxBookingOption": {
-        "duration": "temporary",
-        "scheduleGroupId": "schedule-1"
-      },
       "announcementMarquee": {
         "duration": "temporary",
         "scheduleGroupId": "schedule-1"
@@ -38,10 +34,9 @@
     "groups": [
       {
         "id": "schedule-1",
-        "startDateTime": "2026-10-30T21:45",
-        "endDateTime": "2026-10-30T23:39",
+        "startDateTime": "2026-10-30T22:05",
+        "endDateTime": "2026-10-30T23:59",
         "settings": [
-          "rezepRxBookingOption",
           "announcementMarquee",
           "photoOfTheMonth"
         ]
@@ -50,26 +45,26 @@
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "WORK STILL IN PROGRESS                                        PLEASE WAIT",
+    "announcementText": "THIS IS A TEST MESSAGE                                         IGNORE THIS MESSAGE",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
-    "mainStripTextColor": "#ff0505",
+    "mainStripTextColor": "#18384d",
     "mainStripBackgroundColor": "#ffd24f",
     "announcementTextColors": {
-      "defaultStrip": "#ff0505",
-      "customStrip": "#d5ff05"
+      "defaultStrip": "#18384d",
+      "customStrip": "#edf6fd"
     },
     "announcementBackgroundColors": {
       "mainStrip": "#ffd24f",
-      "secondStrip": "#a81f5a"
+      "secondStrip": "#f3a6c8"
     },
     "announcementMarqueeSpeedsSeconds": {
-      "standardStrip": 11,
-      "customStrip": 14
+      "standardStrip": 22,
+      "customStrip": 19
     },
-    "photoOfMonth": "configuration/photo-of-the-month/Port_Gellhorn_01.jpg",
-    "photoOfMonthFileName": "Port_Gellhorn_01.jpg",
+    "photoOfMonth": "configuration/photo-of-the-month/pk.jfif",
+    "photoOfMonthFileName": "pk.jfif",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
-    "photoCaption": "SAMPLE IMAGE",
+    "photoCaption": "SAMPLE IMAGE ONLY",
     "otherInstructions": ""
   },
   "duration": "temporary",
@@ -77,10 +72,9 @@
     "type": "temporary",
     "periods": [
       {
-        "startDateTime": "2026-10-30T21:45",
-        "endDateTime": "2026-10-30T23:39",
+        "startDateTime": "2026-10-30T22:05",
+        "endDateTime": "2026-10-30T23:59",
         "settings": [
-          "rezepRxBookingOption",
           "announcementMarquee",
           "photoOfTheMonth"
         ]
