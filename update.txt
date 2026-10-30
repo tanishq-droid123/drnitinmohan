@@ -1,252 +1,91 @@
-KIDSGASTRO — WEBSITE UPDATE REQUEST FORM
-Fill in the sections below whenever you want to request or plan a website change.
+Yes — instead of writing descriptions, make it a YES/NO selection sheet. Your mother only needs to write YES beside the changes she wants, enter the dates and times, and submit it.
 
-HOW TO USE THIS FILE
-1. Make a copy of this form for each new request, or add another completed form at the end.
-2. Type your answers only in the [FILL IN HERE] areas.
-3. Leave a field blank if it does not apply.
-4. This file is a human-readable checklist only. The website does NOT read or execute these instructions.
-5. You manually make the requested code changes in your Working Clone, test them, and decide whether to publish.
+# KIDSGASTRO
 
-============================================================
-FORM 1 — YOUR WEBSITE CHANGE REQUEST
-============================================================
+## WEBSITE CHANGE CONTROL SHEET
 
-A. BASIC DETAILS
+**Dr. Nitin Mohan**
 
-Request ID:
-[FILL IN HERE — e.g. WEB-001]
+*Simply write YES beside the changes you want. Leave the others blank.*
 
-Short title:
-[FILL IN HERE — e.g. Temporarily hide appointment button]
+### 1. SELECT THE CHANGES YOU WANT
 
-Date created:
-[FILL IN HERE — YYYY-MM-DD]
+| YES / NO     | WEBSITE CHANGE                                     |
+| ------------ | -------------------------------------------------- |
+| \_\_\_\_\_\_ | Show appointment button                            |
+| \_\_\_\_\_\_ | Hide appointment button                            |
+| \_\_\_\_\_\_ | Show WhatsApp floating button                      |
+| \_\_\_\_\_\_ | Hide WhatsApp floating button                      |
+| \_\_\_\_\_\_ | Change announcement / scrolling message            |
+| \_\_\_\_\_\_ | Make animations slower                             |
+| \_\_\_\_\_\_ | Make animations faster                             |
+| \_\_\_\_\_\_ | Pause animations                                   |
+| \_\_\_\_\_\_ | Change homepage photograph                         |
+| \_\_\_\_\_\_ | Change gallery photographs                         |
+| \_\_\_\_\_\_ | Update website text                                |
+| \_\_\_\_\_\_ | Update doctor information                          |
+| \_\_\_\_\_\_ | Change website design or colours                   |
+| \_\_\_\_\_\_ | Other change: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |
 
-Status:
-[ ] Draft
-[ ] Ready for manual implementation
-[ ] Implemented
-[ ] Tested
-[ ] Published
-[ ] Cancelled
+### 2. NEW ANNOUNCEMENT MESSAGE
 
-B. WHAT DO YOU WANT TO CHANGE?
+*Fill this only if you selected the announcement change.*
 
-Page / section:
-[FILL IN HERE — e.g. Homepage, appointment section, footer, gallery]
+New message:
 
-Specific element:
-[FILL IN HERE — e.g. appointment button, marquee text, blue animation boxes]
+---
 
-Current behaviour:
-[FILL IN HERE — describe what happens now]
+### 3. HOW LONG SHOULD THESE CHANGES LAST?
 
-Required behaviour:
-[FILL IN HERE — describe exactly what you want to happen]
+Choose one:
 
-Exact text to display (if applicable):
-[FILL IN HERE]
+\_\_\_\_\_\_ PERMANENT — Keep selected changes as the new normal.
 
-Things that must NOT change:
-[FILL IN HERE — e.g. preserve button HTML and booking links]
+\_\_\_\_\_\_ TEMPORARY — Apply selected changes for a limited period, then return to normal.
 
-C. HOW SHOULD THIS CHANGE BE MANAGED?
+### 4. WHEN SHOULD THE CHANGES START?
 
-Choose ONE:
+Date: \_\_\_\_ / \_\_\_\_ / \_\_\_\_\_\_
 
-[ ] PERMANENT CHANGE
-    This should become the new normal website behaviour.
-    I will manually update the website code and/or permanent settings.
+Time: \_\_\_\_\_\_\_\_\_\_ AM / PM
 
-[ ] TEMPORARY OVERRIDE
-    This should temporarily replace a permanent setting and then expire.
-    The permanent setting must remain unchanged.
+\_\_\_\_\_\_ Start immediately after approval and publishing.
 
-[ ] MANUAL CODE CHANGE ONLY
-    This is a code change that is not controlled by the settings system.
+### 5. WHEN SHOULD THE CHANGES END?
 
-D. ACTIVATION SCHEDULE
-(Complete this section for a temporary override.)
+*Only for temporary changes.*
 
-Activation:
-[ ] Keep OFF until I activate it manually
-[ ] Activate immediately when I publish the configuration
-[ ] Schedule for a future date and time
+Date: \_\_\_\_ / \_\_\_\_ / \_\_\_\_\_\_
 
-Start date:
-[FILL IN HERE — YYYY-MM-DD]
+Time: \_\_\_\_\_\_\_\_\_\_ AM / PM
 
-Start time:
-[FILL IN HERE — HH:MM, 24-hour format]
+### 6. SHOULD THE CHANGES BE ACTIVATED?
 
-Expiry date:
-[FILL IN HERE — YYYY-MM-DD]
+\_\_\_\_\_\_ YES — Activate after approval and publishing.
 
-Expiry time:
-[FILL IN HERE — HH:MM, 24-hour format]
+\_\_\_\_\_\_ NO — Keep OFF until I ask for activation.
 
-Time zone:
-[Asia/Kolkata — change only if required]
+### 7. ANY OTHER INSTRUCTIONS?
 
-Enable this override?
-[ ] No — OFF
-[ ] Yes — ON
+---
 
-Pause this override?
-[ ] No
-[ ] Yes
+---
 
-E. SETTINGS OVERRIDE
-(Only complete this section if the request uses one of the settings currently supported by index.html.)
+### 8. SUBMISSION
 
-Setting to override:
-[ ] appointmentButtonVisible
-[ ] marqueeText
-[ ] animationSpeed
-[ ] Not a supported setting — manual code change required
+Requested by: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-Permanent/default value:
-[FILL IN HERE]
+Date: \_\_\_\_ / \_\_\_\_ / \_\_\_\_\_\_
 
-Temporary value:
-[FILL IN HERE]
+---
 
-For animationSpeed, use a number from 0.1 to 3:
-- 0.5 = half speed
-- 1 = normal speed
-- 2 = double speed
+## IMPORTANT
 
-F. EXPECTED RESULT AND TESTING
+- All selected changes will use the same start and end time.
+- A temporary change will replace the normal setting only during its active period.
+- When it expires, the website returns to its previous permanent setting.
+- Changes remain OFF until explicitly activated.
+- Some changes require manual website editing; they cannot all be controlled through the current settings system.
+- Filling this sheet does not itself change the live website. The website manager must review, implement, test and approve publishing.
 
-What should I see after the change?
-[FILL IN HERE]
-
-How will I check that it works?
-[FILL IN HERE]
-
-What should happen when the temporary period ends?
-[FILL IN HERE — normally the permanent default should return]
-
-Any other notes:
-[FILL IN HERE]
-
-
-============================================================
-FORM 2 — QUICK TEMPORARY OVERRIDE ENTRY
-============================================================
-
-Use this shorter section when you only need to schedule a supported temporary setting.
-
-Override ID:
-[FILL IN HERE]
-
-Setting:
-[ ] appointmentButtonVisible
-[ ] marqueeText
-[ ] animationSpeed
-
-Temporary value:
-[FILL IN HERE]
-
-Start:
-[FILL IN HERE — YYYY-MM-DDTHH:MM:SS+05:30]
-
-Expiry:
-[FILL IN HERE — YYYY-MM-DDTHH:MM:SS+05:30]
-
-Enabled:
-[ ] false (OFF — safest default)
-[ ] true (ON)
-
-Reason / purpose:
-[FILL IN HERE]
-
-
-============================================================
-CURRENT WEBSITE SETTINGS — REFERENCE
-============================================================
-
-The current integrated settings bridge supports ONLY:
-
-1. appointmentButtonVisible
-   Value type: true or false
-   Effect: hides/shows the main appointment booking button and floating WhatsApp button.
-   Hiding does not delete their HTML or booking links.
-
-2. marqueeText
-   Value type: text
-   Effect: changes the text in the existing announcement marquee.
-
-3. animationSpeed
-   Value type: number from 0.1 to 3
-   Effect: adjusts playback speed for targeted marquee/cosmos animations.
-
-Any request outside these three settings is a MANUAL CODE CHANGE. The website will not interpret the English description or implement it automatically.
-
-
-============================================================
-HOW TEMPORARY OVERRIDES WORK
-============================================================
-
-Priority while an override is active:
-  Active temporary override > Permanent defaults > Built-in fallback.
-
-At or after the expiry time:
-  The override stops applying.
-  The permanent default becomes effective again.
-  The permanent default file is not changed.
-
-If multiple enabled overrides target the same setting at the same time:
-  The override with the latest startAt wins.
-  A conflict warning is shown in the browser console.
-
-A temporary override only affects visitors after the updated configuration file is deployed to the website. The browser checks settings on page load, when the tab becomes visible, and every 30 seconds while open. If the page is closed at expiry, the default is used the next time the page is opened or refreshed.
-
-Use explicit India offsets in timestamps, for example:
-  2026-10-31T09:00:00+05:30
-
-This is browser-side display logic, not a Windows scheduler, security mechanism, or GitHub publishing tool.
-
-
-============================================================
-WHERE THE REAL SETTINGS ARE STORED
-============================================================
-
-Keep this folder structure beside index.html:
-
-website-root/
-  index.html
-  update.txt
-  configuration/
-    defaults.json
-    temporary_overrides.json
-
-defaults.json
-  Stores permanent values. Edit only when you want to change the normal/default behaviour.
-
-temporary_overrides.json
-  Stores temporary values and their start/end timestamps. Set enabled:false to keep an override OFF.
-
-The form above does not automatically update either JSON file. After completing the form, manually transfer the supported setting into the appropriate JSON file. For unsupported changes, manually edit the relevant HTML/CSS/JavaScript in your Working Clone.
-
-
-============================================================
-MANUAL IMPLEMENTATION AND PUBLISHING CHECKLIST
-============================================================
-
-[ ] Original backup has not been modified.
-[ ] I am working in the Working Clone.
-[ ] I have reviewed this request and its schedule.
-[ ] I have manually edited the required code/configuration.
-[ ] I have previewed the website locally.
-[ ] I have checked desktop and mobile layouts.
-[ ] I have checked booking links and appointment functionality.
-[ ] I have checked the temporary start and expiry behaviour.
-[ ] I have reviewed Git differences.
-[ ] I have created a local commit.
-[ ] I explicitly approve pushing the branch.
-[ ] I explicitly approve production merge/deployment.
-
-REMINDER:
-Nothing in this text file is executable. No AI, natural-language interpreter, automatic code editor, automatic Git push, or automatic production deployment is included.
+One important distinction: Appointment visibility, announcement text and animation speed are currently supported by your settings bridge. Photo, gallery, text and design changes still need manual editing. The form can request all of them, but it cannot automatically implement those unsupported changes.s
