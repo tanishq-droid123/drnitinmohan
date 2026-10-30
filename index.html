@@ -4618,6 +4618,26 @@ input,select,textarea{font-size:16px;max-width:100%}
 })();
 </script>
 
+
+<!-- KidsGastro manual website change-request access -->
+<style id="kg-change-request-link-style">
+  .kg-change-request-link{display:inline-flex;align-items:center;gap:7px;margin:12px 0 0;padding:7px 11px;border:1px solid rgba(255,255,255,.48);border-radius:5px;color:#fff!important;font:600 .78rem/1.3 Arial,sans-serif;text-decoration:none!important;opacity:.88}
+  .kg-change-request-link:hover,.kg-change-request-link:focus-visible{opacity:1;background:rgba(255,255,255,.13);outline:2px solid #fff;outline-offset:2px}
+</style>
+<script id="kg-change-request-link">
+document.addEventListener("DOMContentLoaded",function(){
+  if(document.querySelector(".kg-change-request-link")) return;
+  var footer=document.querySelector(".footer-bottom")||document.querySelector(".footer")||document.querySelector("footer");
+  if(!footer) return;
+  var link=document.createElement("a");
+  link.className="kg-change-request-link";
+  link.href="updates.html";
+  link.textContent="Website change request";
+  link.setAttribute("aria-label","Open the Dr. Nitin Mohan website change request form");
+  footer.appendChild(link);
+});
+</script>
+
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }

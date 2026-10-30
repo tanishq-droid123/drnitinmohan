@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0759a8">
+<title>Website Change Request | Dr. Nitin Mohan</title>
+<style>
+:root{--blue:#0759a8;--navy:#123e5c;--ink:#18384d;--muted:#607586;--line:#dce6ed;--bg:#f3f7fb;--green:#16834a;--yellow:#ffd24f}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#edf5fc,#f8faff 55%,#edf8f3);color:var(--ink);font:15px/1.55 Arial,"Segoe UI",sans-serif}
+.wrap{width:min(900px,calc(100% - 28px));margin:30px auto 60px}
+header{background:linear-gradient(120deg,#0759a8,#123e78);color:white;padding:28px clamp(20px,5vw,42px);border-radius:18px 18px 0 0;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:210px;height:210px;border:28px solid #ffffff13;border-radius:50%;right:-45px;top:-90px}
+.kicker{font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;color:#d6eaff;font-weight:700}
+h1{font-size:clamp(1.65rem,4vw,2.4rem);line-height:1.15;margin:9px 0}
+header p{max-width:620px;color:#e6f2ff;margin:8px 0 0}
+main{background:white;padding:clamp(18px,4vw,36px);border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;box-shadow:0 16px 45px #18384d12}
+.notice{padding:13px 15px;background:#fff8dc;border-left:4px solid #e7b526;border-radius:7px;color:#604d16;margin-bottom:24px;font-size:.9rem}
+.section{margin:26px 0}.section-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.num{width:30px;height:30px;display:grid;place-items:center;background:#eaf3ff;color:var(--blue);border-radius:9px;font-weight:800}
+h2{font-size:1.12rem;margin:0;color:#173e61}
+.hint{font-size:.83rem;color:var(--muted);margin:4px 0 13px}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.option{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#fbfdff;min-height:64px}
+.option-label{font-weight:650;font-size:.91rem}
+.choice{display:flex;gap:4px;flex:0 0 auto;padding:3px;background:#edf1f5;border-radius:8px}
+.choice button{border:0;border-radius:6px;padding:7px 10px;background:transparent;color:#617383;font-weight:750;cursor:pointer}
+.choice button[aria-pressed="true"][data-value="yes"]{background:#dff5e8;color:#08733b;box-shadow:0 1px 4px #173d2418}
+.choice button[aria-pressed="true"][data-value="no"]{background:#fff;color:#526575;box-shadow:0 1px 4px #173d2418}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:grid;gap:6px}.field.full{grid-column:1/-1}
+label{font-weight:700;font-size:.86rem}
+input,textarea,select{width:100%;border:1px solid #cbd9e3;border-radius:8px;padding:12px;background:#fff;color:var(--ink);font:inherit}
+textarea{min-height:100px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:3px solid #0759a825;border-color:var(--blue)}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-card{flex:1;min-width:180px;border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.radio-card:has(input:checked){border-color:var(--blue);background:#eef6ff}
+.radio-card input{width:auto;accent-color:var(--blue)}
+.subpanel{padding:16px;background:#f5f9fc;border:1px solid var(--line);border-radius:12px;margin-top:14px}
+.activation{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:13px;border:1px solid #f0d98c;background:#fff9e7;border-radius:9px}
+.activation input{width:auto;margin-top:4px;accent-color:#16834a}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+button.primary,button.secondary{border:0;border-radius:9px;padding:13px 19px;font-weight:800;cursor:pointer}
+.primary{background:var(--blue);color:white}.primary:hover{background:#064987}
+.secondary{background:#eaf1f6;color:#24465c}.status{min-height:22px;color:var(--green);font-size:.86rem;margin-top:12px}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin:20px 3px}
+.back{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px;position:relative;z-index:1}
+@media(max-width:650px){.wrap{margin:12px auto 35px}.options{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.option{padding:11px}.choice button{padding:8px 11px}header{border-radius:13px 13px 0 0}main{border-radius:0 0 13px 13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">KidsGastro · Dr. Nitin Mohan</div>
+  <h1>Website Change Request</h1>
+  <p>Choose the changes you want. Add details and a schedule, then save your request for review.</p>
+  <p><a class="back" href="index.html">← Return to website</a></p>
+</header>
+<main>
+  <div class="notice"><strong>Important:</strong> This form only creates a request file. It does not change the live website, edit configuration files, or publish anything. Blank selections mean NO.</div>
+  <form id="requestForm">
+    <section class="section">
+      <div class="section-head"><span class="num">1</span><h2>Select requested changes</h2></div>
+      <p class="hint">Every option starts at NO. Select YES only for changes you want.</p>
+      <div class="options" id="options">
+        <div class="option"><span class="option-label">Show appointment button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="showAppointmentButton" value="no"></div>
+        <div class="option"><span class="option-label">Hide appointment button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="hideAppointmentButton" value="no"></div>
+        <div class="option"><span class="option-label">Show floating WhatsApp button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="showWhatsAppButton" value="no"></div>
+        <div class="option"><span class="option-label">Hide floating WhatsApp button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="hideWhatsAppButton" value="no"></div>
+        <div class="option"><span class="option-label">Change announcement message</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changeAnnouncement" value="no"></div>
+        <div class="option"><span class="option-label">Slow down animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="slowAnimations" value="no"></div>
+        <div class="option"><span class="option-label">Speed up animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="speedAnimations" value="no"></div>
+        <div class="option"><span class="option-label">Pause animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="pauseAnimations" value="no"></div>
+        <div class="option"><span class="option-label">Change homepage or gallery photos</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changePhotos" value="no"></div>
+        <div class="option"><span class="option-label">Update website text or doctor details</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="updateTextOrDoctorDetails" value="no"></div>
+        <div class="option"><span class="option-label">Change design, layout or colours</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changeDesign" value="no"></div>
+        <div class="option"><span class="option-label">Other change</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="otherChange" value="no"></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="num">2</span><h2>Enter the details</h2></div>
+      <div class="field-grid">
+        <div class="field full"><label for="announcement">New announcement text</label><textarea id="announcement" name="announcementText" placeholder="Type the exact announcement message here..."></textarea></div>
+        <div class="field full"><label for="details">Other instructions / photo names / text to replace</label><textarea id="details" name="otherInstructions" placeholder="Describe exactly what should change. For photo changes, mention the current and replacement file names."></textarea></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="num">3</span><h2>How long should the change last?</h2></div>
+      <div class="radio-row">
+        <label class="radio-card"><input type="radio" name="duration" value="permanent" checked> Permanent</label>
+        <label class="radio-card"><input type="radio" name="duration" value="temporary"> Temporary</label>
+      </div>
+      <div class="subpanel" id="schedule" hidden>
+        <div class="field-grid">
+          <div class="field"><label for="start">Start date and time</label><input id="start" name="startDateTime" type="datetime-local"></div>
+          <div class="field"><label for="end">End date and time</label><input id="end" name="endDateTime" type="datetime-local"></div>
+        </div>
+        <label class="activation"><input type="checkbox" name="activateTemporary" value="yes"><span><strong>Activate this temporary change</strong><br><small>Leave unchecked to keep it OFF until explicitly approved and activated.</small></span></label>
+        <p class="hint">Use India Standard Time (IST). After expiry, the manager should restore the permanent settings.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="num">4</span><h2>Request information</h2></div>
+      <div class="field-grid">
+        <div class="field"><label for="requestedBy">Requested by</label><input id="requestedBy" name="requestedBy" placeholder="Your name"></div>
+        <div class="field"><label for="requestDate">Request date</label><input id="requestDate" name="requestDate" type="date"></div>
+      </div>
+    </section>
+    <div class="notice">The manager must review the request, check for conflicting selections, implement and test changes in the Working Clone, and obtain approval before deployment. Some requests require manual HTML/CSS/JavaScript editing.</div>
+    <div class="actions">
+      <button class="primary" type="button" id="download">↓ Save request as JSON</button>
+      <button class="secondary" type="reset">Clear form</button>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </form>
+</main>
+<footer><span>KidsGastro · Dr. Nitin Mohan</span><span>Request form only · No automatic website changes</span></footer>
+</div>
+<script>
+(function(){
+  const form=document.getElementById('requestForm');
+  document.querySelectorAll('.option').forEach(option=>{
+    const buttons=option.querySelectorAll('button');
+    const hidden=option.querySelector('input[type="hidden"]');
+    buttons.forEach(button=>button.addEventListener('click',()=>{
+      hidden.value=button.dataset.value;
+      buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+    }));
+  });
+  const schedule=document.getElementById('schedule');
+  document.querySelectorAll('input[name="duration"]').forEach(radio=>radio.addEventListener('change',()=>{
+    schedule.hidden=radio.value!=='temporary'||!radio.checked;
+  }));
+  form.addEventListener('reset',()=>{
+    setTimeout(()=>{
+      document.querySelectorAll('.option').forEach(option=>{
+        const hidden=option.querySelector('input[type="hidden"]');
+        hidden.value='no';
+        option.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.value==='no')));
+      });
+      schedule.hidden=true;
+      document.getElementById('status').textContent='';
+    },0);
+  });
+  document.getElementById('download').addEventListener('click',()=>{
+    const data={formTitle:'KidsGastro Website Change Request',doctor:'Dr. Nitin Mohan',createdAt:new Date().toISOString(),timezone:'Asia/Kolkata',notice:'This is a request only. It does not modify or publish the website.',changes:{},details:{},duration:form.elements.duration.value,schedule:{startDateTime:form.elements.startDateTime.value||'',endDateTime:form.elements.endDateTime.value||'',activateTemporary:form.elements.activateTemporary.checked},request:{requestedBy:form.elements.requestedBy.value,requestDate:form.elements.requestDate.value}};
+    form.querySelectorAll('.option input[type="hidden"]').forEach(input=>data.changes[input.name]=input.value);
+    data.details.announcementText=form.elements.announcementText.value;
+    data.details.otherInstructions=form.elements.otherInstructions.value;
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='kidsgastro-change-request-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    document.getElementById('status').textContent='Request file created. Send it to the person managing the website.';
+  });
+  const date=document.getElementById('requestDate');
+  date.value=new Date().toISOString().slice(0,10);
+})();
+</script>
+</body>
+</html>
