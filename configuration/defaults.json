@@ -1,0 +1,7 @@
+{
+  "settings": {
+    "appointmentButtonVisible": true,
+    "marqueeText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
+    "animationSpeed": 1
+  }
+}
