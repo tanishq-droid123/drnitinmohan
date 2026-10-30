@@ -2598,8 +2598,8 @@ html.kg-tab-hidden .kg-cosmos-background,html.kg-tab-hidden .kg-cosmos-backgroun
 <h2>Photo of the Month</h2>
 </div>
 <article class="main-image-story main-image-story-image-right main-image-story-uploaded" hidden="" id="main-uploaded-photo-story">
-<div class="main-image-story-copy"><span class="main-image-story-kicker">Featured monthly image</span><h3 id="main-uploaded-photo-title">Photo of the Month</h3><p id="main-uploaded-photo-caption"></p></div>
-<div class="main-image-story-media"><img alt="Photo of the Month — Dr. Nitin Mohan" decoding="async" fetchpriority="high" id="main-uploaded-photo-image" loading="eager"/><span class="main-image-story-media-label">Photo of the Month</span></div>
+<div class="main-image-story-copy"><p id="main-uploaded-photo-caption"></p></div>
+<div class="main-image-story-media"><img alt="Photo of the Month — Dr. Nitin Mohan" decoding="async" fetchpriority="high" id="main-uploaded-photo-image" loading="eager"/></div>
 </article>
 </div>
 </section>
@@ -5443,6 +5443,339 @@ input,select,textarea{font-size:16px;max-width:100%}
   window.addEventListener('hashchange',add,{passive:true});
 })();
 </script>
+
+<!-- Unified white Starship, ISS, comet and asteroid-collision layer. -->
+<style id="kg-cosmos-unified-css">
+/* Retire only the old standalone craft/comet effects; preserve existing planets and orbits. */
+html body .kg-cosmos-host .kg-flying-craft,
+html body .kg-cosmos-host .kg-cosmos-comet-streak,
+html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!important}
+
+/* One new canvas per blue box: above the existing planet/orbit layer, below its content. */
+.kg-cosmos-host{position:relative!important;isolation:isolate!important}
+.kg-cosmos-host>.kg-cosmos-background,.header.kg-cosmos-host>.kg-cosmos-background{z-index:0!important}
+.kg-cosmos-host>canvas.kg-sky{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  z-index:1!important;pointer-events:none!important;opacity:.92}
+@media(max-width:600px){.kg-cosmos-host>canvas.kg-sky{opacity:.75}}
+</style>
+<script id="kg-cosmos-unified">
+(() => {
+  'use strict';
+  if (window.KGCosmos) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const TAU = Math.PI * 2;
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  /* ===================== 1. ONE CLOCK + REAL-WORLD NUMBERS ===================== */
+  const CONFIG = {
+    timeScale: 90,        // 1 real second on screen = 90 seconds of real time
+    hoverSlow: 0.055,     // box under the pointer runs at 5.5% speed
+    speed: 1,             // global multiplier (see KGCosmos.setSpeed)
+    altExaggeration: 4    // ISS altitude is drawn 4x higher than true scale so it clears the Earth disc
+  };
+  const REAL = {
+    issPeriodMin: 92.68, issInclinationDeg: 51.6, issAltKm: 408, earthRadiusKm: 6371,
+    starship: { exhaustKms: 3.4, burnS: 520, mecoS: 162, stackM: 123 },  // ~8.7 min to orbit, booster cut-off ~2.7 min
+    asteroidSpinH: [2.5, 12],     // typical main-belt rotation periods
+    impactKms: 5.3                // mean main-belt collision speed (sets the relative speed ratio)
+  };
+
+  /* ===================== 2. SHARED CLIPART (all white) ===================== */
+  const rockShapes = Array.from({ length: 6 }, () => {
+    const n = 10, p = [], path = new Path2D(), mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    for (let i = 0; i < n; i++) { const a = i / n * TAU, r = rand(.62, 1); p.push([Math.cos(a) * r, Math.sin(a) * r]); }
+    let m = mid(p[n - 1], p[0]); path.moveTo(m[0], m[1]);
+    for (let i = 0; i < n; i++) { const e = mid(p[i], p[(i + 1) % n]); path.quadraticCurveTo(p[i][0], p[i][1], e[0], e[1]); }
+    path.closePath(); return path;
+  });
+  // Starship stack in metres: ship 52 m (origin = ship base), Super Heavy 70 m below it, 9 m wide
+  const SHIP_P   = new Path2D('M0 -52C3.2 -44 4.5 -34 4.5 -24L4.5 0L-4.5 0L-4.5 -24C-4.5 -34 -3.2 -44 0 -52Z');
+  const FLAPS_P  = new Path2D('M4.5 -33L8.2 -29L4.5 -25Z M-4.5 -33L-8.2 -29L-4.5 -25Z M4.5 -9L10 -2L10 3L4.5 0Z M-4.5 -9L-10 -2L-10 3L-4.5 0Z');
+  const BOOST_P  = new Path2D('M-4.5 1.2H4.5V71H-4.5Z M4.5 6L8.5 9L4.5 12Z M-4.5 6L-8.5 9L-4.5 12Z');
+
+  function drawISS(c, x, y, rot, wpx, alpha) {   // 60 x 34 unit drawing, truss 109 m
+    c.save(); c.translate(x, y); c.rotate(rot); const s = wpx / 60; c.scale(s, s); c.translate(-30, -17); c.globalAlpha = alpha;
+    c.fillStyle = '#fff'; c.fillRect(4, 16, 52, 2);
+    [2, 13, 38, 49].forEach(px => { c.fillRect(px, 3, 9, 11); c.fillRect(px, 20, 9, 11); });
+    c.fillRect(24, 12, 12, 10); c.fillRect(28, 6, 4, 22);
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = .8; c.beginPath();
+    [6.5, 17.5, 42.5, 53.5].forEach(px => { c.moveTo(px, 3); c.lineTo(px, 14); c.moveTo(px, 20); c.lineTo(px, 31); });
+    c.stroke(); c.restore();
+  }
+  function drawTail(c, head, end, ctrl, wd, a) {   // tapered curved tail
+    const dx = end.x - head.x, dy = end.y - head.y, L = Math.hypot(dx, dy) || 1, px = -dy / L, py = dx / L;
+    const g = c.createLinearGradient(head.x, head.y, end.x, end.y);
+    g.addColorStop(0, 'rgba(255,255,255,' + a + ')'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = g; c.beginPath(); c.moveTo(head.x + px * wd, head.y + py * wd);
+    c.quadraticCurveTo(ctrl.x + px * wd * .6, ctrl.y + py * wd * .6, end.x, end.y);
+    c.quadraticCurveTo(ctrl.x - px * wd * .6, ctrl.y - py * wd * .6, head.x - px * wd, head.y - py * wd);
+    c.closePath(); c.fill();
+  }
+
+  /* ===================== 3. ONE SCENE CLASS = ALL FIVE BLUE BOXES ===================== */
+  class Scene {
+    constructor(host) {
+      this.host = host;
+      this.cv = document.createElement('canvas');
+      this.cv.className = 'kg-sky'; this.cv.setAttribute('aria-hidden', 'true');
+      host.prepend(this.cv);
+      this.ctx = this.cv.getContext('2d');
+      this.vis = true; this.tf = 1; this.tfT = 1; this.phase = rand(0, TAU);
+      this.resize();
+    }
+    get active() { return this.vis && !document.hidden && this.host.isConnected; }
+
+    resize() {
+      const w = this.w = Math.max(1, this.host.clientWidth), h = this.h = Math.max(1, this.host.clientHeight);
+      const dpr = this.dpr = Math.min(devicePixelRatio || 1, 2);
+      this.cv.width = Math.round(w * dpr); this.cv.height = Math.round(h * dpr);
+      this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      this.u = clamp(h * .05, 6, 12);
+      this.pxM = clamp(h * .17, 26, 58) / REAL.starship.stackM;      // starship metres -> px
+      this.parts = []; this.debris = []; this.fx = []; this.boost = []; this.comets = []; this.ship = null; this.pair = null;
+      // stars
+      const ns = clamp(Math.round(w * h / 9000), 12, 60);
+      this.stars = Array.from({ length: ns }, () => ({ x: rand(0, w), y: rand(0, h), r: rand(.4, 1.2), a: rand(.25, .8), p: rand(0, TAU), f: rand(.3, 1.2) }));
+      // sun (lights Earth, defines comet tails)
+      this.sun = { x: w * (Math.random() < .5 ? rand(.06, .16) : rand(.84, .94)), y: h * rand(.15, .3), r: clamp(h * .022, 3, 7) };
+      // Earth + ISS orbit
+      const Re = this.Re = clamp(h * .17, 14, 60);
+      this.earth = { x: w * rand(.55, .88), y: h * rand(.5, .78), r: Re };
+      this.ro = Re * (1 + (REAL.issAltKm / REAL.earthRadiusKm) * CONFIG.altExaggeration);
+      this.issW = clamp(Re * 1.1, 14, 56);
+      this.tilt = -REAL.issInclinationDeg * Math.PI / 180;
+      // slow background asteroids (real spin periods, compressed by the one time scale)
+      const nr = clamp(Math.round(w * h / 60000), 2, 7);
+      this.rocks = Array.from({ length: nr }, () => {
+        const hrs = rand(REAL.asteroidSpinH[0], REAL.asteroidSpinH[1]), sp = rand(3, 9), d = rand(0, TAU);
+        return { x: rand(0, w), y: rand(0, h), s: this.u * rand(.6, 1.4), vx: Math.cos(d) * sp, vy: Math.sin(d) * sp,
+          a: rand(0, TAU), w: TAU / (hrs * 3600 / CONFIG.timeScale) * (Math.random() < .5 ? -1 : 1), k: (Math.random() * 6) | 0 };
+      });
+      this.next = { ship: rand(2, 5), comet: rand(1, 4), hit: rand(4, 8) };
+    }
+
+    /* ---------- spawners ---------- */
+    spawnShip() {
+      const S = REAL.starship, N = 120, tau = S.burnS / .9, dT = S.burnS / N;   // mass ratio -> Tsiolkovsky burn, v = ve*ln(m0/m)
+      const pts = []; let x = 0, y = 0;
+      for (let i = 0; i <= N; i++) {
+        const T = i * dT, v = S.exhaustKms * Math.log(1 / (1 - T / tau));
+        const th = T < 12 ? 0 : (Math.PI / 2) * Math.pow(clamp((T - 12) / (S.burnS - 12), 0, 1), .75);   // vertical -> gravity turn
+        pts.push({ x, y }); x += v * Math.sin(th) * dT; y += v * Math.cos(th) * dT;
+      }
+      const dir = Math.random() < .5 ? 1 : -1, x0 = dir > 0 ? this.w * rand(.06, .3) : this.w * (1 - rand(.06, .3));
+      const sx = this.w * .75 / (pts[N].x || 1), sy = Math.min(this.h * .72 / (pts[N].y || 1), sx * 6);   // altitude exaggerated for visibility
+      this.ship = { T: 0, N, dT, dir, stack: true, sep: false, x: 0, y: 0, h: -Math.PI / 2, vpx: 0, vpy: 0,
+        path: pts.map(p => ({ x: x0 + dir * p.x * sx, y: this.h + 4 - p.y * sy })) };
+    }
+    spawnComet() {
+      const { w, h, sun } = this, q = Math.min(w, h * 2) * rand(.14, .24), rmax = Math.hypot(w, h) * 1.2;
+      const vref = clamp(w * .045, 40, 90), rref = w * .5, mu = vref * vref * rref / 2;      // parabolic orbit, v = sqrt(2*mu/r)
+      const nuMax = Math.acos(clamp(2 * q / rmax - 1, -1, 1)), psi = rand(0, TAU), sgn = Math.random() < .5 ? 1 : -1;
+      const c = { q, mu, psi, sgn, nu: -nuMax, nuMax, sun, x: 0, y: 0, vx: 0, vy: 0, r: 1, started: false };
+      const pos = nu => { const r = 2 * q / (1 + Math.cos(nu)), a = psi + sgn * nu; return { r, x: sun.x + r * Math.cos(a), y: sun.y + r * Math.sin(a) }; };
+      for (let i = 0; i < 4000; i++) {                       // fast-forward until the comet is just outside the box
+        const p = pos(c.nu); if (p.x > -30 && p.x < w + 30 && p.y > -30 && p.y < h + 30) break;
+        c.nu += .002; if (c.nu > nuMax) return;
+      }
+      c.pos = pos; this.comets.push(c);
+    }
+    spawnCollision() {
+      const { w, h } = this, P = { x: rand(.25, .75) * w, y: rand(.25, .75) * h }, ang = rand(0, TAU), n = { x: Math.cos(ang), y: Math.sin(ang) };
+      const sA = this.u * rand(1.5, 2.2), sB = this.u * rand(1.2, 1.9), mA = sA ** 3, mB = sB ** 3, M = mA + mB;
+      const vrel = clamp(w * .09, 55, 120), sep = Math.min(w, this.h * 3) * .7, cv = { x: rand(-14, 14), y: rand(-14, 14) };
+      const mk = (s, m, sign, frac) => ({ s, m, k: (Math.random() * 6) | 0, a: rand(0, TAU), w: rand(.3, .8) * (Math.random() < .5 ? -1 : 1),
+        x: P.x + sign * n.x * sep * frac, y: P.y + sign * n.y * sep * frac,
+        vx: cv.x - sign * n.x * vrel * (1 - frac), vy: cv.y - sign * n.y * vrel * (1 - frac), life: 0 });
+      this.pair = { vrel, A: mk(sA, mA, 1, mB / M), B: mk(sB, mB, -1, mA / M) };   // equal & opposite momentum in the centre-of-mass frame
+    }
+    impact(pr) {
+      const { A, B } = pr, M = A.m + B.m, x = (A.x * B.m + B.x * A.m) / M, y = (A.y * B.m + B.y * A.m) / M;
+      const vcx = (A.vx * A.m + B.vx * B.m) / M, vcy = (A.vy * A.m + B.vy * B.m) / M;     // momentum conserved: debris share the pair's velocity
+      this.fx.push({ k: 'flash', x, y, t: 0, d: .5 }, { k: 'ring', x, y, t: 0, d: .9 });
+      const n = 9, out = []; let mx = 0, my = 0;
+      for (let i = 0; i < n; i++) { const a = rand(0, TAU), v = pr.vrel * rand(.1, .55); out.push([Math.cos(a) * v, Math.sin(a) * v]); mx += Math.cos(a) * v; my += Math.sin(a) * v; }
+      out.forEach(e => {
+        const s = (Math.random() < .2 ? rand(.3, .5) : rand(.12, .3)) * (A.s + B.s) / 2;
+        this.debris.push({ x: x + rand(-3, 3), y: y + rand(-3, 3), s, vx: vcx + e[0] - mx / n, vy: vcy + e[1] - my / n,
+          a: rand(0, TAU), w: rand(1.2, 4) * Math.sqrt(this.u / s) * (Math.random() < .5 ? -1 : 1), k: (Math.random() * 6) | 0, age: 0, life: rand(8, 13) });
+      });
+    }
+
+    /* ---------- one update step ---------- */
+    step(dt) {
+      this.tf += (this.tfT - this.tf) * (1 - Math.exp(-dt * 6));
+      const d = dt * this.tf * CONFIG.speed, TS = CONFIG.timeScale, { w, h } = this;
+      this.phase = (this.phase + TAU / (REAL.issPeriodMin * 60 / TS) * d) % TAU;
+
+      const nx = this.next;
+      if (h >= 100 && !this.ship && (nx.ship -= d) < 0) { this.spawnShip(); nx.ship = rand(10, 20); }
+      if (w >= 260 && this.comets.length < (w > 900 ? 2 : 1) && (nx.comet -= d) < 0) { this.spawnComet(); nx.comet = rand(7, 15); }
+      if (h >= 100 && !this.pair && (nx.hit -= d) < 0) { this.spawnCollision(); nx.hit = rand(12, 24); }
+
+      this.rocks.forEach(r => { r.x += r.vx * d; r.y += r.vy * d; r.a += r.w * d; const m = r.s;
+        if (r.x < -m) r.x = w + m; else if (r.x > w + m) r.x = -m; if (r.y < -m) r.y = h + m; else if (r.y > h + m) r.y = -m; });
+
+      /* Starship: Tsiolkovsky velocity profile, gravity turn, hot-stage at MECO, then orbit-speed coast */
+      const sh = this.ship;
+      if (sh) {
+        sh.T += d * TS;
+        if (sh.T <= REAL.starship.burnS) {
+          const f = sh.T / sh.dT, i = Math.min(sh.N - 1, f | 0), k = f - i, a = sh.path[i], b = sh.path[i + 1];
+          sh.x = a.x + (b.x - a.x) * k; sh.y = a.y + (b.y - a.y) * k;
+          sh.vpx = (b.x - a.x) / sh.dT * TS; sh.vpy = (b.y - a.y) / sh.dT * TS;
+        } else { sh.x += sh.vpx * d; sh.y += sh.vpy * d; }
+        if (Math.hypot(sh.vpx, sh.vpy) > 1) sh.h = Math.atan2(sh.vpy, sh.vpx);
+        if (sh.stack && sh.T >= REAL.starship.mecoS) {
+          sh.stack = false;
+          this.boost.push({ x: sh.x, y: sh.y, vx: sh.vpx * .55, vy: sh.vpy * .55, a: sh.h + Math.PI / 2, w: sh.dir * .9, age: 0 });
+        }
+        const L = this.pxM * 52, fx = Math.cos(sh.h), fy = Math.sin(sh.h), nz = sh.stack ? 71 * this.pxM : 0;
+        for (let i = 0, n = Math.ceil(dt * 60); i < n; i++) {
+          if (this.parts.length > 160) this.parts.shift();
+          this.parts.push({ x: sh.x - fx * nz + rand(-1, 1), y: sh.y - fy * nz + rand(-1, 1), vx: -fx * 14 + rand(-6, 6), vy: -fy * 14 + rand(-6, 6), age: 0, life: rand(.9, 1.5), r: this.pxM * 2.6 });
+        }
+        if (sh.x < -L * 2 || sh.x > w + L * 2 || sh.y < -L * 2 || sh.y > h + L * 3) this.ship = null;
+      }
+      this.boost.forEach(b => { b.age += d; b.x += b.vx * d; b.y += b.vy * d; b.vy += this.h * .12 * d; b.a += b.w * d; });
+      this.boost = this.boost.filter(b => b.age < 3.5);
+      this.parts.forEach(p => { p.age += d; p.x += p.vx * d; p.y += p.vy * d; });
+      this.parts = this.parts.filter(p => p.age < p.life);
+
+      /* comets: Kepler parabola around the sun -> fastest at perihelion; tail always points away from the sun */
+      this.comets = this.comets.filter(c => {
+        const p = c.pos(c.nu), r = p.r, hh = Math.sqrt(2 * c.mu * c.q);
+        c.nu += hh / (r * r) * d; const q = c.pos(c.nu);
+        c.vx = (q.x - p.x) / (d || 1e-3); c.vy = (q.y - p.y) / (d || 1e-3); c.x = q.x; c.y = q.y; c.r = q.r;
+        const out = c.x < -60 || c.x > w + 60 || c.y < -60 || c.y > h + 60;
+        return !(c.nu > 0 && out) && c.nu < c.nuMax;
+      });
+
+      /* asteroid collision */
+      const pr = this.pair;
+      if (pr) {
+        [pr.A, pr.B].forEach(o => { o.x += o.vx * d; o.y += o.vy * d; o.a += o.w * d; o.life += d; });
+        if (Math.hypot(pr.A.x - pr.B.x, pr.A.y - pr.B.y) <= (pr.A.s + pr.B.s) * .5 * .9) { this.impact(pr); this.pair = null; }
+        else if (pr.A.life > 14) this.pair = null;
+      }
+      this.debris.forEach(o => { o.age += d; o.x += o.vx * d; o.y += o.vy * d; o.a += o.w * d; });
+      this.debris = this.debris.filter(o => o.age < o.life);
+      this.fx.forEach(f => f.t += d); this.fx = this.fx.filter(f => f.t < f.d);
+    }
+
+    /* ---------- draw (back to front) ---------- */
+    draw() {
+      const c = this.ctx, { w, h, sun, earth: E } = this;
+      c.clearRect(0, 0, w, h); c.fillStyle = '#fff';
+      const now = performance.now() / 1000;
+      this.stars.forEach(s => { c.globalAlpha = s.a * (.65 + .35 * Math.sin(now * s.f + s.p)); c.beginPath(); c.arc(s.x, s.y, s.r, 0, TAU); c.fill(); });
+
+      // sun
+      const sg = c.createRadialGradient(sun.x, sun.y, 0, sun.x, sun.y, sun.r * 6);
+      sg.addColorStop(0, 'rgba(255,255,255,.5)'); sg.addColorStop(1, 'rgba(255,255,255,0)');
+      c.globalAlpha = 1; c.fillStyle = sg; c.beginPath(); c.arc(sun.x, sun.y, sun.r * 6, 0, TAU); c.fill();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(sun.x, sun.y, sun.r, 0, TAU); c.fill();
+
+      // comets
+      this.comets.forEach(k => {
+        const ax = k.x - sun.x, ay = k.y - sun.y, L = Math.hypot(ax, ay) || 1, ux = ax / L, uy = ay / L;   // anti-solar direction
+        const vl = Math.hypot(k.vx, k.vy) || 1, vx = k.vx / vl, vy = k.vy / vl;
+        const len = clamp(w * .16 * clamp(k.q * 1.4 / k.r, .2, 1.4), 24, 260), head = { x: k.x, y: k.y };
+        drawTail(c, head, { x: k.x + ux * len, y: k.y + uy * len }, { x: k.x + ux * len * .5, y: k.y + uy * len * .5 }, 1.4, .55);          // ion tail: straight
+        drawTail(c, head, { x: k.x + ux * len * .8 - vx * len * .28, y: k.y + uy * len * .8 - vy * len * .28 },
+          { x: k.x + ux * len * .45, y: k.y + uy * len * .45 }, 3.2, .4);                                                                      // dust tail: curved, lags behind
+        const g = c.createRadialGradient(k.x, k.y, 0, k.x, k.y, 9); g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(k.x, k.y, 9, 0, TAU); c.fill();
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(k.x, k.y, 2.2, 0, TAU); c.fill();
+      });
+
+      // ISS far side -> Earth (erases what is behind it) -> ISS near side
+      const cp = Math.cos(this.phase), sp = Math.sin(this.phase), ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
+      const lx = this.ro * cp, ly = this.ro * .3 * sp, ix = E.x + lx * ct - ly * st, iy = E.y + lx * st + ly * ct;
+      const issRot = Math.atan2(iy - E.y, ix - E.x) + Math.PI / 2, depth = 1 + .18 * sp;
+      if (sp < 0) drawISS(c, ix, iy, issRot, this.issW * depth, .8);
+      c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1; c.beginPath(); c.arc(E.x, E.y, E.r, 0, TAU); c.fill();
+      c.globalCompositeOperation = 'source-over';
+      const sl = Math.hypot(sun.x - E.x, sun.y - E.y) || 1, lx2 = (sun.x - E.x) / sl, ly2 = (sun.y - E.y) / sl;
+      const eg = c.createRadialGradient(E.x + lx2 * E.r * .35, E.y + ly2 * E.r * .35, 0, E.x, E.y, E.r);
+      eg.addColorStop(0, 'rgba(255,255,255,.6)'); eg.addColorStop(1, 'rgba(255,255,255,.08)');
+      c.fillStyle = eg; c.beginPath(); c.arc(E.x, E.y, E.r, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 1; c.stroke();
+      if (sp >= 0) drawISS(c, ix, iy, issRot, this.issW * depth, 1);
+
+      // background asteroids
+      c.fillStyle = '#fff';
+      const rock = (o, al) => { c.save(); c.globalAlpha = al; c.translate(o.x, o.y); c.rotate(o.a); c.scale(o.s / 2, o.s / 2); c.fill(rockShapes[o.k]); c.restore(); };
+      this.rocks.forEach(r => rock(r, .75));
+      if (this.pair) { rock(this.pair.A, 1); rock(this.pair.B, 1); }
+      this.debris.forEach(o => rock(o, clamp(1 - o.age / o.life, 0, 1)));
+      this.fx.forEach(f => {
+        const k = f.t / f.d;
+        if (f.k === 'flash') { const r = this.u * 5 * (.2 + 1.3 * k), g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, r);
+          g.addColorStop(0, 'rgba(255,255,255,' + (1 - k) + ')'); g.addColorStop(1, 'rgba(255,255,255,0)'); c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(f.x, f.y, r, 0, TAU); c.fill(); }
+        else { c.globalAlpha = .9 * (1 - k); c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.arc(f.x, f.y, this.u * 3.5 * (.1 + 2.4 * Math.pow(k, .6)), 0, TAU); c.stroke(); }
+      });
+
+      // exhaust, booster, Starship
+      c.fillStyle = '#fff';
+      this.parts.forEach(p => { const k = p.age / p.life; c.globalAlpha = .45 * (1 - k); c.beginPath(); c.arc(p.x, p.y, p.r * (1 + 1.2 * k), 0, TAU); c.fill(); });
+      this.boost.forEach(b => { c.save(); c.globalAlpha = clamp(1 - b.age / 3.5, 0, 1); c.translate(b.x, b.y); c.rotate(b.a); c.scale(this.pxM, this.pxM); c.fill(BOOST_P); c.restore(); });
+      const sh = this.ship;
+      if (sh) {
+        c.save(); c.globalAlpha = 1; c.translate(sh.x, sh.y); c.rotate(sh.h + Math.PI / 2); c.scale(this.pxM, this.pxM);
+        c.fillStyle = '#fff'; c.fill(SHIP_P); c.fill(FLAPS_P); if (sh.stack) c.fill(BOOST_P);
+        const ny = sh.stack ? 71 : 0, len = (sh.stack ? 46 : 36) * (.85 + Math.random() * .3), g = c.createLinearGradient(0, ny, 0, ny + len);
+        g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.fillStyle = g; c.beginPath(); c.moveTo(-3, ny); c.lineTo(0, ny + len); c.lineTo(3, ny); c.fill();
+        c.restore();
+      }
+      c.globalAlpha = 1;
+    }
+  }
+
+  /* ===================== 4. ONE ENGINE (single rAF loop, hover, visibility) ===================== */
+  const scenes = new Set(); let raf = 0, last = 0;
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; let any = false;
+    scenes.forEach(s => { if (s.active) { any = true; s.step(dt); s.draw(); } });
+    if (!any) { cancelAnimationFrame(raf); raf = 0; }
+  }
+  const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+  document.addEventListener('visibilitychange', wake);
+
+  const SELECTORS = ['.header', '.hero', '.hero-grid > div:first-child', '.strip', '.strip-grid > div', '.newsletter-section', '.social-section',
+    '.social-intro', '.latest-section', '.hospital-map-section', '.appointment-panel', '.opd-hours', '.photo-reel-section', '.footer', '.footer-contact-band',
+    '.secondary-page-content .newsletter-panel', '.secondary-page-content .secondary-facts article', '.secondary-page-content .secondary-hospital > div'];
+  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-section', 'social-intro', 'latest-section', 'hospital-map-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
+  const isBlue = el => /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/.test(getComputedStyle(el).backgroundColor) || BLUE_CLASSES.some(k => el.classList.contains(k));
+
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    let s = e.target._kg;
+    if (e.isIntersecting && !s && e.target.clientWidth >= 220 && e.target.clientHeight >= 60) {
+      s = e.target._kg = new Scene(e.target); scenes.add(s);
+      e.target.addEventListener('pointerenter', ev => { if (ev.pointerType !== 'touch') s.tfT = CONFIG.hoverSlow; });
+      e.target.addEventListener('pointerleave', () => { s.tfT = 1; });
+      new ResizeObserver(() => { if (Math.abs(s.w - s.host.clientWidth) > 2 || Math.abs(s.h - s.host.clientHeight) > 2) s.resize(); }).observe(e.target);
+    }
+    if (s) { s.vis = e.isIntersecting; if (s.vis) wake(); }
+  }), { rootMargin: '120px' });
+
+  const seen = new WeakSet();
+  function scan() {
+    SELECTORS.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      if (seen.has(el) || !isBlue(el)) return; seen.add(el);
+      el.classList.add('kg-cosmos-host'); io.observe(el);
+    }));
+  }
+  const start = () => { scan(); let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(scan, 200); }).observe(document.documentElement, { childList: true, subtree: true }); };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', start, { once: true }) : start();
+
+  window.KGCosmos = { config: CONFIG, real: REAL, scenes, Scene, setSpeed: v => { CONFIG.speed = v; } };
+})();
+</script>
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
@@ -6050,69 +6383,6 @@ img.kg-logo,
  }
 })();
 </script>
-<script id="kg-hover-animation-rate-controller">
-(()=>{
- const SLOW=.055; let hovered=null;
- const ease=(host,to)=>{
-  if(!host)return; cancelAnimationFrame(host._kgRateRaf);
-  const from=host._kgRate??1,t0=performance.now();
-  const step=now=>{
-   const k=Math.min(1,(now-t0)/350),r=from+(to-from)*k;
-   host.getAnimations({subtree:true}).forEach(a=>{try{a.updatePlaybackRate(r)}catch(_){}});
-   host._kgRate=r; if(k<1)host._kgRateRaf=requestAnimationFrame(step);
-  }; host._kgRateRaf=requestAnimationFrame(step);
- };
- document.addEventListener('pointerover',e=>{
-  if(e.pointerType==='touch')return;
-  const h=e.target&&e.target.closest?e.target.closest('.kg-cosmos-host'):null;
-  if(h===hovered)return; if(hovered)ease(hovered,1); hovered=h; if(h)ease(h,SLOW);
- });
- document.documentElement.addEventListener('pointerleave',()=>{if(hovered){ease(hovered,1);hovered=null}});
- document.addEventListener('pointerout',e=>{
-  if(!hovered||e.pointerType==='touch')return;
-  if(e.target===hovered&&!e.relatedTarget){ease(hovered,1);hovered=null}
- });
-})();
-</script>
-<style id="kg-cosmic-comets-and-launch-vehicles">
-/* Quiet white clip-art spacecraft travel through existing orbital systems; no extra colour palette. */
-.kg-cosmos-system .kg-flying-craft{position:absolute;left:50%;top:50%;width:clamp(18px,2.1vw,31px);height:auto;display:block;pointer-events:none;z-index:3;offset-path:ellipse(50% 50% at 50% 50%);offset-rotate:auto;offset-distance:var(--craft-start,0%);animation:kg-gravity-orbit var(--craft-time,18s) linear infinite;overflow:visible}
-.kg-cosmos-system .kg-flying-craft svg{display:block;width:100%;height:auto;overflow:visible;fill:#fff;stroke:#fff;stroke-width:.6;stroke-linejoin:round}
-.kg-cosmos-system .kg-flying-craft .craft-detail{fill:#0759a8;stroke:#0759a8}
-.kg-cosmos-system .kg-flying-craft.saturn-v{width:clamp(10px,1.25vw,18px)}
-.kg-cosmos-system .kg-flying-craft.gaganyaan{width:clamp(14px,1.55vw,22px)}
-.kg-cosmos-host .kg-cosmos-comet-streak{position:absolute;left:0;top:0;width:clamp(40px,8vw,110px);height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,#fff);opacity:.9;pointer-events:none;z-index:2;transform:rotate(var(--ang,-18deg));animation:kg-cosmos-comet-cross var(--comet-time,5s) linear var(--comet-delay,0s) infinite;will-change:transform,opacity}
-.kg-cosmos-host .kg-cosmos-comet-streak::after{content:"";position:absolute;right:-2px;top:-2px;width:5px;height:5px;border-radius:50%;background:#fff}
-@keyframes kg-cosmos-comet-cross{0%{transform:translate3d(calc(var(--cw)*-.15),calc(var(--ch)*.2),0) rotate(var(--ang,-18deg));opacity:0}12%{opacity:.85}88%{opacity:.75}100%{transform:translate3d(calc(var(--cw)*1.15),calc(var(--ch)*-.2),0) rotate(var(--ang,-18deg));opacity:0}}12%{opacity:.85}88%{opacity:.75}100%{transform:translate3d(115vw,-18vh,0) rotate(-18deg);opacity:0}}
-/* Hover slowdown is handled by the shared playback-rate controller. */
-@media(prefers-reduced-motion:reduce){.kg-cosmos-host .kg-flying-craft,.kg-cosmos-host .kg-cosmos-comet-streak{animation:none!important;display:none!important}}
-</style>
-<script id="kg-cosmic-comets-and-launch-vehicles-script">
-(()=>{
- const systems=document.querySelectorAll('.kg-cosmos-system');
- const rand=(a,b)=>a+Math.random()*(b-a);
- const craftMarkup={
-  starship:'<svg viewBox="0 0 24 62" aria-hidden="true" focusable="false"><path d="M12 1 Q15 7 15.2 17 L16.5 43 20 52 15 50 14 59 12 61 10 59 9 50 4 52 7.5 43 8.8 17 Q9 7 12 1Z"/><path class="craft-detail" d="M10 15h4v5h-4zM10 23h4v2h-4z"/></svg>',
-  saturnV:'<svg viewBox="0 0 24 70" aria-hidden="true" focusable="false"><path d="M12 1 15 9 15 46 18 54 22 65 16 62 14 69 10 69 8 62 2 65 6 54 9 46 9 9Z"/><path class="craft-detail" d="M9.5 15h5v7h-5zM9.5 29h5v3h-5zM9 39h6v2H9z"/></svg>',
-  gaganyaan:'<svg viewBox="0 0 30 54" aria-hidden="true" focusable="false"><path d="M15 2 22 12 24 22 21 29 21 40 26 47 4 47 9 40 9 29 6 22 8 12Z"/><path class="craft-detail" d="M10 15 15 8 20 15 19 23 11 23Z"/><path d="M10 48h10l-2 4h-6z"/></svg>'
- };
- systems.forEach((system,index)=>{
-  if(system.dataset.kgCraftsAdded==='true')return;system.dataset.kgCraftsAdded='true';
-  const types=[['starship','saturnV','gaganyaan'][index%3]];
-  types.forEach((type,i)=>{
-   const craft=document.createElement('span');craft.className='kg-flying-craft '+(type==='saturnV'?'saturn-v':type==='gaganyaan'?'gaganyaan':'starship');craft.setAttribute('aria-hidden','true');craft.innerHTML=craftMarkup[type];
-   craft.style.setProperty('--craft-start',rand(5,90)+'%');craft.style.setProperty('--craft-time',(20+index*7+i*5)+'s');
-   system.appendChild(craft);
-  });
- });
- document.querySelectorAll('.kg-cosmos-host').forEach((host,index)=>{
-  if(host.dataset.kgCometsAdded==='true')return;host.dataset.kgCometsAdded='true';
-  /* A small number of comets cross the established system field, rather than filling every panel. */
-  const count=host.clientWidth>720?2:1;
-  for(let i=0;i<count;i++){const comet=document.createElement('i');comet.className='kg-cosmos-comet-streak';comet.setAttribute('aria-hidden','true');comet.style.setProperty('--cw',host.clientWidth+'px');comet.style.setProperty('--ch',host.clientHeight+'px');comet.style.setProperty('--ang',Math.atan2(-.4*host.clientHeight,1.3*host.clientWidth)+'rad');comet.style.setProperty('--comet-time',(7+i*3+index%3)+'s');comet.style.setProperty('--comet-delay',(-i*3-index%4)+'s');comet.style.top=(18+i*43)+'%';host.appendChild(comet);}
- });
-})();
-</script>
 <style id="kg-uniform-cosmic-hover-and-gallery-menu-final">
 /* Gallery matches the adjacent Testimonials dropdown and stays usable on mobile. */
 #links>.kg-gallery-nav-dropdown{position:relative;z-index:10001}
@@ -6243,5 +6513,51 @@ img.kg-logo,
   #kg-watch-content-track.kg-watch-content-grid>.kg-watch-content-gif-link img{
     width:100%!important;height:100%!important;object-fit:contain!important;background:#f7fafc!important;
   }
+}
+
+/* Final image-ratio correction: let the hero portrait use its source image's
+   intrinsic proportions instead of forcing a nearly-square frame. */
+.hero .visual{
+  width:100%!important;
+  max-width:430px!important;
+  min-height:0!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  align-self:center!important;
+}
+.hero .visual .portrait{
+  position:relative!important;
+  inset:auto!important;
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:auto!important;
+  overflow:hidden!important;
+}
+.hero .visual .portrait img{
+  position:static!important;
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+}
+@media(max-width:760px){
+  .hero .visual{width:min(100%,430px)!important;max-width:430px!important;margin:0 auto!important;min-height:0!important;height:auto!important;aspect-ratio:auto!important}
+  .hero .visual .portrait,.hero .visual .portrait img{height:auto!important;min-height:0!important;aspect-ratio:auto!important}
+}
+/* Photo of the Month: one heading above, one concise caption beside the image. */
+#kg-photo-of-month-section .main-image-story-copy{justify-content:center!important;padding:clamp(24px,4vw,56px)!important}
+#kg-photo-of-month-section .main-image-story-copy p{margin:0!important;font-size:clamp(1rem,1.35vw,1.18rem)!important;line-height:1.65!important}
+#kg-photo-of-month-section .main-image-story-media{min-height:0!important;aspect-ratio:4/3!important}
+#kg-photo-of-month-section .main-image-story-media img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+@media(max-width:720px){
+  #kg-photo-of-month-section .main-image-story-copy{padding:20px 22px 24px!important;order:1!important}
+  #kg-photo-of-month-section .main-image-story-media{aspect-ratio:4/3!important;order:0!important}
 }
 </style>
