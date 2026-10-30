@@ -2,61 +2,96 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T20:33:17.961Z",
+  "createdAt": "2026-10-30T22:46:30.540Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
   "changes": {
     "enableAppointmentButton": "no",
-    "disableAppointmentButton": "no",
+    "disableAppointmentButton": "yes",
     "enableWhatsAppBookingOption": "no",
-    "disableWhatsAppBookingOption": "no",
+    "disableWhatsAppBookingOption": "yes",
     "enableRezeptRxBookingOption": "no",
-    "disableRezeptRxBookingOption": "no",
+    "disableRezeptRxBookingOption": "yes",
     "showWhatsAppButton": "no",
-    "hideWhatsAppButton": "no",
-    "changeAnnouncement": "no",
-    "announcementMode": "unchanged",
-    "mainStripBackgroundColor": "#ffc400",
-    "updatePhotoOfMonth": "yes"
+    "hideWhatsAppButton": "yes",
+    "changeAnnouncement": "yes",
+    "announcementMode": "edit",
+    "mainStripBackgroundColor": "#ffffff",
+    "updatePhotoOfMonth": "unchanged"
   },
   "changeSchedules": {
     "settings": {
-      "photoOfTheMonth": {
-        "duration": "permanent",
-        "scheduleGroupId": null
+      "appointmentButton": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      },
+      "whatsappBookingOption": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      },
+      "rezepRxBookingOption": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      },
+      "announcementMarquee": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
       }
     },
-    "groups": [],
+    "groups": [
+      {
+        "id": "schedule-1",
+        "startDateTime": "2026-10-31T04:20",
+        "endDateTime": "2026-11-01T23:59",
+        "settings": [
+          "appointmentButton",
+          "whatsappBookingOption",
+          "rezepRxBookingOption",
+          "announcementMarquee"
+        ]
+      }
+    ],
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "",
+    "announcementText": "Appointments will be unavailable for 2 days (31/10/26 - 1/11/26)              Kindly cooperate",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "mainStripTextColor": "#0759a8",
-    "mainStripBackgroundColor": "#ffc400",
+    "mainStripBackgroundColor": "#ffffff",
     "announcementTextColors": {
       "defaultStrip": "#0759a8",
-      "customStrip": "#0759a8"
+      "customStrip": "#d21e4b"
     },
     "announcementBackgroundColors": {
-      "mainStrip": "#ffc400",
+      "mainStrip": "#ffffff",
       "secondStrip": "#f3a6c8"
     },
     "announcementMarqueeSpeedsSeconds": {
       "standardStrip": 83,
-      "customStrip": 83
+      "customStrip": 11
     },
-    "photoOfMonth": "configuration/photo-of-the-month/abcd.jpg",
-    "photoOfMonthFileName": "abcd.jpg",
+    "photoOfMonth": "",
+    "photoOfMonthFileName": "",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
-    "photoCaption": "An infant and his mother visiting Dr. Nitin Mohan",
+    "photoCaption": "",
     "otherInstructions": ""
   },
-  "duration": "permanent",
+  "duration": "temporary",
   "schedule": {
-    "type": "permanent",
-    "periods": [],
+    "type": "temporary",
+    "periods": [
+      {
+        "startDateTime": "2026-10-31T04:20",
+        "endDateTime": "2026-11-01T23:59",
+        "settings": [
+          "appointmentButton",
+          "whatsappBookingOption",
+          "rezepRxBookingOption",
+          "announcementMarquee"
+        ]
+      }
+    ],
     "activateTemporary": true
   }
 }
