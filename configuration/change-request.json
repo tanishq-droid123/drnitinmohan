@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T16:33:48.986Z",
+  "createdAt": "2026-10-30T18:15:51.129Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -16,70 +16,47 @@
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "no",
     "changeAnnouncement": "yes",
-    "announcementMode": "add",
+    "announcementMode": "edit",
     "mainStripBackgroundColor": "#ffd24f",
-    "updatePhotoOfMonth": "yes"
+    "updatePhotoOfMonth": "no"
   },
   "changeSchedules": {
     "settings": {
       "announcementMarquee": {
-        "duration": "temporary",
-        "scheduleGroupId": "schedule-1"
-      },
-      "photoOfTheMonth": {
-        "duration": "temporary",
-        "scheduleGroupId": "schedule-1"
+        "duration": "permanent",
+        "scheduleGroupId": null
       }
     },
-    "groups": [
-      {
-        "id": "schedule-1",
-        "startDateTime": "2026-10-30T22:05",
-        "endDateTime": "2026-10-30T23:59",
-        "settings": [
-          "announcementMarquee",
-          "photoOfTheMonth"
-        ]
-      }
-    ],
+    "groups": [],
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "THIS IS A TEST MESSAGE                                         IGNORE THIS MESSAGE",
+    "announcementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "mainStripTextColor": "#18384d",
     "mainStripBackgroundColor": "#ffd24f",
     "announcementTextColors": {
       "defaultStrip": "#18384d",
-      "customStrip": "#edf6fd"
+      "customStrip": "#2214db"
     },
     "announcementBackgroundColors": {
       "mainStrip": "#ffd24f",
       "secondStrip": "#f3a6c8"
     },
     "announcementMarqueeSpeedsSeconds": {
-      "standardStrip": 22,
-      "customStrip": 19
+      "standardStrip": 83,
+      "customStrip": 14
     },
-    "photoOfMonth": "configuration/photo-of-the-month/pk.jfif",
-    "photoOfMonthFileName": "pk.jfif",
+    "photoOfMonth": "",
+    "photoOfMonthFileName": "",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
-    "photoCaption": "SAMPLE IMAGE ONLY",
+    "photoCaption": "",
     "otherInstructions": ""
   },
-  "duration": "temporary",
+  "duration": "permanent",
   "schedule": {
-    "type": "temporary",
-    "periods": [
-      {
-        "startDateTime": "2026-10-30T22:05",
-        "endDateTime": "2026-10-30T23:59",
-        "settings": [
-          "announcementMarquee",
-          "photoOfTheMonth"
-        ]
-      }
-    ],
+    "type": "permanent",
+    "periods": [],
     "activateTemporary": true
   }
 }
