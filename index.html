@@ -4492,18 +4492,23 @@ input,select,textarea{font-size:16px;max-width:100%}
 (() => {
   "use strict";
 
+  // Reads a request JSON deployed beside this page at:
+  // configuration/change-request.json
+  // The JSON is treated strictly as data; no code from it is executed.
   const TIME_ZONE = "Asia/Kolkata";
+  const CONFIG_ROOT = "configuration/";
   const DEFAULTS = Object.freeze({
     appointmentButtonVisible: true,
+    whatsappButtonVisible: true,
     marqueeText: "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     animationSpeed: 1
   });
-  const CONFIG_ROOT = "configuration/";
   const ALLOWED_KEYS = new Set(Object.keys(DEFAULTS));
   let lastAppliedSignature = "";
+  let lastRequestSignature = "";
 
   function validValue(key, value) {
-    if (key === "appointmentButtonVisible") return typeof value === "boolean";
+    if (key === "appointmentButtonVisible" || key === "whatsappButtonVisible") return typeof value === "boolean";
     if (key === "marqueeText") return typeof value === "string" && value.trim().length > 0 && value.length <= 300;
     if (key === "animationSpeed") return typeof value === "number" && Number.isFinite(value) && value >= 0.1 && value <= 3;
     return false;
@@ -4516,26 +4521,32 @@ input,select,textarea{font-size:16px;max-width:100%}
       const data = await response.json();
       return data && typeof data === "object" ? data : fallback;
     } catch (_) {
-      return fallback; // Works safely if files are absent or the page is opened without a web server.
+      return fallback;
     }
   }
 
-  function parseDate(value) {
-    if (typeof value !== "string" || !value.trim()) return NaN;
-    // Require an explicit offset or Z. Use +05:30 for India-local schedule entries.
-    if (!/(Z|[+-]\d{2}:\d{2})$/i.test(value)) return NaN;
-    return Date.parse(value);
+  // Form datetime-local values have no offset. Interpret them explicitly as Asia/Kolkata,
+  // not in the visitor's device timezone.
+  function indiaLocalDateTimeToMs(value) {
+    if (typeof value !== "string") return NaN;
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/);
+    if (!match) return NaN;
+    const [, y, mo, d, h, mi, sec = "0"] = match;
+    const utc = Date.UTC(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi), Number(sec));
+    return utc - (5 * 60 + 30) * 60 * 1000;
   }
 
-  function activeOverride(item, now) {
-    if (!item || item.enabled !== true || !ALLOWED_KEYS.has(item.key) || !validValue(item.key, item.value)) return false;
-    const start = parseDate(item.startAt);
-    const end = parseDate(item.endAt);
+  function activeRequest(request, now) {
+    if (!request || request.duration !== "temporary" ||
+        !request.schedule || request.schedule.activateTemporary !== true) return false;
+    const start = indiaLocalDateTimeToMs(request.schedule.startDateTime);
+    const end = indiaLocalDateTimeToMs(request.schedule.endDateTime);
     return Number.isFinite(start) && Number.isFinite(end) && end > start && now >= start && now < end;
   }
 
-  function resolveSettings(defaultsFile, overridesFile) {
+  function resolveSettings(defaultsFile, overridesFile, requestFile) {
     const settings = { ...DEFAULTS };
+
     if (defaultsFile && defaultsFile.settings && typeof defaultsFile.settings === "object") {
       for (const [key, value] of Object.entries(defaultsFile.settings)) {
         if (ALLOWED_KEYS.has(key) && validValue(key, value)) settings[key] = value;
@@ -4544,25 +4555,56 @@ input,select,textarea{font-size:16px;max-width:100%}
 
     const now = Date.now();
     const active = Array.isArray(overridesFile && overridesFile.overrides)
-      ? overridesFile.overrides.filter(item => activeOverride(item, now))
+      ? overridesFile.overrides.filter(item => {
+          if (!item || item.enabled !== true || !ALLOWED_KEYS.has(item.key) || !validValue(item.key, item.value)) return false;
+          const start = indiaLocalDateTimeToMs(item.startAt);
+          const end = indiaLocalDateTimeToMs(item.endAt);
+          return Number.isFinite(start) && Number.isFinite(end) && end > start && now >= start && now < end;
+        })
       : [];
+
     const grouped = new Map();
     for (const item of active) {
       if (!grouped.has(item.key)) grouped.set(item.key, []);
       grouped.get(item.key).push(item);
     }
-
-    const conflicts = [];
     for (const [key, items] of grouped.entries()) {
-      // If two active overrides target one setting, the most recently started wins.
-      items.sort((a, b) => parseDate(b.startAt) - parseDate(a.startAt));
-      if (items.length > 1) conflicts.push(key);
+      items.sort((a, b) => indiaLocalDateTimeToMs(b.startAt) - indiaLocalDateTimeToMs(a.startAt));
       settings[key] = items[0].value;
     }
-    if (conflicts.length) {
-      console.warn("[KidsGastro settings] Conflicting active overrides; newest startAt wins:", conflicts);
+
+    // The request JSON is a temporary, opt-in layer above the permanent defaults
+    // and any older temporary_overrides.json entries.
+    if (activeRequest(requestFile, now)) {
+      const changes = requestFile.changes || {};
+      if (changes.hideAppointmentButton === "yes" && changes.showAppointmentButton !== "yes") {
+        settings.appointmentButtonVisible = false;
+      } else if (changes.showAppointmentButton === "yes" && changes.hideAppointmentButton !== "yes") {
+        settings.appointmentButtonVisible = true;
+      }
+
+      if (changes.hideWhatsAppButton === "yes" && changes.showWhatsAppButton !== "yes") {
+        settings.whatsappButtonVisible = false;
+      } else if (changes.showWhatsAppButton === "yes" && changes.hideWhatsAppButton !== "yes") {
+        settings.whatsappButtonVisible = true;
+      }
+
+      if (changes.changeAnnouncement === "yes") {
+        const text = requestFile.details && requestFile.details.announcementText;
+        if (typeof text === "string" && text.trim().length > 0 && text.length <= 300) {
+          settings.marqueeText = text;
+        }
+      }
     }
+
     return settings;
+  }
+
+  function setVisibility(element, visible) {
+    if (!element) return;
+    element.hidden = !visible;
+    element.style.setProperty("display", visible ? "" : "none", "important");
+    element.setAttribute("aria-hidden", visible ? "false" : "true");
   }
 
   function applySettings(settings) {
@@ -4570,22 +4612,13 @@ input,select,textarea{font-size:16px;max-width:100%}
     if (signature === lastAppliedSignature) return;
     lastAppliedSignature = signature;
 
-    const bookingButton = document.getElementById("booking-menu-toggle");
-    const floatingWhatsApp = document.querySelector(".whatsapp-float");
-    [bookingButton, floatingWhatsApp].forEach(element => {
-      if (!element) return;
-      element.hidden = !settings.appointmentButtonVisible;
-      element.setAttribute("aria-hidden", settings.appointmentButtonVisible ? "false" : "true");
-    });
+    setVisibility(document.getElementById("booking-menu-toggle"), settings.appointmentButtonVisible);
+    setVisibility(document.querySelector(".whatsapp-float"), settings.whatsappButtonVisible);
 
-    const marquee = document.querySelectorAll(".offline-appointment-marquee__text");
-    marquee.forEach(element => {
-      const gap = element.querySelector(".marquee-inline-gap");
+    document.querySelectorAll(".offline-appointment-marquee__text").forEach(element => {
       element.textContent = settings.marqueeText;
-      if (gap) element.appendChild(gap);
     });
 
-    // Scale only the announcement marquee and the site's blue-box/cosmos animations.
     const speed = settings.animationSpeed;
     document.querySelectorAll(
       ".offline-appointment-marquee__track, .kg-cosmos-system *, .kg-cosmos-host .kg-flying-craft, .kg-cosmos-host .kg-cosmos-comet-streak"
@@ -4600,17 +4633,28 @@ input,select,textarea{font-size:16px;max-width:100%}
   }
 
   async function refresh() {
-    const [defaultsFile, overridesFile] = await Promise.all([
+    const [defaultsFile, overridesFile, requestFile] = await Promise.all([
       readJson(CONFIG_ROOT + "defaults.json", null),
-      readJson(CONFIG_ROOT + "temporary_overrides.json", null)
+      readJson(CONFIG_ROOT + "temporary_overrides.json", null),
+      readJson(CONFIG_ROOT + "change-request.json", null)
     ]);
-    applySettings(resolveSettings(defaultsFile, overridesFile));
+
+    const requestSignature = requestFile ? JSON.stringify(requestFile) : "";
+    if (requestSignature !== lastRequestSignature) {
+      lastRequestSignature = requestSignature;
+      if (requestFile && requestFile.changes && requestFile.schedule) {
+        console.info("[KidsGastro] Loaded change-request.json. Temporary activation:",
+          requestFile.schedule.activateTemporary === true);
+        if (requestFile.changes.updateTextOrDoctorDetails === "yes") {
+          console.warn("[KidsGastro] Doctor/text update was requested, but no replacement text was supplied; no text was invented.");
+        }
+      }
+    }
+    applySettings(resolveSettings(defaultsFile, overridesFile, requestFile));
   }
 
-  // Refresh at page load and periodically while the page remains open.
-  // On static hosting, an expired override falls back on the next refresh; no server task is required.
   refresh();
-  window.setInterval(refresh, 30000);
+  window.setInterval(refresh, 15000);
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) refresh();
   });
