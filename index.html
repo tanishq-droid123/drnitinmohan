@@ -2311,10 +2311,17 @@ html.kg-tab-hidden .kg-cosmos-background,html.kg-tab-hidden .kg-cosmos-backgroun
 }
 </style>
 <style id="kg-clinic-static-and-performance-final">
-/* The Find the clinic section is intentionally static: remove decorative rings, dots and motion. */
-.hospital-map-section::before,.hospital-map-section::after{content:none!important;display:none!important;animation:none!important;box-shadow:none!important}
-.hospital-map-section,.hospital-map-section *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-.hospital-map-section .clinic-photo-card,.hospital-map-section .clinic-map-card,.hospital-map-section img,.hospital-map-section iframe{transform:none!important;filter:none!important;will-change:auto!important}
+/* Find the clinic is deliberately excluded from every decorative animation system. */
+#hospital-location::before,#hospital-location::after,
+#hospital-location .abstract-watermark,
+#hospital-location .kg-cosmos-background,
+#hospital-location .kg-orbit-overlay,
+#hospital-location canvas.kg-sky,
+#hospital-location .kg-cosmos-host,
+#hospital-location .kg-orbit-surface{display:none!important;content:none!important;animation:none!important;box-shadow:none!important}
+#hospital-location,#hospital-location *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+#hospital-location .clinic-photo-card,#hospital-location .clinic-map-card,
+#hospital-location img,#hospital-location iframe{transform:none!important;filter:none!important;will-change:auto!important}
 /* Defer rendering work for below-the-fold sections while retaining their normal layout and content. */
 @media (min-width: 1px){
   .main-image-stories,.journal-section,.featured-testimonials,.social-section,.kg-watch-content-section,.hospital-map-section,.newsletter-section,.secondary-site,.photo-reel-section{content-visibility:auto;contain-intrinsic-size:auto 700px}
@@ -3613,7 +3620,7 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
 </style>
 <script id="abstract-white-watermark-script">
 (()=>{
- const sections=[...document.querySelectorAll('.footer-contact-band,.newsletter-section,.hospital-map-section,.hero,.photo-reel-section,.latest-section,.opd-hours')];
+ const sections=[...document.querySelectorAll('.footer-contact-band,.newsletter-section,.hero,.photo-reel-section,.latest-section,.opd-hours')];
  sections.forEach(section=>{
    section.classList.add('abstract-watermark-host');
    const mark=document.createElement('span');mark.className='abstract-watermark';mark.setAttribute('aria-hidden','true');
@@ -4544,7 +4551,7 @@ input,select,textarea{font-size:16px;max-width:100%}
   const blueBoxSelector=[
     '.kg-cosmos-host','.header.kg-cosmos-host','.hero.kg-cosmos-host',
     '.hero-grid > div:first-child','.strip-grid > div','.newsletter-section',
-    '.social-section','.social-intro','.latest-section','.hospital-map-section',
+    '.social-section','.social-intro','.latest-section',
     '.appointment-panel','.opd-hours','.photo-reel-section','.footer',
     '.footer-contact-band','.secondary-page-content .newsletter-panel',
     '.secondary-page-content .secondary-facts article',
@@ -5368,7 +5375,7 @@ input,select,textarea{font-size:16px;max-width:100%}
 
 <script id="kg-revolving-planets-init">
 (function(){
-  var selector='.header,.hero-grid>div:first-child,.footer,.footer-contact-band,.links,.newsletter-section,.newsletter-panel,.social-intro,.social-section,.appointment-panel,.opd-hours,.latest-section,.hospital-map-section,.photo-reel-section,.doctor-credentials,.hero .reveal';
+  var selector='.header,.hero-grid>div:first-child,.footer,.footer-contact-band,.links,.newsletter-section,.newsletter-panel,.social-intro,.social-section,.appointment-panel,.opd-hours,.latest-section,.photo-reel-section,.doctor-credentials,.hero .reveal';
   /* Each surface gets a naturally irregular, overlapping orbital field. Random values are
      generated once when that surface is initialized, never on animation frames. */
   function makeSvgMarkup(){
@@ -5747,9 +5754,9 @@ html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!
   document.addEventListener('visibilitychange', wake);
 
   const SELECTORS = ['.header', '.hero', '.hero-grid > div:first-child', '.strip', '.strip-grid > div', '.newsletter-section', '.social-section',
-    '.social-intro', '.latest-section', '.hospital-map-section', '.appointment-panel', '.opd-hours', '.photo-reel-section', '.footer', '.footer-contact-band',
+    '.social-intro', '.latest-section', '.appointment-panel', '.opd-hours', '.photo-reel-section', '.footer', '.footer-contact-band',
     '.secondary-page-content .newsletter-panel', '.secondary-page-content .secondary-facts article', '.secondary-page-content .secondary-hospital > div'];
-  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-section', 'social-intro', 'latest-section', 'hospital-map-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
+  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-section', 'social-intro', 'latest-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
   const isBlue = el => /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/.test(getComputedStyle(el).backgroundColor) || BLUE_CLASSES.some(k => el.classList.contains(k));
 
   const io = new IntersectionObserver(entries => entries.forEach(e => {
@@ -5776,6 +5783,48 @@ html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!
   window.KGCosmos = { config: CONFIG, real: REAL, scenes, Scene, setSpeed: v => { CONFIG.speed = v; } };
 })();
 </script>
+
+<script id="kg-clinic-animation-exclusion-guard">
+(() => {
+  const selector = '#hospital-location';
+  function cleanClinic() {
+    const clinic = document.querySelector(selector);
+    if (!clinic) return;
+    clinic.classList.remove('kg-cosmos-host', 'kg-orbit-surface', 'abstract-watermark-host');
+    clinic.querySelectorAll(
+      '.kg-cosmos-background, .kg-orbit-overlay, canvas.kg-sky, .abstract-watermark'
+    ).forEach(node => node.remove());
+    // Remove only animation-related inline properties; retain layout and map styles.
+    clinic.querySelectorAll('*').forEach(node => {
+      if (node.matches('img, iframe, .clinic-photo-card, .clinic-map-card')) {
+        node.style.removeProperty('animation');
+        node.style.removeProperty('transition');
+        node.style.removeProperty('transform');
+        node.style.removeProperty('filter');
+        node.style.removeProperty('will-change');
+      }
+    });
+  }
+  const start = () => {
+    cleanClinic();
+    const clinic = document.querySelector(selector);
+    if (!clinic || !('MutationObserver' in window)) return;
+    let queued = false;
+    const observer = new MutationObserver(() => {
+      if (queued) return;
+      queued = true;
+      queueMicrotask(() => { queued = false; cleanClinic(); });
+    });
+    observer.observe(clinic, { childList: true, subtree: true });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+})();
+</script>
+
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
@@ -5929,7 +5978,7 @@ html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!
   const selectors = [
     '.header', '.hero', '.hero-grid > div:first-child', '.strip',
     '.strip-grid > div', '.newsletter-section', '.social-section',
-    '.social-intro', '.latest-section', '.hospital-map-section',
+    '.social-intro', '.latest-section',
     '.appointment-panel', '.opd-hours', '.photo-reel-section',
     '.footer', '.footer-contact-band',
     '.secondary-page-content .newsletter-panel',
@@ -5944,7 +5993,7 @@ html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!
     const inline = el.getAttribute('style') || '';
     return /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/i.test(bg + ' ' + inline) ||
       ['header','newsletter-section','social-section','social-intro','latest-section',
-       'hospital-map-section','appointment-panel','opd-hours','photo-reel-section',
+       'appointment-panel','opd-hours','photo-reel-section',
        'strip','footer','footer-contact-band'].some(c => el.classList.contains(c));
   }
 
