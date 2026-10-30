@@ -31,7 +31,38 @@ h2{font-size:1.12rem;margin:0;color:#173e61}
 .field{display:grid;gap:6px}.field.full{grid-column:1/-1}
 label{font-weight:700;font-size:.86rem}
 input,textarea,select{width:100%;border:1px solid #cbd9e3;border-radius:8px;padding:12px;background:#fff;color:var(--ink);font:inherit}
-textarea{min-height:100px;resize:vertical}
+textarea{min-height:100px;resize:vertical;white-space:pre-wrap}
+.announcement-preview{margin-top:10px;padding:12px;border:1px dashed #9bb5c8;border-radius:8px;background:#fff;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;min-height:42px}
+.announcement-screen-preview{margin-top:12px;padding:14px;background:#e8edf2;border:1px solid #d5dfe7;border-radius:12px}
+.announcement-screen-preview .screen-label{display:block;margin-bottom:9px;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#5d7180}
+.marquee-strip{padding:13px 15px;min-height:46px;display:flex;align-items:center;overflow:hidden;font-weight:800;letter-spacing:.015em;line-height:1.35}
+.marquee-strip + .marquee-strip{margin-top:0;border-top:3px solid #e8edf2}
+.marquee-track{display:inline-block;white-space:pre;min-width:max-content;animation:preview-marquee 18s linear infinite both;animation-delay:0s}
+@keyframes preview-marquee{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none;white-space:normal;min-width:0}}
+.marquee-strip.default-strip,.marquee-strip.custom-strip.edit-strip{background:#ffd24f}
+.marquee-strip.custom-strip.add-strip{background:#f3a6c8}
+.color-control{display:flex;align-items:center;gap:10px}
+.announcement-settings-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.announcement-setting{min-width:0;padding:14px;border:1px solid var(--line);border-radius:11px;background:#fbfdff;display:grid;gap:10px}
+.announcement-setting h4{margin:0;color:#173e61;font-size:.94rem}
+.speed-row{display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.speed-row input[type=range]{padding:0;flex:1;accent-color:var(--blue)}
+.speed-value{min-width:58px;text-align:right;font-size:.82rem;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+
+.color-control input[type=color]{width:54px;height:42px;padding:3px;flex:0 0 54px;cursor:pointer}
+.color-control code{font-size:.8rem;color:var(--muted)}
+.password-wrap{display:flex;gap:7px;align-items:stretch}
+.password-wrap input{flex:1;min-width:0}
+.password-toggle{width:46px;min-width:46px;border:1px solid #cbd9e3;border-radius:8px;background:#f7fafc;color:#173e61;display:grid;place-items:center;cursor:pointer;padding:0}
+.password-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.password-toggle .eye-slash{display:none}
+.password-toggle.is-visible .eye-open{display:none}
+.password-toggle.is-visible .eye-slash{display:block}
+.password-toggle:focus{outline:3px solid #0759a825;border-color:var(--blue)}
+@media(max-width:600px){.announcement-screen-preview{padding:9px}.marquee-strip{padding:11px;font-size:.85rem}}
+
+.preview-label{display:block;margin-top:10px;color:var(--muted);font-size:.78rem;font-weight:700}
 input:focus,textarea:focus,select:focus{outline:3px solid #0759a825;border-color:var(--blue)}
 .radio-row{display:flex;gap:10px;flex-wrap:wrap}
 .radio-card{flex:1;min-width:180px;border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;align-items:center;gap:9px;cursor:pointer}
@@ -47,115 +78,490 @@ button.primary,button.secondary{border:0;border-radius:9px;padding:13px 19px;fon
 footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin:20px 3px}
 .back{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px;position:relative;z-index:1}
 @media(max-width:650px){.wrap{margin:12px auto 35px}.options{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.option{padding:11px}.choice button{padding:8px 11px}header{border-radius:13px 13px 0 0}main{border-radius:0 0 13px 13px}}
+
+/* Simplified controls */
+.control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.control{border:1px solid var(--line);border-radius:11px;padding:13px;background:#fbfdff;display:grid;gap:7px}
+.control small{color:var(--muted);font-size:.78rem}
+.conditional[hidden]{display:none!important}
+.group-title{font-size:.98rem;color:#173e61;margin:0 0 12px}.group-hint{margin:12px 0 0}
+select{cursor:pointer}
+@media(max-width:650px){.control-grid{grid-template-columns:1fr}}
+
+.time-card{padding:13px;border:1px solid var(--line);border-radius:10px;background:#fbfdff}
+.time-pickers{display:grid;grid-template-columns:1fr 1fr .9fr;gap:7px}
+.time-pickers select{min-width:0;padding:11px 8px}
+.time-card>strong{color:#173e61}
+@media(max-width:420px){.time-pickers{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.time-pickers select{font-size:.9rem;padding:10px 5px}}
+
+    #status.status-error { color:#b42318; background:#fff1f0; border:1px solid #f3b5b0; padding:10px 12px; border-radius:8px; font-weight:700; }
+    #status.status-success { color:#176b3a; background:#effaf2; border:1px solid #b7e2c3; padding:10px 12px; border-radius:8px; }
+    .schedule-mode { display:flex; gap:12px; flex-wrap:wrap; margin:12px 0; }
+    .schedule-period { border:1px solid #d9e2e8; border-radius:10px; padding:14px; margin:12px 0; background:#fff; }
+    .schedule-period h3 { margin:0 0 10px; font-size:1rem; }
+
+  
+    .wide-speed-slider{width:min(100%,360px);max-width:360px;display:block;margin:0}
+    .speed-range-labels{display:flex;justify-content:space-between;width:min(100%,360px);max-width:360px;color:var(--muted,#64748b);font-size:.78rem;margin:0}
+
+
+.announcement-settings-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:14px}
+.announcement-setting{padding:18px;gap:14px}
+.announcement-setting h4{font-size:1rem;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.announcement-setting .announcement-preview{margin-top:2px}
+.announcement-setting .field{margin:0}
+.announcement-setting .activation{margin:0}
+
+
+.announcement-settings-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.announcement-setting{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.speed-row{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.speed-range-labels{display:flex;justify-content:space-between;width:min(100%,360px);max-width:360px}
+
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="kicker">KidsGastro · Dr. Nitin Mohan</div>
   <h1>Website Change Request</h1>
-  <p>Choose the changes you want. Add details and a schedule, then save your request for review.</p>
   <p><a class="back" href="index.html">← Return to website</a></p>
 </header>
 <main>
-  <div class="notice"><strong>Important:</strong> This form only creates a request file. It does not change the live website, edit configuration files, or publish anything. Blank selections mean NO.</div>
-  <form id="requestForm">
+<form id="requestForm">
     <section class="section">
-      <div class="section-head"><span class="num">1</span><h2>Select requested changes</h2></div>
-      <p class="hint">Every option starts at NO. Select YES only for changes you want.</p>
-      <div class="options" id="options">
-        <div class="option"><span class="option-label">Show appointment button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="showAppointmentButton" value="no"></div>
-        <div class="option"><span class="option-label">Hide appointment button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="hideAppointmentButton" value="no"></div>
-        <div class="option"><span class="option-label">Show floating WhatsApp button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="showWhatsAppButton" value="no"></div>
-        <div class="option"><span class="option-label">Hide floating WhatsApp button</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="hideWhatsAppButton" value="no"></div>
-        <div class="option"><span class="option-label">Change announcement message</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changeAnnouncement" value="no"></div>
-        <div class="option"><span class="option-label">Slow down animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="slowAnimations" value="no"></div>
-        <div class="option"><span class="option-label">Speed up animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="speedAnimations" value="no"></div>
-        <div class="option"><span class="option-label">Pause animations</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="pauseAnimations" value="no"></div>
-        <div class="option"><span class="option-label">Change homepage or gallery photos</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changePhotos" value="no"></div>
-        <div class="option"><span class="option-label">Update website text or doctor details</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="updateTextOrDoctorDetails" value="no"></div>
-        <div class="option"><span class="option-label">Change design, layout or colours</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="changeDesign" value="no"></div>
-        <div class="option"><span class="option-label">Other change</span><div class="choice"><button type="button" data-value="no" aria-pressed="true">NO</button><button type="button" data-value="yes" aria-pressed="false">YES</button></div><input type="hidden" name="otherChange" value="no"></div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="section-head"><span class="num">2</span><h2>Enter the details</h2></div>
-      <div class="field-grid">
-        <div class="field full"><label for="announcement">New announcement text</label><textarea id="announcement" name="announcementText" placeholder="Type the exact announcement message here..."></textarea></div>
-        <div class="field full"><label for="details">Other instructions / photo names / text to replace</label><textarea id="details" name="otherInstructions" placeholder="Describe exactly what should change. For photo changes, mention the current and replacement file names."></textarea></div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="section-head"><span class="num">3</span><h2>How long should the change last?</h2></div>
-      <div class="radio-row">
-        <label class="radio-card"><input type="radio" name="duration" value="permanent" checked> Permanent</label>
-        <label class="radio-card"><input type="radio" name="duration" value="temporary"> Temporary</label>
-      </div>
-      <div class="subpanel" id="schedule" hidden>
-        <div class="field-grid">
-          <div class="field"><label for="start">Start date and time</label><input id="start" name="startDateTime" type="datetime-local"></div>
-          <div class="field"><label for="end">End date and time</label><input id="end" name="endDateTime" type="datetime-local"></div>
+      <div class="section-head"><span class="num">1</span><h2>Website settings</h2></div>
+      <p class="hint">Change only the items you select. Everything else stays as it is.</p>
+
+      <div class="subpanel">
+        <h3 class="group-title">Appointment booking</h3>
+        <div class="control-grid">
+          <div class="control"><label for="appointment">Appointment button</label><select id="appointment"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable (keep visible)</option></select></div>
+          <div class="control"><label for="whatsappBooking">WhatsApp booking option</label><select id="whatsappBooking"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable</option></select></div>
+          <div class="control"><label for="rezeptrx">RezeptRX booking option</label><select id="rezeptrx"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable</option></select></div>
         </div>
-        <label class="activation"><input type="checkbox" name="activateTemporary" value="yes"><span><strong>Activate this temporary change</strong><br><small>Leave unchecked to keep it OFF until explicitly approved and activated.</small></span></label>
-        <p class="hint">Use India Standard Time (IST). After expiry, the manager should restore the permanent settings.</p>
+        <p class="hint group-hint">These two booking options appear inside the appointment button menu. Disabling the appointment button automatically disables both options; the button itself remains visible.</p>
+      </div>
+
+      <div class="subpanel">
+        <h3 class="group-title">Announcement marquee</h3>
+        <div class="control" style="margin-bottom:12px"><label for="announcementAction">What would you like to do?</label><select id="announcementAction"><option value="unchanged">No change to announcement</option><option value="edit">Edit the main strip</option><option value="add">Add a second strip below it</option></select></div>
+        <div class="conditional" id="announcementPanel" hidden>
+          
+          </div>
+          <div class="announcement-settings-grid">
+            <section class="announcement-setting" id="standardStripSettings">
+              <h4>Main strip settings</h4>
+              <div class="field">
+            <label id="standardStripPreviewLabel">Current main strip</label>
+            <div class="announcement-preview" id="defaultAnnouncementPreview">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</div>
+              <div class="field"><label for="defaultAnnouncementTextColor">Main strip text colour</label><div class="color-control"><input id="defaultAnnouncementTextColor" type="color" value="#18384d"><code id="defaultColorValue" hidden></code></div></div>
+              <div class="field"><label for="defaultMarqueeSpeed">Main strip speed</label><div class="speed-row"><input id="defaultMarqueeSpeed" type="range" value="18" class="wide-speed-slider" min="1" max="100" step="1">
+            <div class="speed-range-labels"><span>Slower</span><span>Faster</span></div><output class="speed-value" id="defaultSpeedValue" hidden></output></div></div>
+            </section>
+            <section class="announcement-setting" id="customStripSettings">
+              <h4 id="customStripHeading">Additional strip settings</h4>
+              <div class="field" id="mainStripBackgroundField"><label for="mainAnnouncementBackgroundColor">Main strip background colour</label><div class="color-control"><input id="mainAnnouncementBackgroundColor" type="color" value="#ffd24f"></div></div>
+<div class="field">
+                <label for="announcement">Additional strip text</label>
+                <textarea id="announcement" placeholder="Type the exact announcement to display" spellcheck="true"></textarea>
+              </div>
+              
+              <div class="field" id="customTextColorField"><label for="customAnnouncementTextColor">Additional strip text colour</label><div class="color-control"><input id="customAnnouncementTextColor" type="color" value="#18384d"><code id="customColorValue" hidden></code></div></div>
+              <div class="field" id="additionalStripBackgroundField"><label for="customAnnouncementBackgroundColor">Additional strip background colour</label><div class="color-control"><input id="customAnnouncementBackgroundColor" type="color" value="#f3a6c8"><code id="customBackgroundColorValue" hidden></code></div></div>
+              <div class="field"><label for="customMarqueeSpeed">Additional strip speed</label><div class="speed-row"><input id="customMarqueeSpeed" type="range" value="18" class="wide-speed-slider" min="1" max="100" step="1">
+            <div class="speed-range-labels"><span>Slower</span><span>Faster</span></div><output class="speed-value" id="customSpeedValue" hidden></output></div></div>
+            </section>
+          </div>
+          <div class="announcement-screen-preview" aria-label="Live announcement screen preview"><span class="screen-label">Website preview</span><div id="announcementScreenPreview"></div></div>
+        </div>
+      </div>
+
+      <div class="subpanel">
+        <h3 class="group-title">Photo of the Month</h3>
+        <div class="control" style="margin-bottom:12px"><label for="photoAction">Photo setting</label><select id="photoAction"><option value="unchanged">No change</option><option value="update">Update Photo of the Month</option></select></div>
+        <div class="conditional" id="photoPanel" hidden>
+          <div class="field-grid">
+            <div class="field full">
+              <label for="photoFile">Choose image</label>
+              <input id="photoFile" type="file" accept="image/*">
+              
+              <div id="photoFileInfo" class="hint" aria-live="polite">No image selected yet.</div>
+              <div id="photoImagePreviewWrap" hidden><img id="photoImagePreview" alt="Selected Photo of the Month preview" style="display:block;max-width:100%;max-height:260px;object-fit:contain;border-radius:10px;border:1px solid #dce6ed;margin-top:8px"></div>
+              <button class="secondary" type="button" id="removePhotoFile" hidden style="margin-top:8px">× Remove selected image</button>
+              <label for="photoDestination">Future image folder</label>
+              <input id="photoDestination" type="text" value="configuration/photo-of-the-month/" readonly>
+              <p class="hint">After creating and installing change-request.json, copy this image into that exact folder in your website clone. The website checks automatically and displays it above “Find the clinic”, together with the caption entered below.</p>
+            </div>
+            <div class="field full"><label for="photoCaption">Photo caption</label><textarea id="photoCaption" maxlength="400" placeholder="Write a short caption for the photo"></textarea></div>
+          </div>
+        </div>
       </div>
     </section>
     <section class="section">
-      <div class="section-head"><span class="num">4</span><h2>Request information</h2></div>
-      <div class="field-grid">
-        <div class="field"><label for="requestedBy">Requested by</label><input id="requestedBy" name="requestedBy" placeholder="Your name"></div>
-        <div class="field"><label for="requestDate">Request date</label><input id="requestDate" name="requestDate" type="date"></div>
+      <div class="section-head"><span class="num">2</span><h2>When should each change apply?</h2></div>
+      <p class="hint">Choose Permanent or Temporary separately for every change you selected. Temporary changes can share a schedule or use different schedules.</p>
+      <div id="changeScheduleEditor"></div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="num">3</span><h2>Create request</h2></div>
+      
+      <div class="field">
+        <label for="requestPassword">Password <span aria-hidden="true">*</span></label>
+        <div class="password-wrap">
+          <input id="requestPassword" type="password" required autocomplete="current-password" placeholder="Enter password" aria-describedby="passwordHint">
+          <button class="password-toggle" type="button" id="togglePassword" aria-label="Show password" aria-pressed="false" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-slash" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.8M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7c1.5 0 2.8-.4 4-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>
+        </div>
+        
       </div>
     </section>
-    <div class="notice">The manager must review the request, check for conflicting selections, implement and test changes in the Working Clone, and obtain approval before deployment. Some requests require manual HTML/CSS/JavaScript editing.</div>
-    <div class="actions">
-      <button class="primary" type="button" id="download">↓ Save request as JSON</button>
-      <button class="secondary" type="reset">Clear form</button>
-    </div>
+    <div class="actions"><button class="primary" type="button" id="download">↓ Create request</button><button class="secondary" type="reset">Reset form</button></div>
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </form>
 </main>
-<footer><span>KidsGastro · Dr. Nitin Mohan</span><span>Request form only · No automatic website changes</span></footer>
 </div>
 <script>
-(function(){
-  const form=document.getElementById('requestForm');
-  document.querySelectorAll('.option').forEach(option=>{
-    const buttons=option.querySelectorAll('button');
-    const hidden=option.querySelector('input[type="hidden"]');
-    buttons.forEach(button=>button.addEventListener('click',()=>{
-      hidden.value=button.dataset.value;
-      buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-    }));
+(() => {
+  const $ = id => document.getElementById(id);
+  const form = $('requestForm');
+  let selectedPhotoFile = null;
+  let selectedPhotoPreviewUrl = null;
+  $('photoFile').addEventListener('change', () => {
+    selectedPhotoFile = $('photoFile').files && $('photoFile').files[0] ? $('photoFile').files[0] : null;
+    $('photoFileInfo').textContent = selectedPhotoFile
+      ? `Selected: ${selectedPhotoFile.name} · ${(selectedPhotoFile.size / 1024 / 1024).toFixed(2)} MB`
+      : 'No image selected yet.';
+    if (selectedPhotoPreviewUrl) URL.revokeObjectURL(selectedPhotoPreviewUrl);
+    selectedPhotoPreviewUrl = null;
+    if (selectedPhotoFile) {
+      selectedPhotoPreviewUrl = URL.createObjectURL(selectedPhotoFile);
+      $('photoImagePreview').src = selectedPhotoPreviewUrl;
+      $('photoImagePreviewWrap').hidden = false;
+      $('removePhotoFile').hidden = false;
+    } else {
+      $('photoImagePreview').removeAttribute('src');
+      $('photoImagePreviewWrap').hidden = true;
+      $('removePhotoFile').hidden = true;
+    }
   });
-  const schedule=document.getElementById('schedule');
-  document.querySelectorAll('input[name="duration"]').forEach(radio=>radio.addEventListener('change',()=>{
-    schedule.hidden=radio.value!=='temporary'||!radio.checked;
-  }));
-  form.addEventListener('reset',()=>{
-    setTimeout(()=>{
-      document.querySelectorAll('.option').forEach(option=>{
-        const hidden=option.querySelector('input[type="hidden"]');
-        hidden.value='no';
-        option.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.value==='no')));
+  $('removePhotoFile').addEventListener('click', () => {
+    $('photoFile').value = '';
+    selectedPhotoFile = null;
+    if (selectedPhotoPreviewUrl) URL.revokeObjectURL(selectedPhotoPreviewUrl);
+    selectedPhotoPreviewUrl = null;
+    $('photoImagePreview').removeAttribute('src');
+    $('photoImagePreviewWrap').hidden = true;
+    $('photoFileInfo').textContent = 'No image selected yet.';
+    $('removePhotoFile').hidden = true;
+  });
+  const NOW_LOCAL_ISO = () => { const d = new Date(); const pad = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const toggle = (panel, show) => { $(panel).hidden = !show; };
+
+  const scheduleFields = [
+    {id:'appointment',key:'appointmentButton',label:'Appointment button'},
+    {id:'whatsappBooking',key:'whatsappBookingOption',label:'WhatsApp booking option'},
+    {id:'rezeptrx',key:'rezepRxBookingOption',label:'RezeptRx booking option'},
+    {id:'announcementAction',key:'announcementMarquee',label:'Announcement marquee'},
+    {id:'photoAction',key:'photoOfTheMonth',label:'Photo of the Month'}
+  ];
+  const scheduleState = {settings:{},groups:[]};
+  let scheduleGroupSequence = 0;
+  const changedFields = () => scheduleFields.filter(f => $(f.id).value !== 'unchanged');
+  const makeGroup = () => {
+    const id='schedule-'+(++scheduleGroupSequence);
+    scheduleState.groups.push({id});
+    return id;
+  };
+  function renderChangeScheduleEditor() {
+    const changed=changedFields(), editor=$('changeScheduleEditor');
+    editor.replaceChildren();
+    changed.forEach(f=>{if(!scheduleState.settings[f.key])scheduleState.settings[f.key]={duration:'permanent',groupId:null};});
+    Object.keys(scheduleState.settings).forEach(k=>{if(!changed.some(f=>f.key===k))delete scheduleState.settings[k];});
+    const temporary=changed.filter(f=>scheduleState.settings[f.key].duration==='temporary');
+    const used=new Set(temporary.map(f=>scheduleState.settings[f.key].groupId).filter(Boolean));
+    scheduleState.groups=scheduleState.groups.filter(g=>used.has(g.id));
+    temporary.forEach(f=>{
+      const st=scheduleState.settings[f.key];
+      if(!st.groupId||!scheduleState.groups.some(g=>g.id===st.groupId))st.groupId=scheduleState.groups.length?scheduleState.groups[0].id:makeGroup();
+    });
+    if(!changed.length){editor.innerHTML='<p class="hint">Select at least one website change above to choose when it should apply.</p>';return;}
+    changed.forEach(f=>{
+      const st=scheduleState.settings[f.key],card=document.createElement('div');
+      card.className='subpanel change-schedule-card';
+      const title=document.createElement('strong');title.textContent=f.label;card.appendChild(title);
+      const grid=document.createElement('div');grid.className='field-grid';
+      const d=document.createElement('div');d.className='field';
+      d.innerHTML=`<label>Duration</label><select data-duration-for="${f.key}"><option value="permanent">Permanent</option><option value="temporary">Temporary</option></select>`;
+      d.querySelector('select').value=st.duration;grid.appendChild(d);
+      if(st.duration==='temporary'){
+        const g=document.createElement('div');g.className='field';
+        const label=document.createElement('label');label.textContent='Temporary schedule';
+        const select=document.createElement('select');select.dataset.groupFor=f.key;
+        scheduleState.groups.forEach((group,i)=>{const o=document.createElement('option');o.value=group.id;o.textContent=scheduleState.groups.length===1?'Common schedule':`Common schedule ${i+1}`;select.appendChild(o);});
+        const create=document.createElement('option');create.value='__new__';create.textContent='Separate schedule for this change';select.appendChild(create);
+        select.value=st.groupId;g.append(label,select);grid.appendChild(g);
+      }
+      card.appendChild(grid);editor.appendChild(card);
+    });
+    scheduleState.groups.forEach((group,i)=>{
+      const members=changed.filter(f=>scheduleState.settings[f.key].duration==='temporary'&&scheduleState.settings[f.key].groupId===group.id);
+      if(!members.length)return;
+      const panel=document.createElement('div');panel.className='subpanel schedule-group';
+      const heading=document.createElement('h3');heading.textContent=scheduleState.groups.length===1?'Temporary schedule':`Schedule group ${i+1}`;panel.appendChild(heading);
+      const applies=document.createElement('p');applies.className='hint';applies.textContent='Applies to: '+members.map(f=>f.label).join(', ');panel.appendChild(applies);
+      const grid=document.createElement('div');grid.className='field-grid';
+      ['start','end'].forEach(edge=>{
+        const wrap=document.createElement('div');wrap.className='field';
+        const label=document.createElement('label');label.textContent=edge==='start'?'Start date and time':'End date and time';
+        const input=document.createElement('input');input.type='datetime-local';input.step='300';input.dataset.scheduleGroup=group.id;input.dataset.edge=edge;input.value=group[edge]||'';
+        wrap.append(label,input);grid.appendChild(wrap);
       });
-      schedule.hidden=true;
-      document.getElementById('status').textContent='';
-    },0);
+      panel.appendChild(grid);editor.appendChild(panel);
+    });
+  }
+  $('changeScheduleEditor').addEventListener('change',e=>{
+    const dk=e.target.dataset.durationFor,gk=e.target.dataset.groupFor;
+    if(dk){const st=scheduleState.settings[dk];st.duration=e.target.value;if(st.duration==='temporary'&&!st.groupId)st.groupId=scheduleState.groups.length?scheduleState.groups[0].id:makeGroup();if(st.duration==='permanent')st.groupId=null;renderChangeScheduleEditor();}
+    else if(gk){const st=scheduleState.settings[gk];st.groupId=e.target.value==='__new__'?makeGroup():e.target.value;renderChangeScheduleEditor();}
+    else if(e.target.dataset.scheduleGroup){const g=scheduleState.groups.find(x=>x.id===e.target.dataset.scheduleGroup);if(g)g[e.target.dataset.edge]=e.target.value;}
   });
-  document.getElementById('download').addEventListener('click',()=>{
-    const data={formTitle:'KidsGastro Website Change Request',doctor:'Dr. Nitin Mohan',createdAt:new Date().toISOString(),timezone:'Asia/Kolkata',notice:'This is a request only. It does not modify or publish the website.',changes:{},details:{},duration:form.elements.duration.value,schedule:{startDateTime:form.elements.startDateTime.value||'',endDateTime:form.elements.endDateTime.value||'',activateTemporary:form.elements.activateTemporary.checked},request:{requestedBy:form.elements.requestedBy.value,requestDate:form.elements.requestDate.value}};
-    form.querySelectorAll('.option input[type="hidden"]').forEach(input=>data.changes[input.name]=input.value);
-    data.details.announcementText=form.elements.announcementText.value;
-    data.details.otherInstructions=form.elements.otherInstructions.value;
-    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download='kidsgastro-change-request-'+new Date().toISOString().slice(0,10)+'.json';
-    document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-    document.getElementById('status').textContent='Request file created. Send it to the person managing the website.';
+
+  const refresh = () => {
+    const announcementMode = $('announcementAction').value;
+    toggle('announcementPanel', ['edit','add'].includes(announcementMode));
+    // Show only the controls relevant to the selected marquee action.
+    // Edit means one main strip only; Add means the existing main strip plus a second strip.
+    $('standardStripPreviewLabel').textContent = announcementMode === 'add' ? 'Current main strip (kept unchanged)' : 'Current main strip';
+    const standardNeeded = announcementMode === 'add';
+    const standardStripPanel = $('standardStripSettings');
+    standardStripPanel.hidden = !standardNeeded;
+    standardStripPanel.style.display = standardNeeded ? 'grid' : 'none';
+    
+    const customStripPanel = $('customStripSettings');
+    const customNeeded = ['edit','add'].includes(announcementMode);
+    const additionalBackgroundField = $('additionalStripBackgroundField');
+    additionalBackgroundField.hidden = announcementMode === 'edit';
+    additionalBackgroundField.style.display = announcementMode === 'edit' ? 'none' : 'block';
+    const mainBackgroundField = $('mainStripBackgroundField');
+    mainBackgroundField.hidden = announcementMode !== 'edit';
+    mainBackgroundField.style.display = announcementMode === 'edit' ? 'block' : 'none';
+    customStripPanel.hidden = !customNeeded;
+    customStripPanel.style.display = customNeeded ? 'grid' : 'none';
+    toggle('customTextColorField', true);
+    $('customStripHeading').textContent = announcementMode === 'edit' ? 'Main strip settings' : 'Additional strip settings';
+    const customTextLabel = document.querySelector('label[for="announcement"]');
+    if (customTextLabel) customTextLabel.textContent = announcementMode === 'edit' ? 'Main strip text' : 'Additional strip text';
+    const customColorLabel = document.querySelector('label[for="customAnnouncementTextColor"]');
+    if (customColorLabel) customColorLabel.textContent = announcementMode === 'edit' ? 'Main strip text colour' : 'Additional strip text colour';
+    const customBgLabel = document.querySelector('label[for="customAnnouncementBackgroundColor"]');
+    if (customBgLabel) customBgLabel.textContent = 'Additional strip background colour';
+    const customSpeedLabel = document.querySelector('label[for="customMarqueeSpeed"]');
+    if (customSpeedLabel) customSpeedLabel.textContent = announcementMode === 'edit' ? 'Main strip speed' : 'Additional strip speed';
+    const appointmentOff = $('appointment').value === 'disable';
+    ['whatsappBooking','rezeptrx'].forEach(id => { if (appointmentOff) { $(id).value = 'disable'; $(id).disabled = true; } else { $(id).disabled = false; } });
+    toggle('photoPanel', $('photoAction').value === 'update');
+    renderChangeScheduleEditor();
+    updateAnnouncementPreview();
+  };
+  ['appointment','whatsappBooking','rezeptrx','announcementAction','photoAction'].forEach(id => $(id).addEventListener('change', refresh));
+  const DEFAULT_ANNOUNCEMENT = 'OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.';
+  const updateAnnouncementPreview = () => {
+    const value = $('announcement').value;
+    const mode = $('announcementAction').value;
+    const defaultColor = $('defaultAnnouncementTextColor').value;
+    const defaultText = DEFAULT_ANNOUNCEMENT;
+    const customColor = $('customAnnouncementTextColor').value;
+    const customBackgroundColor = $('customAnnouncementBackgroundColor').value;
+    const mainBackgroundColor = $('mainAnnouncementBackgroundColor').value;
+    const mainStripSample = $('defaultAnnouncementPreview');
+    if (mainStripSample) {
+      mainStripSample.style.backgroundColor = mainBackgroundColor;
+      mainStripSample.style.setProperty('background-color', mainBackgroundColor, 'important');
+    }
+    const defaultSpeed = 101 - Number($('defaultMarqueeSpeed').value);
+    const customSpeed = 101 - Number($('customMarqueeSpeed').value);
+    $('defaultSpeedValue').textContent = defaultSpeed + ' sec';
+    $('customSpeedValue').textContent = customSpeed + ' sec';
+    $('defaultColorValue').textContent = defaultColor;
+    $('customColorValue').textContent = customColor;
+    $('customBackgroundColorValue').textContent = customBackgroundColor;
+    const screen = $('announcementScreenPreview');
+    const previewPanel = screen.closest('.announcement-screen-preview');
+    if (previewPanel) {
+      previewPanel.hidden = mode === 'unchanged';
+      previewPanel.style.display = mode === 'unchanged' ? 'none' : 'block';
+    }
+    screen.replaceChildren();
+    const combined = document.createElement('div');
+    combined.className = 'marquee-combined-preview';
+    combined.style.overflow = 'hidden';
+    combined.style.borderRadius = '7px';
+    screen.appendChild(combined);
+    const addStrip = (message, cls, color, speed, backgroundColor) => {
+      const strip = document.createElement('div');
+      strip.className = 'marquee-strip ' + cls;
+      const track = document.createElement('span');
+      track.className = 'marquee-track';
+      track.style.animationDuration = speed + 's';
+      track.textContent = message;
+      strip.appendChild(track);
+      strip.style.color = color;
+      if (backgroundColor) strip.style.setProperty('background-color', backgroundColor, 'important');
+      combined.appendChild(strip);
+    };
+    if (mode === 'add' || mode === 'unchanged') {
+      addStrip(defaultText, 'default-strip', defaultColor, defaultSpeed, '#ffd24f');
+    }
+    if (mode === 'edit') {
+      addStrip(value || 'Your edited main strip will appear here.', 'default-strip edit-strip', customColor, customSpeed, mainBackgroundColor);
+    } else if (mode === 'add') {
+      addStrip(value || 'Your additional announcement will appear here.', 'custom-strip add-strip', customColor, customSpeed, customBackgroundColor);
+    }
+    if (mode === 'unchanged') {
+      const note = document.createElement('small');
+      note.textContent = 'No custom change selected. The standard yellow announcement strip will remain.';
+      note.style.color = '#5d7180';
+      combined.appendChild(note);
+    }
+  };
+  const applyMainStripBackground = () => {
+    const colour = $('mainAnnouncementBackgroundColor').value;
+    const sample = $('defaultAnnouncementPreview');
+    if (sample) sample.style.setProperty('background', colour, 'important');
+    if ($('announcementAction').value === 'edit') {
+      const previewStrip = $('announcementScreenPreview').querySelector('.marquee-strip');
+      if (previewStrip) previewStrip.style.setProperty('background', colour, 'important');
+    }
+  };
+  ['announcement','announcementAction','defaultAnnouncementTextColor','customAnnouncementTextColor','customAnnouncementBackgroundColor','mainAnnouncementBackgroundColor','defaultMarqueeSpeed','customMarqueeSpeed'].forEach(id => {
+    $(id).addEventListener('input', () => {
+      updateAnnouncementPreview();
+      if (id === 'mainAnnouncementBackgroundColor') applyMainStripBackground();
+    });
+    $(id).addEventListener('change', () => {
+      updateAnnouncementPreview();
+      if (id === 'mainAnnouncementBackgroundColor') applyMainStripBackground();
+    });
   });
-  const date=document.getElementById('requestDate');
-  date.value=new Date().toISOString().slice(0,10);
+  $('requestPassword').addEventListener('input', () => { $('requestPassword').removeAttribute('aria-invalid'); $('status').textContent = ''; $('status').classList.remove('status-error','status-success'); });
+  $('togglePassword').addEventListener('click', () => {
+    const reveal = $('requestPassword').type === 'password';
+    $('requestPassword').type = reveal ? 'text' : 'password';
+    $('togglePassword').classList.toggle('is-visible', reveal);
+    $('togglePassword').setAttribute('aria-label', reveal ? 'Hide password' : 'Show password');
+    $('togglePassword').setAttribute('title', reveal ? 'Hide password' : 'Show password');
+    $('togglePassword').setAttribute('aria-pressed', reveal ? 'true' : 'false');
+  });
+  updateAnnouncementPreview();
+  form.addEventListener('reset', () => setTimeout(() => {
+    Object.keys(scheduleState.settings).forEach(k => delete scheduleState.settings[k]);
+    scheduleState.groups = [];
+    scheduleGroupSequence = 0;
+    selectedPhotoFile = null;
+    $('photoFileInfo').textContent = 'No image selected yet.';
+    $('photoImagePreviewWrap').hidden = true;
+    $('removePhotoFile').hidden = true;
+    $('photoImagePreview').removeAttribute('src');
+    if (selectedPhotoPreviewUrl) { URL.revokeObjectURL(selectedPhotoPreviewUrl); selectedPhotoPreviewUrl = null; }
+    updateAnnouncementPreview();
+    refresh();
+    $('status').textContent = '';
+    $('status').classList.remove('status-error');
+  }, 0));
+
+  $('download').addEventListener('click', () => {
+    const enteredPassword = $('requestPassword').value;
+    if (enteredPassword !== 'Paedsgastro@123') {
+      $('status').textContent = enteredPassword ? 'Incorrect password. JSON was not generated.' : 'Password is required before JSON can be generated.'; $('status').classList.add('status-error');
+      $('requestPassword').setAttribute('aria-invalid', 'true');
+      $('requestPassword').focus();
+      return;
+    }
+    $('requestPassword').removeAttribute('aria-invalid');
+    if (!changedFields().length) {
+      $('status').textContent = 'Select at least one website change before creating change-request.json.';
+      $('status').classList.add('status-error');
+      return;
+    }
+    if ($('photoAction').value === 'update' && !selectedPhotoFile) {
+      $('status').textContent = 'Select the Photo of the Month image before creating change-request.json.';
+      $('status').classList.add('status-error');
+      return;
+    }
+    const changeSchedules={settings:{},groups:[],activateTemporary:true};
+    for(const field of changedFields()){
+      const st=scheduleState.settings[field.key];
+      changeSchedules.settings[field.key]={duration:st.duration,scheduleGroupId:st.duration==='temporary'?st.groupId:null};
+    }
+    for(const group of scheduleState.groups){
+      const members=changedFields().filter(f=>scheduleState.settings[f.key]?.duration==='temporary'&&scheduleState.settings[f.key].groupId===group.id);
+      if(!members.length)continue;
+      if(!group.start||!group.end){$('status').textContent='Complete the start and end date/time for every temporary schedule.';$('status').classList.add('status-error');return;}
+      if(new Date(group.start)<=new Date()){ $('status').textContent='Every temporary schedule must start in the future.';$('status').classList.add('status-error');return;}
+      if(new Date(group.end)<=new Date(group.start)){ $('status').textContent='Every temporary schedule must end after it starts.';$('status').classList.add('status-error');return;}
+      changeSchedules.groups.push({id:group.id,startDateTime:group.start,endDateTime:group.end,settings:members.map(f=>f.key)});
+    }
+    const durations=Object.values(changeSchedules.settings).map(x=>x.duration);
+    const duration=durations.length&&durations.every(x=>x==='temporary')?'temporary':durations.length&&durations.every(x=>x==='permanent')?'permanent':'mixed';
+    const periods=changeSchedules.groups.map(g=>({startDateTime:g.startDateTime,endDateTime:g.endDateTime,settings:g.settings}));
+    const changes = {
+      enableAppointmentButton: $('appointment').value === 'enable' ? 'yes' : 'no',
+      disableAppointmentButton: $('appointment').value === 'disable' ? 'yes' : 'no',
+      enableWhatsAppBookingOption: $('whatsappBooking').value === 'enable' ? 'yes' : 'no',
+      disableWhatsAppBookingOption: $('whatsappBooking').value === 'disable' ? 'yes' : 'no',
+      enableRezeptRxBookingOption: $('rezeptrx').value === 'enable' ? 'yes' : 'no',
+      disableRezeptRxBookingOption: $('rezeptrx').value === 'disable' ? 'yes' : 'no',
+      showWhatsAppButton: $('whatsappBooking').value === 'enable' ? 'yes' : 'no',
+      hideWhatsAppButton: $('whatsappBooking').value === 'disable' ? 'yes' : 'no',
+      changeAnnouncement: ['edit','add'].includes($('announcementAction').value) ? 'yes' : 'no',
+      announcementMode: $('announcementAction').value,
+      mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
+      updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'no'
+    };
+    const data = {
+      schemaVersion: 2,
+      formTitle: 'KidsGastro Website Change Request', doctor: 'Dr. Nitin Mohan',
+      createdAt: new Date().toISOString(), timezone: 'Asia/Kolkata',
+      targetFile: 'configuration/change-request.json',
+      notice: 'This is a request only. It does not modify or publish the website.',
+      changes,
+      changeSchedules,
+      details: {
+        announcementText: $('announcement').value,
+        defaultAnnouncementText: DEFAULT_ANNOUNCEMENT,
+        mainStripTextColor: $('defaultAnnouncementTextColor').value,
+        mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
+        announcementTextColors: {
+          defaultStrip: $('defaultAnnouncementTextColor').value,
+          customStrip: $('customAnnouncementTextColor').value
+        },
+        announcementBackgroundColors: {
+          mainStrip: $('mainAnnouncementBackgroundColor').value,
+          secondStrip: $('customAnnouncementBackgroundColor').value
+        },
+        announcementMarqueeSpeedsSeconds: {
+          standardStrip: 101 - Number($('defaultMarqueeSpeed').value),
+          customStrip: 101 - Number($('customMarqueeSpeed').value)
+        },
+        photoOfMonth: selectedPhotoFile ? `configuration/photo-of-the-month/${selectedPhotoFile.name}` : '',
+        photoOfMonthFileName: selectedPhotoFile ? selectedPhotoFile.name : '',
+        photoOfMonthDestinationFolder: 'configuration/photo-of-the-month/',
+        photoCaption: $('photoCaption').value.trim(),
+        otherInstructions: ''
+      },
+      duration,
+      schedule: { type: duration, periods, activateTemporary: changeSchedules.activateTemporary },
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob); const a = document.createElement('a');
+    a.href = url; a.download = 'change-request.json';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    if ($('photoAction').value === 'update' && selectedPhotoFile) {
+      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = `change-request.json created. Replace configuration/change-request.json in your clone, then copy ${selectedPhotoFile.name} into configuration/photo-of-the-month/. The website will detect it automatically and display it above “Find the clinic” with your caption. The image itself is not embedded in the JSON.`;
+    } else {
+      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'change-request.json created. Replace configuration/change-request.json in your website clone with this downloaded file, then refresh the site.';
+    }
+  });
+  refresh();
 })();
 </script>
 </body>
