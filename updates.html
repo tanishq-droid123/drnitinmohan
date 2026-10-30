@@ -144,7 +144,7 @@ select{cursor:pointer}
 
       <div class="subpanel">
         <h3 class="group-title">Announcement marquee</h3>
-        <div class="control" style="margin-bottom:12px"><label for="announcementAction">What would you like to do?</label><select id="announcementAction"><option value="unchanged">No change to announcement</option><option value="edit">Edit the main strip</option><option value="add">Add a second strip below it</option></select></div>
+        <div class="control" style="margin-bottom:12px"><label for="announcementAction">What would you like to do?</label><select id="announcementAction"><option value="unchanged">No change to announcement</option><option value="edit">Edit the main strip</option><option value="add">Add a second strip below it</option><option value="restore_default">Restore the website default main strip</option></select><p class="hint">“Restore the website default” resets the main strip to the original default text, colours and speed, and removes any additional strip.</p></div>
         <div class="conditional" id="announcementPanel" hidden>
           
           </div>
@@ -154,19 +154,19 @@ select{cursor:pointer}
               <div class="field">
             <label id="standardStripPreviewLabel">Current main strip</label>
             <div class="announcement-preview" id="defaultAnnouncementPreview">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</div>
-              <div class="field"><label for="defaultAnnouncementTextColor">Main strip text colour</label><div class="color-control"><input id="defaultAnnouncementTextColor" type="color" value="#18384d"><code id="defaultColorValue" hidden></code></div></div>
+              <div class="field"><label for="defaultAnnouncementTextColor">Main strip text colour</label><div class="color-control"><input id="defaultAnnouncementTextColor" type="color" value="#0759a8"><code id="defaultColorValue" hidden></code></div></div>
               <div class="field"><label for="defaultMarqueeSpeed">Main strip speed</label><div class="speed-row"><input id="defaultMarqueeSpeed" type="range" value="18" class="wide-speed-slider" min="1" max="100" step="1">
             <div class="speed-range-labels"><span>Slower</span><span>Faster</span></div><output class="speed-value" id="defaultSpeedValue" hidden></output></div></div>
             </section>
             <section class="announcement-setting" id="customStripSettings">
               <h4 id="customStripHeading">Additional strip settings</h4>
-              <div class="field" id="mainStripBackgroundField"><label for="mainAnnouncementBackgroundColor">Main strip background colour</label><div class="color-control"><input id="mainAnnouncementBackgroundColor" type="color" value="#ffd24f"></div></div>
+              <div class="field" id="mainStripBackgroundField"><label for="mainAnnouncementBackgroundColor">Main strip background colour</label><div class="color-control"><input id="mainAnnouncementBackgroundColor" type="color" value="#ffc400"></div></div>
 <div class="field">
                 <label for="announcement">Additional strip text</label>
                 <textarea id="announcement" placeholder="Type the exact announcement to display" spellcheck="true"></textarea>
               </div>
               
-              <div class="field" id="customTextColorField"><label for="customAnnouncementTextColor">Additional strip text colour</label><div class="color-control"><input id="customAnnouncementTextColor" type="color" value="#18384d"><code id="customColorValue" hidden></code></div></div>
+              <div class="field" id="customTextColorField"><label for="customAnnouncementTextColor">Additional strip text colour</label><div class="color-control"><input id="customAnnouncementTextColor" type="color" value="#0759a8"><code id="customColorValue" hidden></code></div></div>
               <div class="field" id="additionalStripBackgroundField"><label for="customAnnouncementBackgroundColor">Additional strip background colour</label><div class="color-control"><input id="customAnnouncementBackgroundColor" type="color" value="#f3a6c8"><code id="customBackgroundColorValue" hidden></code></div></div>
               <div class="field"><label for="customMarqueeSpeed">Additional strip speed</label><div class="speed-row"><input id="customMarqueeSpeed" type="range" value="18" class="wide-speed-slider" min="1" max="100" step="1">
             <div class="speed-range-labels"><span>Slower</span><span>Faster</span></div><output class="speed-value" id="customSpeedValue" hidden></output></div></div>
@@ -327,7 +327,7 @@ select{cursor:pointer}
 
   const refresh = () => {
     const announcementMode = $('announcementAction').value;
-    toggle('announcementPanel', ['edit','add'].includes(announcementMode));
+    toggle('announcementPanel', ['edit','add','restore_default'].includes(announcementMode));
     // Show only the controls relevant to the selected marquee action.
     // Edit means one main strip only; Add means the existing main strip plus a second strip.
     $('standardStripPreviewLabel').textContent = announcementMode === 'add' ? 'Current main strip (kept unchanged)' : 'Current main strip';
@@ -409,7 +409,13 @@ select{cursor:pointer}
       combined.appendChild(strip);
     };
     if (mode === 'add' || mode === 'unchanged') {
-      addStrip(defaultText, 'default-strip', defaultColor, defaultSpeed, '#ffd24f');
+      addStrip(defaultText, 'default-strip', defaultColor, defaultSpeed, '#ffc400');
+    } else if (mode === 'restore_default') {
+      addStrip(defaultText, 'default-strip', '#0759a8', 8, '#ffc400');
+      const note = document.createElement('small');
+      note.textContent = 'Restores the website default: yellow background, blue text and 8-second speed.';
+      note.style.color = '#5d7180';
+      combined.appendChild(note);
     }
     if (mode === 'edit') {
       addStrip(value || 'Your edited main strip will appear here.', 'default-strip edit-strip', customColor, customSpeed, mainBackgroundColor);
@@ -512,10 +518,10 @@ select{cursor:pointer}
       disableRezeptRxBookingOption: $('rezeptrx').value === 'disable' ? 'yes' : 'no',
       showWhatsAppButton: $('whatsappBooking').value === 'enable' ? 'yes' : 'no',
       hideWhatsAppButton: $('whatsappBooking').value === 'disable' ? 'yes' : 'no',
-      changeAnnouncement: ['edit','add'].includes($('announcementAction').value) ? 'yes' : 'no',
+      changeAnnouncement: ['edit','add','restore_default'].includes($('announcementAction').value) ? 'yes' : 'no',
       announcementMode: $('announcementAction').value,
       mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
-      updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'no'
+      updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'unchanged'
     };
     const data = {
       schemaVersion: 2,
@@ -556,9 +562,9 @@ select{cursor:pointer}
     a.href = url; a.download = 'change-request.json';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     if ($('photoAction').value === 'update' && selectedPhotoFile) {
-      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = `change-request.json created. Replace configuration/change-request.json in your clone, then copy ${selectedPhotoFile.name} into configuration/. The website will detect it automatically and display it above “Find the clinic” with your caption. The image itself is not embedded in the JSON.`;
+      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'File downloaded.';
     } else {
-      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'change-request.json created. Replace configuration/change-request.json in your website clone with this downloaded file, then refresh the site.';
+      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'File downloaded.';
     }
   });
   refresh();
