@@ -772,7 +772,7 @@ img.asset-pending{visibility:hidden!important}
 </style>
 <script id="missing-image-preview-fallback-script">
 document.addEventListener('DOMContentLoaded',()=>{
- const rootAssets=new Set(['kids-gastro-logo.webp','kids-gastro-talk.png','rezept-rx-logo.png','6273587102557606905.jpg','6273587102557606908.jpg','6273587102557606915.jpg','6273587102557606928.jpg','churamani-hospital.png','gif-Video-72237.gif','gif-2.gif','gif-3.gif','kids-gastro-clinical.png']);
+ const rootAssets=new Set(['kids-gastro-logo.webp','6273587102557606908.jpg','6273587102557606915.jpg','6273587102557606928.jpg','churamani-hospital.png','gif-2.gif','gif-3.gif','gif-4.gif','gif-5.gif','gif-Video-72237.gif','kids-gastro-clinical.png','kids-gastro-talk.png','rezept-rx-logo.png','6273587102557606905.jpg']);
  document.querySelectorAll('img[src]').forEach(img=>{
   const path=(img.getAttribute('src')||'').replace(/^\.\//,'').replace(/^\/assets\//,'');
   if(!rootAssets.has(path)) return;
