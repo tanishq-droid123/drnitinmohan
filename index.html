@@ -3722,7 +3722,7 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
  function init(){
   document.querySelectorAll('.booking-dialog-actions .booking-submit').forEach(function(btn){
    btn.addEventListener('click',function(){
-    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    /* User-requested decorative background motion: do not suppress the scene based on OS motion preference. */
     btn.classList.remove('booking-click-shine');
     void btn.offsetWidth;
     btn.classList.add('booking-click-shine');
@@ -3747,7 +3747,7 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
  function init(){
   document.querySelectorAll('.booking-toggle').forEach(function(btn){
    btn.addEventListener('click',function(){
-    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    /* User-requested decorative background motion: do not suppress the scene based on OS motion preference. */
     btn.classList.remove('booking-click-shine');
     void btn.offsetWidth;
     btn.classList.add('booking-click-shine');
@@ -4827,6 +4827,44 @@ input,select,textarea{font-size:16px;max-width:100%}
   else initAdminRoute();
 })();
 </script>
+
+<style id="final-reels-portrait-and-cosmos-motion-fix">
+/* All five GIF reel cards use a true 9:16 portrait frame. The GIF itself remains animated. */
+.kg-watch-content-grid{grid-auto-columns:minmax(0,clamp(160px,22vw,240px))!important;align-items:start!important}
+.kg-watch-content-grid>.kg-watch-content-gif-link{
+  width:100%!important;max-width:none!important;aspect-ratio:9/16!important;
+  height:auto!important;min-height:0!important;overflow:hidden!important;
+  display:block!important;position:relative!important;border-radius:12px!important;
+}
+.kg-watch-content-grid .kg-watch-content-gif-link img{
+  display:block!important;width:100%!important;height:100%!important;
+  aspect-ratio:9/16!important;max-height:none!important;object-fit:cover!important;
+  object-position:center!important;background:#f7fafc!important;
+}
+@media(max-width:640px){
+  .kg-watch-content-grid{grid-auto-columns:minmax(0, min(68vw, 230px))!important;grid-template-columns:none!important}
+  .kg-watch-content-grid>.kg-watch-content-gif-link{aspect-ratio:9/16!important;height:auto!important}
+  .kg-watch-content-grid .kg-watch-content-gif-link img{height:100%!important;aspect-ratio:9/16!important;object-fit:cover!important}
+}
+/* Re-enable the background scene and restore actual motion where earlier CSS overrides had frozen it. */
+.kg-cosmos-host>.kg-cosmos-background{display:block!important;visibility:visible!important;opacity:1!important}
+.kg-cosmos-host .kg-cosmos-system,.kg-cosmos-host .kg-cosmos-orbit,
+.kg-cosmos-host .kg-cosmos-bound-satellite{visibility:visible!important}
+.kg-cosmos-host .kg-cosmos-planet{display:block!important;visibility:visible!important;animation:kg-gravity-orbit var(--dur,30s) linear infinite!important;offset-distance:0%!important}
+.kg-cosmos-host .kg-cosmos-bound-starship{display:block!important;visibility:visible!important;animation:kg-gravity-orbit var(--ship-dur,var(--dur,30s)) linear infinite!important}
+.kg-cosmos-host .kg-cosmos-comet-streak{display:block!important;visibility:visible!important;animation:kg-cosmos-comet-cross var(--comet-time,7s) linear var(--comet-delay,0s) infinite!important}
+.kg-cosmos-host .kg-flying-craft{display:block!important;visibility:visible!important;animation:kg-gravity-orbit var(--craft-time,20s) linear infinite!important}
+.kg-cosmos-host .kg-cosmos-nebula{display:block!important;visibility:visible!important;animation:kg-nebula-drift var(--speed,24s) ease-in-out infinite alternate!important}
+.kg-cosmos-host .kg-cosmos-sun{display:block!important;visibility:visible!important;animation:kg-sun-pulse var(--speed,6s) ease-in-out infinite alternate!important}
+.kg-cosmos-host .kg-cosmos-supernova{display:block!important;visibility:visible!important;animation:kg-supernova-breathe var(--speed,5s) ease-in-out infinite alternate!important}
+@media(prefers-reduced-motion:reduce){
+  .kg-cosmos-host>.kg-cosmos-background,.kg-cosmos-host .kg-cosmos-nebula,
+  .kg-cosmos-host .kg-cosmos-sun,.kg-cosmos-host .kg-cosmos-supernova,
+  .kg-cosmos-host .kg-cosmos-comet-streak,.kg-cosmos-host .kg-flying-craft,
+  .kg-cosmos-host .kg-cosmos-planet,.kg-cosmos-host .kg-cosmos-bound-starship{display:block!important;visibility:visible!important}
+}
+</style>
+
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
@@ -4976,7 +5014,7 @@ input,select,textarea{font-size:16px;max-width:100%}
 @media(prefers-reduced-motion:reduce){.header.kg-cosmos-host>.kg-cosmos-background{display:none!important}}
 </style>
 <script id="kg-cosmos-background-script">
-(()=>{const init=()=>{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+(()=>{const init=()=>{/* User-requested decorative background motion: do not suppress the scene based on OS motion preference. */
 const selectors=['.header','.hero','.hero-grid > div:first-child','.strip','.strip-grid > div','.newsletter-section','.social-section','.social-intro','.latest-section','.hospital-map-section','.appointment-panel','.opd-hours','.photo-reel-section','.footer','.footer-contact-band','.secondary-page-content .newsletter-panel','.secondary-page-content .secondary-facts article','.secondary-page-content .secondary-hospital > div'];
 const hosts=[...new Set(selectors.flatMap(sel=>[...document.querySelectorAll(sel)]))].filter(el=>{const c=getComputedStyle(el).backgroundColor;return el&&!el.querySelector(':scope > .kg-cosmos-background')&&(/0b347e|0759a8|0b65b4|#0b347e|#0759a8/i.test(el.getAttribute('style')||'')||['header','newsletter-section','social-section','social-intro','latest-section','hospital-map-section','appointment-panel','opd-hours','photo-reel-section','strip','footer','footer-contact-band'].some(x=>el.classList.contains(x))||c!=='rgba(0, 0, 0, 0)');});
 const rand=(a,b)=>Math.random()*(b-a)+a;
