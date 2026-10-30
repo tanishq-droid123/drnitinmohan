@@ -1,35 +1,91 @@
 {
+  "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T13:50:53.933Z",
+  "createdAt": "2026-10-30T16:13:54.500Z",
   "timezone": "Asia/Kolkata",
+  "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
   "changes": {
-    "showAppointmentButton": "no",
-    "hideAppointmentButton": "yes",
+    "enableAppointmentButton": "no",
+    "disableAppointmentButton": "no",
+    "enableWhatsAppBookingOption": "no",
+    "disableWhatsAppBookingOption": "no",
+    "enableRezeptRxBookingOption": "no",
+    "disableRezeptRxBookingOption": "yes",
     "showWhatsAppButton": "no",
-    "hideWhatsAppButton": "yes",
+    "hideWhatsAppButton": "no",
     "changeAnnouncement": "yes",
-    "slowAnimations": "no",
-    "speedAnimations": "yes",
-    "pauseAnimations": "no",
-    "changePhotos": "no",
-    "updateTextOrDoctorDetails": "no",
-    "changeDesign": "no",
-    "otherChange": "no"
+    "announcementMode": "add",
+    "mainStripBackgroundColor": "#ffd24f",
+    "updatePhotoOfMonth": "yes"
+  },
+  "changeSchedules": {
+    "settings": {
+      "rezepRxBookingOption": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      },
+      "announcementMarquee": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      },
+      "photoOfTheMonth": {
+        "duration": "temporary",
+        "scheduleGroupId": "schedule-1"
+      }
+    },
+    "groups": [
+      {
+        "id": "schedule-1",
+        "startDateTime": "2026-10-30T21:45",
+        "endDateTime": "2026-10-30T23:39",
+        "settings": [
+          "rezepRxBookingOption",
+          "announcementMarquee",
+          "photoOfTheMonth"
+        ]
+      }
+    ],
+    "activateTemporary": true
   },
   "details": {
-    "announcementText": "maintenance work going on                     please wait",
+    "announcementText": "WORK STILL IN PROGRESS                                        PLEASE WAIT",
+    "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
+    "mainStripTextColor": "#ff0505",
+    "mainStripBackgroundColor": "#ffd24f",
+    "announcementTextColors": {
+      "defaultStrip": "#ff0505",
+      "customStrip": "#d5ff05"
+    },
+    "announcementBackgroundColors": {
+      "mainStrip": "#ffd24f",
+      "secondStrip": "#a81f5a"
+    },
+    "announcementMarqueeSpeedsSeconds": {
+      "standardStrip": 11,
+      "customStrip": 14
+    },
+    "photoOfMonth": "configuration/photo-of-the-month/Port_Gellhorn_01.jpg",
+    "photoOfMonthFileName": "Port_Gellhorn_01.jpg",
+    "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
+    "photoCaption": "SAMPLE IMAGE",
     "otherInstructions": ""
   },
-  "duration": "permanent",
+  "duration": "temporary",
   "schedule": {
-    "startDateTime": "",
-    "endDateTime": "",
-    "activateTemporary": false
-  },
-  "request": {
-    "requestedBy": "",
-    "requestDate": "2026-10-30"
+    "type": "temporary",
+    "periods": [
+      {
+        "startDateTime": "2026-10-30T21:45",
+        "endDateTime": "2026-10-30T23:39",
+        "settings": [
+          "rezepRxBookingOption",
+          "announcementMarquee",
+          "photoOfTheMonth"
+        ]
+      }
+    ],
+    "activateTemporary": true
   }
 }
