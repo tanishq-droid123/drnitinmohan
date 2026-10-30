@@ -4975,6 +4975,102 @@ input,select,textarea{font-size:16px;max-width:100%}
 }
 </style>
 
+
+<style id="single-index-route-pages">
+.route-page{min-height:58vh;background:#f6f8fa;padding:34px 0 70px}.route-page-inner{width:min(1080px,calc(100% - 40px));margin:0 auto}.route-breadcrumb{display:flex;gap:10px;align-items:center;color:#617486;font-size:.84rem;margin:0 0 24px}.route-breadcrumb a{color:#0759a8;text-decoration:underline;text-underline-offset:3px}.route-page h1{max-width:900px;color:#123c77;font-size:clamp(2.1rem,5vw,3.6rem);line-height:1.12;margin:10px 0 14px}.route-lead{max-width:800px;color:#526775;font-size:1.12rem;line-height:1.7;margin:0 0 30px}.route-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:28px 0}.route-card,.route-callout,.route-empty-state{background:#fff;border:1px solid #d5dfe5;border-top:4px solid #0759a8;padding:24px;box-shadow:0 5px 18px rgba(15,43,62,.06)}.route-card h2,.route-callout h2,.route-empty-state h2{color:#123c77;font:700 1.2rem/1.35 Arial,sans-serif;margin:0 0 10px}.route-card p,.route-callout p,.route-empty-state p{color:#526775;line-height:1.7}.route-card a,.route-faq-list a{color:#0759a8;text-decoration:underline;text-underline-offset:3px;font-weight:700}.route-callout{margin:30px 0;border-top-color:#c34591}.route-callout .btn{margin:8px 8px 0 0}.route-faq-list{border-top:1px solid #d5dfe5;background:#fff}.route-faq-list details{border-bottom:1px solid #d5dfe5;padding:0 20px}.route-faq-list summary{cursor:pointer;padding:19px 36px 19px 0;color:#123c77;font-weight:700;position:relative}.route-faq-list summary::marker{color:#0759a8}.route-faq-list details>div{padding:0 0 16px;color:#526775;max-width:850px}.route-note{color:#617486;font-size:.88rem;margin-top:24px}.route-clinic{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;background:#fff;border:1px solid #d5dfe5;padding:20px}.route-clinic img{width:100%;height:320px;object-fit:cover}.route-clinic h2{color:#123c77}.route-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.route-gallery img{width:100%;height:240px;object-fit:cover}.route-footer-cta{border-top:1px solid #d5dfe5;margin-top:48px;padding-top:20px;color:#526775;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.route-home-link{color:#0759a8;text-decoration:underline;font-weight:700}@media(max-width:700px){.route-page{padding:25px 0 52px}.route-card-grid,.route-clinic{grid-template-columns:1fr}.route-clinic img{height:230px}.route-gallery{grid-template-columns:1fr 1fr}.route-card,.route-callout,.route-empty-state{padding:19px}}
+</style>
+<script id="single-index-route-renderer">
+(()=>{
+  const path=(location.pathname.replace(/\/+$/,'')||'/').toLowerCase();
+  if(path==='/') return;
+  const main=document.getElementById('main');
+  if(!main) return;
+  const byId=id=>document.getElementById(id);
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const asset=name=>'/assets/'+name;
+  const doctor='Dr. Nitin Mohan';
+  const pages={
+    '/services':{
+      title:'Paediatric Gastroenterology Services in Hisar | Dr. Nitin Mohan',desc:'Explore paediatric gastrointestinal procedures, liver and biliary investigations, pancreatic investigations, diagnostic evaluation, and nutrition and growth assessment at KidsGastro, Hisar.',h1:'Paediatric Gastroenterology Services',lead:'Diagnostic and clinical services for children with digestive, liver, pancreatic, biliary, feeding and growth concerns.',body:`<div class="route-card-grid">
+        <article class="route-card"><h2>Gastrointestinal procedures</h2><p>Paediatric gastrointestinal procedures and investigations.</p></article>
+        <article class="route-card"><h2>Hepatology procedures and investigations</h2><p>Evaluation and investigation of paediatric liver-related concerns.</p></article>
+        <article class="route-card"><h2>Pancreatic investigations</h2><p>Investigations for pancreatic conditions in children.</p></article>
+        <article class="route-card"><h2>Biliary tract investigations</h2><p>Assessment of conditions involving the paediatric biliary tract.</p></article>
+        <article class="route-card"><h2>Gastrointestinal diagnostic investigations</h2><p>Diagnostic evaluation of digestive system concerns in children.</p></article>
+        <article class="route-card"><h2>Nutrition and growth assessment</h2><p>Assessment of feeding, nutrition, weight gain and growth concerns.</p></article>
+      </div><aside class="route-callout"><h2>Discuss your child's concerns</h2><p>Consult ${doctor}, Consultant Paediatric Gastroenterologist, Hepatologist and Nutritionist at Churamani Multispeciality Hospital, Hisar.</p><a class="btn" href="https://wa.me/919821020576?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20with%20Dr.%20Nitin%20Mohan." target="_blank" rel="noopener noreferrer">Book via WhatsApp</a> <a class="btn outline" href="https://rezeptrx.com/dr/dr-nitin-mohan-pediatrician-hisar" target="_blank" rel="noopener noreferrer">Book via RezeptRx</a></aside>`,
+    },
+    '/treatments':{
+      title:'Paediatric Gastroenterology Treatments in Hisar | Dr. Nitin Mohan',desc:'Paediatric gastroenterology, hepatology, pancreatology, biliary tract and nutrition concerns evaluated by Dr. Nitin Mohan in Hisar.',h1:'Paediatric Gastroenterology and Related Conditions',lead:'Specialist consultation for digestive, liver, pancreatic, biliary, feeding and nutrition concerns in children.',body:`<div class="route-card-grid">
+        <article class="route-card"><h2>Paediatric gastroenterology</h2><p>Digestive system concerns in infants, children and adolescents.</p></article>
+        <article class="route-card"><h2>Paediatric hepatology</h2><p>Liver-related conditions in children.</p></article>
+        <article class="route-card"><h2>Paediatric pancreatology</h2><p>Pancreatic disorders and related concerns in children.</p></article>
+        <article class="route-card"><h2>Paediatric biliary tract diseases</h2><p>Conditions affecting the biliary tract.</p></article>
+        <article class="route-card"><h2>Paediatric nutrition and growth</h2><p>Feeding difficulties, poor weight gain and nutritional concerns.</p></article>
+      </div><aside class="route-callout"><h2>Arrange a consultation</h2><p>Consult ${doctor} at Churamani Multispeciality Hospital, Hisar.</p><a class="btn" href="https://wa.me/919821020576?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20with%20Dr.%20Nitin%20Mohan." target="_blank" rel="noopener noreferrer">Book an appointment</a></aside>`
+    },
+    '/faqs':{
+      title:'Frequently Asked Questions | KidsGastro – Dr. Nitin Mohan, Hisar',desc:'Answers to common questions about paediatric gastroenterology consultations, appointment booking and clinic location at KidsGastro, Hisar.',h1:'Frequently Asked Questions',lead:'Helpful information about consultations with '+doctor+' and visiting KidsGastro in Hisar.',body:`<div class="route-faq-list">
+        <details><summary>Who is Dr. Nitin Mohan?</summary><div><p>${doctor} is a Consultant Paediatric Gastroenterologist, Hepatologist and Nutritionist at Churamani Multispeciality Hospital, Hisar. His qualifications include MBBS, MD (Paediatrics), FISPGHAN and MNNF.</p></div></details>
+        <details><summary>Which concerns can I discuss during a consultation?</summary><div><p>Consultations focus on paediatric digestive disorders, liver diseases, pancreatic conditions, feeding difficulties, poor weight gain and nutritional problems.</p></div></details>
+        <details><summary>Where is the clinic located?</summary><div><p>Churamani Multispeciality Hospital, Delhi Road, Camp Chowk, Krishna Nagar Colony, Hisar, Haryana 125001.</p><p><a href="/clinic/">View clinic location and map</a>.</p></div></details>
+        <details><summary>How can I book an appointment?</summary><div><p>You can request an appointment through WhatsApp or use the RezeptRx booking page.</p><p><a href="https://wa.me/919821020576?text=Hello%2C%20I%20would%20like%20to%20book%20an%20appointment%20with%20Dr.%20Nitin%20Mohan." target="_blank" rel="noopener noreferrer">Book via WhatsApp</a> · <a href="https://rezeptrx.com/dr/dr-nitin-mohan-pediatrician-hisar" target="_blank" rel="noopener noreferrer">Book via RezeptRx</a>.</p></div></details>
+        <details><summary>What information should I provide when requesting an appointment?</summary><div><p>Share your child's name and age, a brief reason for the visit, and your preferred appointment date. Avoid sending sensitive medical documents through public channels.</p></div></details>
+        <details><summary>Does this website provide emergency medical care?</summary><div><p>No. This website is for general clinic and appointment information. For an urgent or life-threatening concern, seek immediate in-person emergency medical care.</p></div></details>
+      </div><p class="route-note">These answers provide general clinic information and do not replace an individual medical assessment.</p>`
+    },
+    '/testimonials':{
+      title:'Patient and Family Testimonials | KidsGastro – Dr. Nitin Mohan',desc:'Patient and family feedback about KidsGastro and consultations with Dr. Nitin Mohan in Hisar.',h1:'Patient and Family Testimonials',lead:'This page is reserved for genuine feedback shared by patients and families.',body:`<div class="route-empty-state"><h2>Testimonials are being updated</h2><p>We will publish patient and family feedback here only when it has been provided and approved for publication. No reviews or quotations have been invented for this page.</p><a class="btn" href="/">Return to KidsGastro homepage</a></div>`
+    },
+    '/blog':{
+      title:'KidsGastro Articles and Updates | Dr. Nitin Mohan',desc:'Educational videos and updates from KidsGastro and Dr. Nitin Mohan.',h1:'KidsGastro Articles and Updates',lead:'Explore educational content and clinic updates from KidsGastro.',body:`<div class="route-card-grid">
+        <article class="route-card"><h2>KidsGastro on Instagram</h2><p>Short educational videos and updates from the clinic.</p><a href="https://www.instagram.com/kidsgastro/" target="_blank" rel="noopener noreferrer">Visit @kidsgastro ↗</a></article>
+        <article class="route-card"><h2>Watch our videos</h2><p>Browse the KidsGastro video collection.</p><a href="/latest/">Explore the KidsGastro media library</a></article>
+      </div><p class="route-note">Written articles will appear here when published. This page does not currently contain a written article archive.</p>`
+    },
+    '/publications':{
+      title:'Research Publications | Dr. Nitin Mohan',desc:'Research and academic publications by Dr. Nitin Mohan.',h1:'Research Publications',lead:'Explore the academic and research profile of '+doctor+'.',body:`<div class="route-callout"><h2>Google Scholar profile</h2><p>View the indexed research publications and citation record associated with ${doctor}.</p><a class="btn" href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">View Google Scholar ↗</a></div><p class="route-note">A verified publication list can be added to this page when the individual article details and links are supplied.</p>`
+    },
+    '/gallery':{
+      title:'KidsGastro Photo Gallery | Dr. Nitin Mohan, Hisar',desc:'Clinical work, community education and KidsGastro media gallery in Hisar.',h1:'KidsGastro Photo Gallery',lead:'Selected moments from clinical practice, professional education and community health awareness.',body:null
+    },
+    '/latest':{
+      title:'Latest from KidsGastro | Dr. Nitin Mohan',desc:'Latest KidsGastro videos, social updates and educational resources.',h1:'Latest from KidsGastro',lead:'Follow clinic updates and explore educational media from KidsGastro.',body:`<div class="route-card-grid"><article class="route-card"><h2>Instagram</h2><p>Videos and clinic updates.</p><a href="https://www.instagram.com/kidsgastro/" target="_blank" rel="noopener noreferrer">Visit Instagram ↗</a></article><article class="route-card"><h2>Google Scholar</h2><p>Academic research and publications by ${doctor}.</p><a href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">View profile ↗</a></article></div>`
+    },
+    '/clinic':{
+      title:'Clinic Location and Contact | Churamani Multispeciality Hospital, Hisar',desc:'Find Churamani Multispeciality Hospital, where Dr. Nitin Mohan consults in Hisar, Haryana.',h1:'Clinic Location and Contact',lead:'Churamani Multispeciality Hospital, Hisar, Haryana.',body:`<div class="route-clinic"><img src="${asset('churamani-hospital.png')}" alt="Entrance of Churamani Multispeciality Hospital" loading="lazy"><div><h2>Churamani Multispeciality Hospital</h2><p>Delhi Road, Camp Chowk, Krishna Nagar Colony, Hisar, Haryana 125001</p><p><a href="tel:+919821020576">+91 98210 20576</a></p><a class="btn" href="https://share.google/KXXW08EEamMg2FvRG" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></div></div>`
+    },
+    '/newsletter':{
+      title:'KidsGastro Newsletter | Dr. Nitin Mohan',desc:'Request occasional KidsGastro clinic updates and new resources.',h1:'KidsGastro Newsletter',lead:'Request occasional updates and new resources from KidsGastro.',body:`<div class="route-callout"><p>To request updates, use the newsletter form on the homepage.</p><a class="btn" href="/#newsletter">Go to newsletter form</a></div>`
+    }
+  };
+  const key=path;
+  const page=pages[key];
+  if(!page){
+    // Unknown routes must not silently render the homepage as duplicate content.
+    document.title='Page not found | KidsGastro – Dr. Nitin Mohan';
+    const robots=document.querySelector('meta[name="robots"]');if(robots)robots.content='noindex,follow';
+    main.innerHTML=`<section class="route-page"><div class="route-page-inner"><p class="eyebrow">KidsGastro</p><h1>Page not found</h1><p class="route-lead">The page you requested could not be found.</p><a class="btn" href="/">Return to homepage</a></div></section>`;
+    return;
+  }
+  document.title=page.title;
+  const setMeta=(selector,value)=>{let node=document.querySelector(selector);if(!node){node=document.createElement('meta');if(selector.includes('name='))node.name=selector.match(/name="([^"]+)/)[1];else node.setAttribute('property',selector.match(/property="([^"]+)/)[1]);document.head.appendChild(node)}node.content=value};
+  setMeta('meta[name="description"]',page.desc);
+  setMeta('meta[property="og:title"]',page.title);
+  setMeta('meta[property="og:description"]',page.desc);
+  setMeta('meta[property="og:url"]','https://drnitinmohan.com'+(path==='/'?'/':path+'/'));
+  let canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href='https://drnitinmohan.com'+path+'/';
+  const robots=document.querySelector('meta[name="robots"]');if(robots)robots.content='index,follow';
+  let body=page.body;
+  if(key==='/gallery'){
+    const source=document.querySelector('#main-image-stories');
+    const figures=source?source.querySelectorAll('figure,.photo-story,.main-image-story'):[];
+    body=source&&figures.length?`<div class="route-gallery">${[...figures].map(x=>x.outerHTML).join('')}</div>`:`<div class="route-empty-state"><h2>Gallery content is being prepared</h2><p>Photos will be added here as they are approved for publication.</p></div>`;
+  }
+  main.innerHTML=`<section class="route-page"><div class="route-page-inner"><nav class="route-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><span>${esc(page.h1)}</span></nav><p class="eyebrow">KidsGastro · ${esc(doctor)}</p><h1>${esc(page.h1)}</h1><p class="route-lead">${esc(page.lead)}</p>${body||''}<div class="route-footer-cta"><p>For appointments with ${esc(doctor)}, Churamani Multispeciality Hospital, Hisar.</p><a href="/" class="route-home-link">KidsGastro homepage</a></div></div></section>`;
+})();
+
+</script>
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
