@@ -189,8 +189,8 @@ select{cursor:pointer}
               <div id="photoImagePreviewWrap" hidden><img id="photoImagePreview" alt="Selected Photo of the Month preview" style="display:block;max-width:100%;max-height:260px;object-fit:contain;border-radius:10px;border:1px solid #dce6ed;margin-top:8px"></div>
               <button class="secondary" type="button" id="removePhotoFile" hidden style="margin-top:8px">× Remove selected image</button>
               <label for="photoDestination">Future image folder</label>
-              <input id="photoDestination" type="text" value="configuration/photo-of-the-month/" readonly>
-              <p class="hint">After creating and installing change-request.json, copy this image into that exact folder in your website clone. The website checks automatically and displays it above “Find the clinic”, together with the caption entered below.</p>
+              <input id="photoDestination" type="text" value="configuration/" readonly>
+              <p class="hint">After creating and installing change-request.json, copy this image into the configuration folder in your website clone. The website checks automatically and displays it above “Find the clinic”, together with the caption entered below.</p>
             </div>
             <div class="field full"><label for="photoCaption">Photo caption</label><textarea id="photoCaption" maxlength="400" placeholder="Write a short caption for the photo"></textarea></div>
           </div>
@@ -199,7 +199,7 @@ select{cursor:pointer}
     </section>
     <section class="section">
       <div class="section-head"><span class="num">2</span><h2>When should each change apply?</h2></div>
-      <p class="hint">Choose Permanent or Temporary separately for every change you selected. Temporary changes can share a schedule or use different schedules.</p>
+      <p class="hint">Choose Permanent or Temporary separately for every change you selected. Temporary changes can share a schedule or use different schedules. You may set a start time in the past to activate a change immediately; its end time must be in the future.</p>
       <div id="changeScheduleEditor"></div>
     </section>
     <section class="section">
@@ -496,8 +496,8 @@ select{cursor:pointer}
       const members=changedFields().filter(f=>scheduleState.settings[f.key]?.duration==='temporary'&&scheduleState.settings[f.key].groupId===group.id);
       if(!members.length)continue;
       if(!group.start||!group.end){$('status').textContent='Complete the start and end date/time for every temporary schedule.';$('status').classList.add('status-error');return;}
-      if(new Date(group.start)<=new Date()){ $('status').textContent='Every temporary schedule must start in the future.';$('status').classList.add('status-error');return;}
       if(new Date(group.end)<=new Date(group.start)){ $('status').textContent='Every temporary schedule must end after it starts.';$('status').classList.add('status-error');return;}
+      if(new Date(group.end)<=new Date()){ $('status').textContent='The end time of every temporary schedule must still be in the future. The start time may be in the past.';$('status').classList.add('status-error');return;}
       changeSchedules.groups.push({id:group.id,startDateTime:group.start,endDateTime:group.end,settings:members.map(f=>f.key)});
     }
     const durations=Object.values(changeSchedules.settings).map(x=>x.duration);
@@ -556,7 +556,7 @@ select{cursor:pointer}
     a.href = url; a.download = 'change-request.json';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     if ($('photoAction').value === 'update' && selectedPhotoFile) {
-      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = `change-request.json created. Replace configuration/change-request.json in your clone, then copy ${selectedPhotoFile.name} into configuration/photo-of-the-month/. The website will detect it automatically and display it above “Find the clinic” with your caption. The image itself is not embedded in the JSON.`;
+      $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = `change-request.json created. Replace configuration/change-request.json in your clone, then copy ${selectedPhotoFile.name} into configuration/. The website will detect it automatically and display it above “Find the clinic” with your caption. The image itself is not embedded in the JSON.`;
     } else {
       $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'change-request.json created. Replace configuration/change-request.json in your website clone with this downloaded file, then refresh the site.';
     }
