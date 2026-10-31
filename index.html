@@ -2575,6 +2575,62 @@ html:not([data-kg-settings-ready="true"]) .whatsapp-float{
 }
 </style>
 
+
+<style id="kg-apple-scroll-depth-css">
+/* Restrained Apple-inspired depth on the existing clinical photo stories.
+   Static layout remains the fallback; JavaScript only adds the motion class. */
+#main-image-stories .main-image-story-media,
+#kg-photo-of-month-section .main-image-story-media {
+  transform: none;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+#main-image-stories .main-image-story-media.kg-scroll3d-ready,
+#kg-photo-of-month-section .main-image-story-media.kg-scroll3d-ready {
+  transform:
+    perspective(1200px)
+    rotateX(var(--kg-scroll-x, 0deg))
+    rotateY(var(--kg-scroll-y, 0deg))
+    translate3d(0, var(--kg-scroll-y-shift, 0px), 0);
+  will-change: transform;
+}
+#main-image-stories .main-image-story-media.kg-scroll3d-ready img,
+#kg-photo-of-month-section .main-image-story-media.kg-scroll3d-ready img {
+  transform: translateZ(18px) scale(1.025);
+  backface-visibility: hidden;
+}
+#main-image-stories .main-image-story-media-label,
+#kg-photo-of-month-section .main-image-story-media-label {
+  transform: translateZ(28px);
+  backface-visibility: hidden;
+}
+@media (max-width: 760px) {
+  #main-image-stories .main-image-story-media.kg-scroll3d-ready,
+  #kg-photo-of-month-section .main-image-story-media.kg-scroll3d-ready {
+    transform:
+      perspective(900px)
+      rotateX(var(--kg-scroll-x, 0deg))
+      rotateY(0deg)
+      translate3d(0, var(--kg-scroll-y-shift, 0px), 0);
+  }
+  #main-image-stories .main-image-story-media.kg-scroll3d-ready img,
+  #kg-photo-of-month-section .main-image-story-media.kg-scroll3d-ready img {
+    transform: translateZ(10px) scale(1.015);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #main-image-stories .main-image-story-media,
+  #kg-photo-of-month-section .main-image-story-media,
+  #main-image-stories .main-image-story-media img,
+  #kg-photo-of-month-section .main-image-story-media img,
+  #main-image-stories .main-image-story-media-label,
+  #kg-photo-of-month-section .main-image-story-media-label {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+</style>
+
 </head><body><div aria-label="Appointment announcement" class="offline-appointment-marquee" role="region"><div class="offline-appointment-marquee__track"><span class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span><span aria-hidden="true" class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span></div></div><a class="skip-link" href="/?focus=main">Skip to content</a>
 <header class="header"><nav aria-label="Main navigation" class="nav container"><a class="brand" href="/"><img alt="Dr. Nitin Mohan KidsGastro logo" class="mark circular-brand-logo" data-embedded-logo="true" decoding="async" loading="eager" src="/assets/1000273559.webp" width="58" height="58" srcset="/assets/1000273559-192.webp 192w, /assets/1000273559-384.webp 384w" sizes="(max-width: 760px) 48px, 58px"/><span>KidsGastro by Dr. Nitin Mohan</span></a><button aria-controls="hamburger-panel" aria-expanded="false" aria-label="Open navigation" class="toggle">☰</button><div aria-hidden="true" class="hamburger-panel" hidden="" id="hamburger-panel"></div><div class="links" id="links">
 <details class="nav-dropdown"><summary>Treatments<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/treatments/"><b>Paediatric Gastroenterology</b></a><a href="/treatments/"><b>Paediatric Hepatology — Liver Diseases</b></a><a href="/treatments/"><b>Paediatric Pancreatology — Pancreatic Disorders</b></a><a href="/treatments/"><b>Paediatric Biliary Tract Diseases</b></a><a href="/treatments/"><b>Paediatric Nutrition and Growth</b></a></div></details><details class="nav-dropdown"><summary>Services<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/services/"><b>Paediatric Gastrointestinal Procedures</b></a><a href="/services/"><b>Hepatology Procedures &amp; Investigations</b></a><a href="/services/"><b>Pancreatic Investigations</b></a><a href="/services/"><b>Biliary Tract Investigations</b></a><a href="/services/"><b>Gastrointestinal Diagnostic Investigations</b></a><a href="/services/"><b>Nutrition &amp; Growth Assessment</b></a></div></details><a class="nav-direct-link" href="/faqs/"><svg aria-hidden="true" class="kg-nav-icon" focusable="false" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.4-1.8 3M12 17.2h.01"></path></svg>FAQs</a><a class="nav-direct-link" href="/blog/"><svg aria-hidden="true" class="kg-nav-icon" focusable="false" viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V21H6z"></path><path d="M15 3.5V8h4M9 12h7M9 16h7"></path></svg><span>Blog</span></a><details class="nav-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 9h8M8 12.5h5"></path></svg><span>Testimonials</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/testimonials/"><b>Patient &amp; family testimonials</b><small>Read all patient and family experiences</small></a></div></details><details class="nav-dropdown kg-gallery-nav-dropdown"><summary>Gallery<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/gallery/"><b>KidsGastro Photo Gallery</b><small>Photos and clinical activities</small></a></div></details><details class="nav-dropdown"><summary>Health Library<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/latest/"><b>Latest from KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp" width="58" height="58" srcset="/assets/1000273559-192.webp 192w, /assets/1000273559-384.webp 384w" sizes="(max-width: 760px) 48px, 58px"/></b><small>Stories, videos and audio</small></a><a href="/publications/"><b>Research articles &amp; publications</b><small>Published work by Dr. Nitin Mohan</small></a><a href="/newsletter/"><b>Family newsletter</b><small>Request clinic updates</small></a></div></details><details class="nav-dropdown"><summary>Contact Info<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="tel:+919821020576"><b>Phone</b><small>+91 98210 20576</small></a><a href="/clinic/"><b>Churamani Multispeciality Hospital</b><small>Hisar, Haryana</small></a><a href="/clinic/"><b>View map</b><small>Google Maps location</small></a></div></details><details class="nav-dropdown nav-login-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20Z"></path></svg><span>Login</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a class="kg-admin-menu-link" href="/?admin=1"><b>Login</b></a></div></details></div><form class="site-search" id="site-search" role="search"><label class="sr-only" for="site-search-input">Search this website</label><input autocomplete="off" id="site-search-input" placeholder="Search this website" type="search"/><button aria-label="Search this website" type="submit">⌕</button><span aria-live="polite" class="search-status" id="search-status" role="status"></span></form></nav></header>
@@ -6869,6 +6925,128 @@ img.kg-logo,
   }
 }
 </style>
+
+
+<script id="kg-apple-scroll-depth-script">
+(() => {
+  'use strict';
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  const selector =
+    '#main-image-stories .main-image-story-media, ' +
+    '#kg-photo-of-month-section .main-image-story-media';
+
+  const active = new Set();
+  let frame = 0;
+  let items = [];
+  let resizeObserver = null;
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+  function register(root) {
+    const found = [];
+    if (root && root.nodeType === 1 && root.matches(selector)) found.push(root);
+    if (root && root.querySelectorAll) found.push(...root.querySelectorAll(selector));
+
+    found.forEach((element) => {
+      if (element.dataset.kgScroll3d === 'ready') return;
+      element.dataset.kgScroll3d = 'ready';
+      element.classList.add('kg-scroll3d-ready');
+      items.push(element);
+      if (resizeObserver) resizeObserver.observe(element);
+      if (visibilityObserver) visibilityObserver.observe(element);
+      else active.add(element);
+    });
+    schedule();
+  }
+
+  function render() {
+    frame = 0;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewportCenter = viewportHeight * 0.5;
+
+    active.forEach((element) => {
+      if (!element.isConnected) {
+        active.delete(element);
+        return;
+      }
+
+      const rect = element.getBoundingClientRect();
+      const elementCenter = rect.top + rect.height * 0.5;
+      const progress = clamp(
+        (elementCenter - viewportCenter) / Math.max(viewportHeight * 0.78, 1),
+        -1,
+        1
+      );
+
+      const story = element.closest('.main-image-story');
+      const index = story
+        ? Array.from(story.parentElement.children).filter((node) =>
+            node.classList && node.classList.contains('main-image-story')
+          ).indexOf(story)
+        : 0;
+      const side = index % 2 === 0 ? -1 : 1;
+
+      element.style.setProperty('--kg-scroll-x', `${(-progress * 3.6).toFixed(2)}deg`);
+      element.style.setProperty('--kg-scroll-y', `${(progress * side * 1.35).toFixed(2)}deg`);
+      element.style.setProperty('--kg-scroll-y-shift', `${(-progress * 4).toFixed(1)}px`);
+    });
+  }
+
+  function schedule() {
+    if (!frame) frame = window.requestAnimationFrame(render);
+  }
+
+  const visibilityObserver = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) active.add(entry.target);
+          else active.delete(entry.target);
+        });
+        schedule();
+      }, { rootMargin: '100px 0px', threshold: 0 })
+    : null;
+
+  if ('ResizeObserver' in window) {
+    resizeObserver = new ResizeObserver(schedule);
+  }
+
+  function init() {
+    register(document);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+
+    const storySections = [
+      document.getElementById('main-image-stories'),
+      document.getElementById('kg-photo-of-month-section')
+    ].filter(Boolean);
+
+    if ('MutationObserver' in window && storySections.length) {
+      const mutationObserver = new MutationObserver((records) => {
+        records.forEach((record) => {
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) register(node);
+          });
+        });
+      });
+      storySections.forEach((section) =>
+        mutationObserver.observe(section, { childList: true, subtree: true })
+      );
+    }
+
+    schedule();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
 
 </body>
 </html>
