@@ -5311,7 +5311,8 @@ input,select,textarea{font-size:16px;max-width:100%}
  const selectors=['.header','.hero-grid > div:first-child','.newsletter-section','.social-intro','.footer-contact-band','.footer-bottom'];
  const panels=[];let W=0,H=0,D=1,raf=0,last=0,scrollQueued=false;
  function makePanel(el){
-  const count=el.matches('.header')?7:(el.matches('.social-intro')?9:(el.matches('.footer-bottom')?6:7));
+  const baseCount=el.matches('.header')?7:(el.matches('.social-intro')?9:(el.matches('.footer-bottom')?6:7));
+  const count=Math.max(1,Math.round(baseCount*.5));
   const cols=Math.ceil(Math.sqrt(count*1.35)),rows=Math.ceil(count/cols);
   const bodies=Array.from({length:count},(_,i)=>{
    const col=i%cols,row=Math.floor(i/cols);
@@ -5328,7 +5329,7 @@ input,select,textarea{font-size:16px;max-width:100%}
     secondaryTilt:rand(-1.4,1.4),secondaryScale:rand(1.12,1.55)
    };
   });
-  const sparks=Array.from({length:38},()=>({x:rand(.025,.975),y:rand(.04,.96),phase:rand(0,TAU),speed:rand(.22,.72),size:rand(.45,1.15),streak:Math.random()<.16?1:0}));
+  const sparks=Array.from({length:46},()=>({x:rand(.025,.975),y:rand(.04,.96),phase:rand(0,TAU),speed:rand(.22,.72),size:rand(.45,1.15),streak:Math.random()<.16?1:0}));
   return {el,bodies,collisionPairs:Object.create(null),collisionEffects:[],iss:rand(0,TAU),voyager:null,ship:null,shuttle:null,satellite:null,nextSatellite:performance.now()+rand(3500,6500),asteroid:null,nextAsteroid:performance.now()+rand(900,1800),hubble:null,nextHubble:performance.now()+rand(5000,9000),orion:null,nextOrion:performance.now()+rand(4000,7500),halley:null,nextHalley:performance.now()+rand(7000,12000),nextShuttle:performance.now()+rand(2200,4800),nextVoyager:performance.now()+rand(...CONFIG.voyagerInitialDelay),nextShip:performance.now()+rand(...CONFIG.starshipInitialDelay),r:null,blocked:[],safePoints:[],sparks};
  }
  function scan(){
@@ -5345,27 +5346,21 @@ input,select,textarea{font-size:16px;max-width:100%}
    // Protect every KidsGastro logo/brand mark wherever it appears.
    '.kg-logo','.circular-brand-logo','.kg-logo-header','.kg-logo-secondary',
    '.kg-logo-newsletter','.header .brand','.footer-brand','.footer .brand',
-   // The newsletter's Request updates action must remain completely clear.
+   // Keep the newsletter email-entry field and Request updates action clear.
+   '#newsletter-email',
+   '.newsletter-controls input[type="email"]',
    '.newsletter-controls button[type="submit"]',
    '.newsletter-controls button'
   ].join(',');
   const protectedNodes=[...document.querySelectorAll(protectedSelectors)];
   const menuNodes=[...document.querySelectorAll([
    '.header .toggle',
-   '.header #links','.header #links *',
-   '.header .links','.header .links *',
-   '.header .hamburger-panel','.header .hamburger-panel *',
-   '.header [role="menu"]','.header [role="menu"] *',
-   '.header [role="menuitem"]',
-   '.header [aria-expanded="true"]',
-   '.header details','.header details[open]',
-   '.header details[open] *',
-   '.header .nav-dropdown','.header .nav-dropdown *',
-   '.header .nav-dropdown-menu','.header .nav-dropdown-menu *',
-   '.header .dropdown','.header .dropdown *',
-   '.header .dropdown-menu','.header .dropdown-menu *',
-   '.header .submenu','.header .submenu *',
-   '.header .nav','.header .nav *'
+   // Only the visible expanded menu surface is shielded. Never shield
+   // the parent .nav/header: blue panels underneath must keep animating.
+   '.header #links.open',
+   '.header .links.open',
+   '.header .hamburger-panel:not([hidden])',
+   '.header [role="menu"]:not([hidden])'
   ].join(','))];
   // Build one union rectangle around the complete hamburger control and every
   // expanded-menu child. A single union avoids XOR gaps where exclusion boxes overlap.
@@ -5542,7 +5537,13 @@ input,select,textarea{font-size:16px;max-width:100%}
  function drawPanel(panel,dt,now,animate){
   const r=panel.r;if(!r||r.width<80||r.height<45||r.bottom<0||r.top>H)return;
   const x0=clamp(r.left,0,W),y0=clamp(r.top,0,H),x1=clamp(r.right,0,W),y1=clamp(r.bottom,0,H);if(x1<=x0||y1<=y0)return;
-  ctx.save();ctx.beginPath();ctx.rect(x0,y0,x1-x0,y1-y0);panel.blocked.forEach(b=>ctx.rect(b.left,b.top,b.right-b.left,b.bottom-b.top));ctx.clip('evenodd');
+  // Hard boundary: every cosmic effect is clipped to the inside of its own
+  // blue panel. A tiny inset prevents antialiased edge pixels from spilling
+  // onto the surrounding white page; blocked controls remain cut out.
+  const clipInset=1.5,clipLeft=x0+clipInset,clipTop=y0+clipInset;
+  const clipRight=x1-clipInset,clipBottom=y1-clipInset;
+  if(clipRight<=clipLeft||clipBottom<=clipTop)return;
+  ctx.save();ctx.beginPath();ctx.rect(clipLeft,clipTop,clipRight-clipLeft,clipBottom-clipTop);panel.blocked.forEach(b=>ctx.rect(b.left,b.top,b.right-b.left,b.bottom-b.top));ctx.clip('evenodd');
   const cx=(x0+x1)/2,cy=(y0+y1)/2,scale=Math.min(r.width,r.height),small=r.height<95;
   // Collect only moving animated bodies; proximity checks happen after their
   // positions are updated so incidental visual intersections can be detected.
