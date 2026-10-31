@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-31T10:39:09.097Z",
+  "createdAt": "2026-10-31T11:20:52.173Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -16,25 +16,21 @@
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "yes",
     "changeAnnouncement": "yes",
-    "announcementMode": "edit",
+    "announcementMode": "restore_default",
     "mainStripBackgroundColor": "#ffc400",
     "photoOfMonthAction": "update",
     "updatePhotoOfMonth": "yes",
     "disablePhotoOfMonth": "no",
     "settingActions": {
-      "appointmentButton": "continue",
+      "appointmentButton": "disable",
       "whatsappBookingOption": "continue",
       "rezepRxBookingOption": "continue",
-      "announcementMarquee": "continue",
-      "photoOfTheMonth": "update"
+      "announcementMarquee": "restore_default",
+      "photoOfTheMonth": "continue"
     }
   },
   "changeSchedules": {
     "settings": {
-      "appointmentButton": {
-        "duration": "temporary",
-        "scheduleGroupId": "schedule-1"
-      },
       "whatsappBookingOption": {
         "duration": "temporary",
         "scheduleGroupId": "schedule-1"
@@ -43,13 +39,17 @@
         "duration": "temporary",
         "scheduleGroupId": "schedule-1"
       },
-      "announcementMarquee": {
-        "duration": "permanent",
-        "scheduleGroupId": null
-      },
       "photoOfTheMonth": {
         "duration": "permanent",
         "scheduleGroupId": null
+      },
+      "appointmentButton": {
+        "duration": "temporary",
+        "scheduleGroupId": "new-schedule-1"
+      },
+      "announcementMarquee": {
+        "duration": "temporary",
+        "scheduleGroupId": "new-schedule-1"
       }
     },
     "groups": [
@@ -58,16 +58,24 @@
         "startDateTime": "2026-10-31T15:23",
         "endDateTime": "2026-11-01T23:59",
         "settings": [
-          "appointmentButton",
           "whatsappBookingOption",
           "rezepRxBookingOption"
+        ]
+      },
+      {
+        "id": "new-schedule-1",
+        "startDateTime": "2026-10-31T15:48",
+        "endDateTime": "2026-11-01T03:59",
+        "settings": [
+          "appointmentButton",
+          "announcementMarquee"
         ]
       }
     ],
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "Appointments will be unavailable for 2 days (31/10/26 - 1/11/26)                            Kindly cooperate",
+    "announcementText": "",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "mainStripTextColor": "#0759a8",
     "mainStripBackgroundColor": "#ffc400",
@@ -81,7 +89,7 @@
     },
     "announcementMarqueeSpeedsSeconds": {
       "standardStrip": 83,
-      "customStrip": 9
+      "customStrip": 83
     },
     "photoOfMonthAction": "update",
     "photoOfMonth": "configuration/photo-of-the-month/abcd.jpg",
@@ -98,9 +106,16 @@
         "startDateTime": "2026-10-31T15:23",
         "endDateTime": "2026-11-01T23:59",
         "settings": [
-          "appointmentButton",
           "whatsappBookingOption",
           "rezepRxBookingOption"
+        ]
+      },
+      {
+        "startDateTime": "2026-10-31T15:48",
+        "endDateTime": "2026-11-01T03:59",
+        "settings": [
+          "appointmentButton",
+          "announcementMarquee"
         ]
       }
     ],
@@ -108,13 +123,13 @@
   },
   "mergeMetadata": {
     "baselineFile": "change-request.json",
-    "generatedAt": "2026-10-31T10:39:09.096Z",
+    "generatedAt": "2026-10-31T11:20:52.172Z",
     "actions": {
-      "appointmentButton": "continue",
+      "appointmentButton": "disable",
       "whatsappBookingOption": "continue",
       "rezepRxBookingOption": "continue",
-      "announcementMarquee": "continue",
-      "photoOfTheMonth": "update"
+      "announcementMarquee": "restore_default",
+      "photoOfTheMonth": "continue"
     },
     "note": "Settings marked continue were carried forward from the loaded previous configuration where available."
   }
