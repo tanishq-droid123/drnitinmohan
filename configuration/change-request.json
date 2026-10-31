@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-30T22:46:30.540Z",
+  "createdAt": "2026-10-31T09:53:31.525Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -17,8 +17,10 @@
     "hideWhatsAppButton": "yes",
     "changeAnnouncement": "yes",
     "announcementMode": "edit",
-    "mainStripBackgroundColor": "#ffffff",
-    "updatePhotoOfMonth": "unchanged"
+    "mainStripBackgroundColor": "#ffc400",
+    "photoOfMonthAction": "unchanged",
+    "updatePhotoOfMonth": "no",
+    "disablePhotoOfMonth": "no"
   },
   "changeSchedules": {
     "settings": {
@@ -35,60 +37,59 @@
         "scheduleGroupId": "schedule-1"
       },
       "announcementMarquee": {
-        "duration": "temporary",
-        "scheduleGroupId": "schedule-1"
+        "duration": "permanent",
+        "scheduleGroupId": null
       }
     },
     "groups": [
       {
         "id": "schedule-1",
-        "startDateTime": "2026-10-31T04:20",
+        "startDateTime": "2026-10-31T15:23",
         "endDateTime": "2026-11-01T23:59",
         "settings": [
           "appointmentButton",
           "whatsappBookingOption",
-          "rezepRxBookingOption",
-          "announcementMarquee"
+          "rezepRxBookingOption"
         ]
       }
     ],
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "Appointments will be unavailable for 2 days (31/10/26 - 1/11/26)              Kindly cooperate",
+    "announcementText": "Appointments will be unavailable for 2 days (31/10/26 - 1/11/26)                            Kindly cooperate",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "mainStripTextColor": "#0759a8",
-    "mainStripBackgroundColor": "#ffffff",
+    "mainStripBackgroundColor": "#ffc400",
     "announcementTextColors": {
       "defaultStrip": "#0759a8",
-      "customStrip": "#d21e4b"
+      "customStrip": "#0759a8"
     },
     "announcementBackgroundColors": {
-      "mainStrip": "#ffffff",
+      "mainStrip": "#ffc400",
       "secondStrip": "#f3a6c8"
     },
     "announcementMarqueeSpeedsSeconds": {
       "standardStrip": 83,
-      "customStrip": 11
+      "customStrip": 9
     },
+    "photoOfMonthAction": "unchanged",
     "photoOfMonth": "",
     "photoOfMonthFileName": "",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
     "photoCaption": "",
     "otherInstructions": ""
   },
-  "duration": "temporary",
+  "duration": "mixed",
   "schedule": {
-    "type": "temporary",
+    "type": "mixed",
     "periods": [
       {
-        "startDateTime": "2026-10-31T04:20",
+        "startDateTime": "2026-10-31T15:23",
         "endDateTime": "2026-11-01T23:59",
         "settings": [
           "appointmentButton",
           "whatsappBookingOption",
-          "rezepRxBookingOption",
-          "announcementMarquee"
+          "rezepRxBookingOption"
         ]
       }
     ],

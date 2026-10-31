@@ -6384,3 +6384,49 @@ img.kg-logo,
 }
 </style>
 
+
+
+<style id="kg-hamburger-persistent-scrollbar-fix">
+@media(max-width:760px){
+  .header #links.open{position:absolute!important;overflow-y:auto!important;overflow-x:hidden!important;padding-right:24px!important;scrollbar-width:none!important;-ms-overflow-style:none!important;}
+  .header #links.open::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+  .header #links .kg-menu-scrollbar{position:absolute;top:8px;right:5px;bottom:8px;width:9px;z-index:20000;display:none;border-radius:9px;background:#e5edf4;touch-action:none;pointer-events:auto}
+  .header #links.open .kg-menu-scrollbar{display:block}
+  .header #links .kg-menu-scrollbar-thumb{position:absolute;top:0;left:1px;width:7px;min-height:28px;border-radius:8px;background:#0759a8;border:1px solid #e5edf4;box-shadow:0 0 0 1px #0759a833;touch-action:none}
+}
+</style>
+<script id="kg-hamburger-persistent-scrollbar-js">
+(function(){
+  function init(){
+    const panel=document.querySelector('.header #links');
+    if(!panel||panel.dataset.persistentScrollbar==='true')return;
+    panel.dataset.persistentScrollbar='true';
+    const rail=document.createElement('div');rail.className='kg-menu-scrollbar';rail.setAttribute('aria-hidden','true');
+    const thumb=document.createElement('div');thumb.className='kg-menu-scrollbar-thumb';rail.appendChild(thumb);panel.appendChild(rail);
+    let dragging=false,startY=0,startScroll=0;
+    function update(){
+      const visible=panel.clientHeight,full=panel.scrollHeight,track=rail.clientHeight;
+      if(!visible||!track||full<=visible+2){rail.style.opacity='0';return;}
+      rail.style.opacity='1';
+      const h=Math.max(28,track*visible/full),travel=Math.max(0,track-h);
+      const top=(panel.scrollTop/Math.max(1,full-visible))*travel;
+      thumb.style.height=h+'px';thumb.style.transform='translateY('+top+'px)';
+    }
+    panel.addEventListener('scroll',update,{passive:true});
+    const observer=new MutationObserver(()=>requestAnimationFrame(update));observer.observe(panel,{childList:true,subtree:true,attributes:true,attributeFilter:['open','class','style']});
+    if('ResizeObserver' in window){const ro=new ResizeObserver(update);ro.observe(panel);}
+    rail.addEventListener('pointerdown',function(e){
+      if(!panel.classList.contains('open'))return;
+      e.preventDefault();e.stopPropagation();dragging=true;startY=e.clientY;startScroll=panel.scrollTop;
+      rail.setPointerCapture?.(e.pointerId);
+      if(e.target!==thumb){const rect=rail.getBoundingClientRect();const ratio=Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height));panel.scrollTop=ratio*(panel.scrollHeight-panel.clientHeight);startY=e.clientY;startScroll=panel.scrollTop;}
+    });
+    rail.addEventListener('pointermove',function(e){if(!dragging)return;e.preventDefault();e.stopPropagation();const travel=Math.max(1,rail.clientHeight-thumb.offsetHeight);const ratio=(panel.scrollHeight-panel.clientHeight)/travel;panel.scrollTop=startScroll+(e.clientY-startY)*ratio;});
+    const end=()=>{dragging=false};rail.addEventListener('pointerup',end);rail.addEventListener('pointercancel',end);rail.addEventListener('lostpointercapture',end);
+    rail.addEventListener('click',e=>{e.preventDefault();e.stopPropagation()});
+    window.addEventListener('resize',update,{passive:true});
+    update();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
