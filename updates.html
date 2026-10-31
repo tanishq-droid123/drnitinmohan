@@ -118,6 +118,29 @@ select{cursor:pointer}
 .speed-row{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .speed-range-labels{display:flex;justify-content:space-between;width:min(100%,360px);max-width:360px}
 
+
+/* Previous-configuration comparison */
+.baseline-panel{padding:15px;border:1px solid #b8d2e5;background:#f2f8fd;border-radius:12px;margin:0 0 22px}
+.baseline-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.baseline-panel h3{margin:0;color:#173e61;font-size:1rem}
+.baseline-panel p{margin:6px 0;color:var(--muted);font-size:.84rem}
+.baseline-file{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.baseline-file input{flex:1;min-width:220px;background:#fff}
+.baseline-status{margin-top:10px;padding:10px 12px;border-radius:8px;background:#fff;border:1px solid var(--line);font-size:.84rem}
+.previous-meta{font-size:.76rem;color:#536b7c;line-height:1.45;margin-top:2px}
+.previous-meta strong{color:#24465c}
+.control select{min-height:42px}
+.merge-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.merge-chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.78rem}
+.merge-chip strong{display:block;font-size:1rem;color:#173e61}
+@media(max-width:600px){.merge-summary{grid-template-columns:1fr}}
+
+
+.baseline-file{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.fallback-upload{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:.82rem;color:var(--muted)}
+.fallback-upload input{max-width:220px;padding:5px;border:0;font-size:.78rem}
+#refreshLiveSettings{white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -128,6 +151,26 @@ select{cursor:pointer}
 </header>
 <main>
 <form id="requestForm">
+    <section class="baseline-panel" aria-labelledby="baselineTitle">
+      <div class="baseline-head">
+        <h3 id="baselineTitle">Previous settings</h3>
+        <span class="kicker" style="color:#0759a8">Compare & preserve</span>
+      </div>
+      <p>The form first checks your live website for its latest successfully applied settings. It then shows ON/OFF status, permanent or temporary duration, and expiry dates. Leave a setting on “Continue” to preserve it.</p>
+      <div class="baseline-file">
+        <button class="primary" type="button" id="refreshLiveSettings">↻ Fetch live settings</button>
+        <label class="fallback-upload" for="previousJsonFile">Manual backup: <input id="previousJsonFile" type="file" accept=".json,application/json" aria-label="Load previous applied JSON"></label>
+        <button class="secondary" type="button" id="clearPreviousJson">Clear saved backup</button>
+        <button class="secondary" type="button" id="markApplied" disabled>Save generated JSON on this device</button>
+      </div>
+      <div id="baselineStatus" class="baseline-status" role="status" aria-live="polite">Checking the live website settings…</div>
+      <p class="hint">Live settings file: <code>/configuration/current-state.json</code>. If it is unavailable, use the manual JSON backup.</p>
+      <div class="merge-summary" id="mergeSummary" hidden>
+        <div class="merge-chip"><strong id="preservedCount">0</strong> settings preserved</div>
+        <div class="merge-chip"><strong id="changedCount">0</strong> new changes</div>
+        <div class="merge-chip"><strong id="temporaryCount">0</strong> temporary schedules carried forward</div>
+      </div>
+    </section>
     <section class="section">
       <div class="section-head"><span class="num">1</span><h2>Website settings</h2></div>
       <p class="hint">Change only the items you select. Everything else stays as it is.</p>
@@ -135,16 +178,16 @@ select{cursor:pointer}
       <div class="subpanel">
         <h3 class="group-title">Appointment booking</h3>
         <div class="control-grid">
-          <div class="control"><label for="appointment">Appointment button</label><select id="appointment"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable (keep visible)</option></select></div>
-          <div class="control"><label for="whatsappBooking">WhatsApp booking option</label><select id="whatsappBooking"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable</option></select></div>
-          <div class="control"><label for="rezeptrx">RezeptRX booking option</label><select id="rezeptrx"><option value="unchanged" selected>Enable (default)</option><option value="disable">Disable</option></select></div>
+          <div class="control"><label for="appointment">Appointment button</label><select id="appointment"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable (keep visible)</option></select><div class="previous-meta" id="appointmentPrevious">Previous setting: not loaded</div></div>
+          <div class="control"><label for="whatsappBooking">WhatsApp booking option</label><select id="whatsappBooking"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="whatsappBookingPrevious">Previous setting: not loaded</div></div>
+          <div class="control"><label for="rezeptrx">RezeptRX booking option</label><select id="rezeptrx"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="rezeptrxPrevious">Previous setting: not loaded</div></div>
         </div>
         <p class="hint group-hint">These two booking options appear inside the appointment button menu. Disabling the appointment button automatically disables both options; the button itself remains visible.</p>
       </div>
 
       <div class="subpanel">
         <h3 class="group-title">Announcement marquee</h3>
-        <div class="control" style="margin-bottom:12px"><label for="announcementAction">What would you like to do?</label><select id="announcementAction"><option value="unchanged">No change to announcement</option><option value="edit">Edit the main strip</option><option value="add">Add a second strip below it</option><option value="restore_default">Restore the website default main strip</option></select><p class="hint">“Restore the website default” resets the main strip to the original default text, colours and speed, and removes any additional strip.</p></div>
+        <div class="control" style="margin-bottom:12px"><label for="announcementAction">What would you like to do?</label><select id="announcementAction"><option value="unchanged">No change to announcement</option><option value="edit">Edit the main strip</option><option value="add">Add a second strip below it</option><option value="restore_default">Restore the website default main strip</option></select><div class="previous-meta" id="announcementActionPrevious">Previous setting: not loaded</div><p class="hint">“Restore the website default” resets the main strip to the original default text, colours and speed, and removes any additional strip.</p></div>
         <div class="conditional" id="announcementPanel" hidden>
           
           </div>
@@ -178,7 +221,7 @@ select{cursor:pointer}
 
       <div class="subpanel">
         <h3 class="group-title">Photo of the Month</h3>
-        <div class="control" style="margin-bottom:12px"><label for="photoAction">What would you like to do?</label><select id="photoAction"><option value="unchanged" selected>Continue displaying the current Photo of the Month (default)</option><option value="update">Update Photo of the Month</option><option value="disable">Disable Photo of the Month</option></select></div>
+        <div class="control" style="margin-bottom:12px"><label for="photoAction">What would you like to do?</label><select id="photoAction"><option value="unchanged" selected>Continue last setting</option><option value="update">Update Photo of the Month</option><option value="disable">Disable Photo of the Month</option></select><div class="previous-meta" id="photoActionPrevious">Previous setting: not loaded</div></div>
         <p class="hint">The default keeps the currently published photo unchanged. Choose Update to upload a replacement, or Disable to stop displaying the Photo of the Month.</p>
         <div class="conditional" id="photoPanel" hidden>
           <div class="field-grid">
@@ -226,6 +269,147 @@ select{cursor:pointer}
   const form = $('requestForm');
   let selectedPhotoFile = null;
   let selectedPhotoPreviewUrl = null;
+  let previousConfig = null;
+  let previousFileName = '';
+  let lastGeneratedConfig = null;
+  const BASELINE_STORAGE_KEY = 'kidsGastroLastAppliedConfigurationV1';
+  // The deployment workflow must write the active-state snapshot to this same-origin URL.
+  const CURRENT_STATE_URL = '/configuration/current-state.json';
+
+  const yes = v => v === true || v === 'yes' || v === 'true' || v === 1 || v === '1' || v === 'enabled' || v === 'on';
+  const no = v => v === false || v === 'no' || v === 'false' || v === 0 || v === '0' || v === 'disabled' || v === 'off';
+  const firstDefined = (...values) => values.find(v => v !== undefined && v !== null);
+  function readPreviousState(config, key) {
+    const c = config?.changes || {};
+    const d = config?.details || {};
+    const direct = config?.activeConfiguration || config?.configuration || config?.settings || {};
+    const schedules = config?.changeSchedules || {};
+    const scheduleSettings = schedules.settings || {};
+    const scheduleKey = ({appointmentButton:'appointmentButton',whatsappBookingOption:'whatsappBookingOption',rezepRxBookingOption:'rezepRxBookingOption',announcementMarquee:'announcementMarquee',photoOfTheMonth:'photoOfTheMonth'})[key] || key;
+    let enabled = null;
+    if (key === 'appointmentButton') {
+      if (yes(firstDefined(c.enableAppointmentButton, direct.appointmentButton?.enabled, direct.appointmentButton))) enabled = true;
+      else if (yes(firstDefined(c.disableAppointmentButton, direct.appointmentButton?.disabled))) enabled = false;
+      else if (no(firstDefined(c.enableAppointmentButton)) && yes(c.disableAppointmentButton)) enabled = false;
+    } else if (key === 'whatsappBookingOption') {
+      if (yes(firstDefined(c.enableWhatsAppBookingOption, c.showWhatsAppButton, direct.whatsappBookingOption?.enabled, direct.whatsappBookingOption))) enabled = true;
+      else if (yes(firstDefined(c.disableWhatsAppBookingOption, c.hideWhatsAppButton, direct.whatsappBookingOption?.disabled))) enabled = false;
+    } else if (key === 'rezepRxBookingOption') {
+      if (yes(firstDefined(c.enableRezeptRxBookingOption, direct.rezepRxBookingOption?.enabled, direct.rezepRxBookingOption))) enabled = true;
+      else if (yes(firstDefined(c.disableRezeptRxBookingOption, direct.rezepRxBookingOption?.disabled))) enabled = false;
+    } else if (key === 'photoOfTheMonth') {
+      const action = firstDefined(c.photoOfMonthAction, d.photoOfMonthAction, direct.photoOfTheMonth?.action);
+      if (action === 'disable' || yes(firstDefined(c.disablePhotoOfMonth, direct.photoOfTheMonth?.disabled)) || direct.photoOfMonthDisabled === true) enabled = false;
+      else if (action === 'update' || action === 'unchanged' && (d.photoOfMonth || d.photoOfMonthFileName || direct.photoOfTheMonth?.src)) enabled = true;
+      else if (typeof direct.photoOfTheMonth?.enabled === 'boolean') enabled = direct.photoOfTheMonth.enabled;
+      else if (typeof direct.photoOfMonthDisabled === 'boolean') enabled = !direct.photoOfMonthDisabled;
+    } else if (key === 'announcementMarquee') {
+      const action = firstDefined(c.announcementMode, direct.announcementMarquee?.action);
+      if (action === 'disable' || yes(d.announcementDisabled)) enabled = false;
+      else if (yes(c.changeAnnouncement) || action) enabled = true;
+      else if (typeof direct.announcementMarquee?.enabled === 'boolean') enabled = direct.announcementMarquee.enabled;
+    }
+    const st = scheduleSettings[scheduleKey] || scheduleSettings[key] || {};
+    let duration = st.duration || null, endAt = null, startAt = null;
+    const groups = schedules.groups || [];
+    let groupId = st.scheduleGroupId || st.groupId;
+    let group = groups.find(g => g.id === groupId);
+    if (!group && Array.isArray(config?.schedule?.periods)) {
+      const period = config.schedule.periods.find(p => (p.settings || []).includes(scheduleKey) || (p.settings || []).includes(key));
+      if (period) { group = period; duration = 'temporary'; }
+    }
+    if (group) { startAt = group.startDateTime || group.start || null; endAt = group.endDateTime || group.end || null; duration = 'temporary'; }
+    if (!duration && config?.duration) duration = config.duration === 'mixed' ? null : config.duration;
+    if (!duration && config?.schedule?.type) duration = config.schedule.type === 'mixed' ? null : config.schedule.type;
+    const expired = endAt ? new Date(endAt).getTime() <= Date.now() : false;
+    return {enabled,duration:duration || 'unknown',startAt,endAt,expired};
+  }
+  function formatDate(value) {
+    if (!value) return '';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return value;
+    return d.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata'});
+  }
+  function updatePreviousLabels() {
+    const ids = {
+      appointment:'appointmentButton', whatsappBooking:'whatsappBookingOption',
+      rezeptrx:'rezepRxBookingOption', photoAction:'photoOfTheMonth', announcementAction:'announcementMarquee'
+    };
+    Object.entries(ids).forEach(([id,key])=>{
+      const el=$(id+'Previous'); if(!el) return;
+      if(!previousConfig){el.textContent='Previous setting: not loaded';return;}
+      const state=readPreviousState(previousConfig,key);
+      let label=state.enabled===null?'State not found in loaded JSON':(state.enabled?'ON':'OFF');
+      let timing=state.duration==='temporary'?'Temporary':state.duration==='permanent'?'Permanent':'Duration not found';
+      let expiry=state.duration==='temporary'?(state.endAt?` · ends ${formatDate(state.endAt)}${state.expired?' (expired)':''}`:' · end date unavailable'):'';
+      const priorDate=firstDefined(previousConfig?.appliedAt,previousConfig?.createdAt,previousConfig?.updatedAt);
+      const dateLabel=priorDate?` · JSON date ${formatDate(priorDate)}`:'';
+      const selected=$(id).value;
+      const requested=selected==='unchanged'?'Your choice: Continue':`Your choice: ${selected==='enable'?'Enable':selected==='disable'?'Disable':selected==='update'?'Update photo':selected==='edit'?'Edit':selected==='add'?'Add second strip':selected==='restore_default'?'Restore default':selected}`;
+      el.textContent=`Previous state: ${label} · ${timing}${expiry}${dateLabel} · ${requested}`;
+    });
+  }
+  function loadPreviousJsonObject(obj,name='previous JSON') {
+    if(!obj || typeof obj!=='object' || Array.isArray(obj)) throw new Error('The selected file is not a JSON configuration object.');
+    previousConfig=obj; previousFileName=name;
+    try { localStorage.setItem(BASELINE_STORAGE_KEY, JSON.stringify({name,config:obj})); } catch(e) {}
+    $('baselineStatus').textContent=`Loaded ${name}. Previous settings are shown below. “Continue last setting” will carry forward settings found in this file.`;
+    $('baselineStatus').style.borderColor='#9cc9ad';
+    updatePreviousLabels();
+  }
+  async function fetchLiveSettings() {
+    const button = $('refreshLiveSettings');
+    button.disabled = true;
+    button.textContent = 'Fetching live settings…';
+    $('baselineStatus').textContent = 'Connecting to the live website settings file…';
+    try {
+      const response = await fetch(`${CURRENT_STATE_URL}?_=${Date.now()}`, {
+        method: 'GET', cache: 'no-store', credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!response.ok) throw new Error(`Server returned ${response.status} ${response.statusText || ''}`.trim());
+      const obj = await response.json();
+      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('The live settings file is not a JSON object.');
+      if (obj.snapshotType !== 'active-website-state') {
+        throw new Error('The file exists, but it is not marked as an active-website-state snapshot. The deployment workflow must publish the latest applied state in the documented format.');
+      }
+      if (!obj.activeConfiguration && !obj.configuration && !obj.settings) {
+        throw new Error('The active settings snapshot is missing activeConfiguration.');
+      }
+      const appliedAt = obj.appliedAt || obj.updatedAt || obj.createdAt;
+      loadPreviousJsonObject(obj, `live website settings${appliedAt ? ` · applied ${formatDate(appliedAt)}` : ''}`);
+      $('baselineStatus').textContent = `Live settings fetched successfully${appliedAt ? ` · last applied ${formatDate(appliedAt)}` : ''}. “Continue” will preserve these settings.`;
+      $('baselineStatus').style.borderColor = '#9cc9ad';
+      return true;
+    } catch (err) {
+      const saved = (() => { try { return JSON.parse(localStorage.getItem(BASELINE_STORAGE_KEY) || 'null'); } catch(e) { return null; } })();
+      if (saved?.config) {
+        previousConfig = saved.config;
+        previousFileName = saved.name || 'saved local backup';
+        updatePreviousLabels();
+        $('baselineStatus').textContent = `Could not fetch live settings (${err.message}). Using the saved local backup: ${previousFileName}. You can upload a newer applied JSON if needed.`;
+      } else {
+        $('baselineStatus').textContent = `Could not fetch live settings (${err.message}). No saved backup is available yet. Use the manual JSON upload, or configure your deployment workflow to publish ${CURRENT_STATE_URL}.`;
+        $('baselineStatus').style.borderColor = '#d98b84';
+      }
+      return false;
+    } finally {
+      button.disabled = false;
+      button.textContent = '↻ Fetch live settings';
+    }
+  }
+  $('refreshLiveSettings').addEventListener('click', fetchLiveSettings);
+  $('previousJsonFile').addEventListener('change', async e=>{
+    const file=e.target.files?.[0]; if(!file)return;
+    try { const obj=JSON.parse(await file.text()); loadPreviousJsonObject(obj,file.name); }
+    catch(err){ $('baselineStatus').textContent=`Could not read this JSON: ${err.message}`; $('baselineStatus').style.borderColor='#d98b84'; previousConfig=null; updatePreviousLabels(); }
+  });
+  $('clearPreviousJson').addEventListener('click',()=>{
+    previousConfig=null; previousFileName=''; $('previousJsonFile').value='';
+    try { localStorage.removeItem(BASELINE_STORAGE_KEY); } catch(e) {}
+    $('baselineStatus').textContent='Previous JSON cleared. New selections will be generated without carrying forward previous settings.';
+    $('baselineStatus').style.borderColor=''; updatePreviousLabels();
+  });
   $('photoFile').addEventListener('change', () => {
     selectedPhotoFile = $('photoFile').files && $('photoFile').files[0] ? $('photoFile').files[0] : null;
     $('photoFileInfo').textContent = selectedPhotoFile
@@ -268,7 +452,7 @@ select{cursor:pointer}
   let scheduleGroupSequence = 0;
   const changedFields = () => scheduleFields.filter(f => $(f.id).value !== 'unchanged');
   const makeGroup = () => {
-    const id='schedule-'+(++scheduleGroupSequence);
+    const id='new-schedule-'+(++scheduleGroupSequence);
     scheduleState.groups.push({id});
     return id;
   };
@@ -362,6 +546,7 @@ select{cursor:pointer}
     toggle('photoPanel', $('photoAction').value === 'update');
     renderChangeScheduleEditor();
     updateAnnouncementPreview();
+    updatePreviousLabels();
   };
   ['appointment','whatsappBooking','rezeptrx','announcementAction','photoAction'].forEach(id => $(id).addEventListener('change', refresh));
   const DEFAULT_ANNOUNCEMENT = 'OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.';
@@ -484,8 +669,8 @@ select{cursor:pointer}
       return;
     }
     $('requestPassword').removeAttribute('aria-invalid');
-    if (!changedFields().length) {
-      $('status').textContent = 'Select at least one website change before creating change-request.json.';
+    if (!changedFields().length && !previousConfig) {
+      $('status').textContent = 'Load a previous JSON to carry it forward, or select at least one new website change.';
       $('status').classList.add('status-error');
       return;
     }
@@ -510,7 +695,7 @@ select{cursor:pointer}
     const durations=Object.values(changeSchedules.settings).map(x=>x.duration);
     const duration=durations.length&&durations.every(x=>x==='temporary')?'temporary':durations.length&&durations.every(x=>x==='permanent')?'permanent':'mixed';
     const periods=changeSchedules.groups.map(g=>({startDateTime:g.startDateTime,endDateTime:g.endDateTime,settings:g.settings}));
-    const changes = {
+    const newChanges = {
       enableAppointmentButton: $('appointment').value === 'enable' ? 'yes' : 'no',
       disableAppointmentButton: $('appointment').value === 'disable' ? 'yes' : 'no',
       enableWhatsAppBookingOption: $('whatsappBooking').value === 'enable' ? 'yes' : 'no',
@@ -526,6 +711,130 @@ select{cursor:pointer}
       updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'no',
       disablePhotoOfMonth: $('photoAction').value === 'disable' ? 'yes' : 'no'
     };
+
+    // Merge the incoming request with the previously loaded configuration.
+    // "unchanged" means preserve the prior request/configuration values, not reset them.
+    const oldChanges = previousConfig?.changes || {};
+    const changes = {...oldChanges};
+    // If an active-configuration JSON was loaded instead of a prior request JSON,
+    // translate its readable ON/OFF state into the request's legacy yes/no fields.
+    if (previousConfig) {
+      const synthesize = (key, onField, offField, extraOn=[]) => {
+        const hasExistingAction = yes(oldChanges[onField]) || yes(oldChanges[offField]) || extraOn.some(k=>yes(oldChanges[k]));
+        if (hasExistingAction) return;
+        const state = readPreviousState(previousConfig,key);
+        if (state.enabled === true) { changes[onField]='yes'; changes[offField]='no'; extraOn.forEach(k=>changes[k]='yes'); }
+        else if (state.enabled === false) { changes[onField]='no'; changes[offField]='yes'; extraOn.forEach(k=>changes[k]='no'); }
+      };
+      synthesize('appointmentButton','enableAppointmentButton','disableAppointmentButton');
+      synthesize('whatsappBookingOption','enableWhatsAppBookingOption','disableWhatsAppBookingOption',['showWhatsAppButton']);
+      synthesize('rezepRxBookingOption','enableRezeptRxBookingOption','disableRezeptRxBookingOption');
+      if (!yes(oldChanges.updatePhotoOfMonth) && !yes(oldChanges.disablePhotoOfMonth) && !oldChanges.photoOfMonthAction) {
+        const photoState=readPreviousState(previousConfig,'photoOfTheMonth');
+        if(photoState.enabled===false){changes.photoOfMonthAction='disable';changes.disablePhotoOfMonth='yes';changes.updatePhotoOfMonth='no';}
+        else if(photoState.enabled===true){changes.photoOfMonthAction='unchanged';changes.disablePhotoOfMonth='no';changes.updatePhotoOfMonth='no';}
+      }
+    }
+    const explicitChangeIds = ['appointment','whatsappBooking','rezeptrx','announcementAction','photoAction']
+      .filter(id => $(id).value !== 'unchanged');
+    const mergeKeys = {
+      appointment:['enableAppointmentButton','disableAppointmentButton'],
+      whatsappBooking:['enableWhatsAppBookingOption','disableWhatsAppBookingOption','showWhatsAppButton','hideWhatsAppButton'],
+      rezeptrx:['enableRezeptRxBookingOption','disableRezeptRxBookingOption'],
+      announcementAction:['changeAnnouncement','announcementMode','mainStripBackgroundColor'],
+      photoAction:['photoOfMonthAction','updatePhotoOfMonth','disablePhotoOfMonth']
+    };
+    explicitChangeIds.forEach(id => mergeKeys[id].forEach(k => { changes[k]=newChanges[k]; }));
+    // Keep a machine-readable action for consumers that understand the merge-aware schema.
+    changes.settingActions = {
+      appointmentButton:$('appointment').value==='unchanged'?'continue':$('appointment').value,
+      whatsappBookingOption:$('whatsappBooking').value==='unchanged'?'continue':$('whatsappBooking').value,
+      rezepRxBookingOption:$('rezeptrx').value==='unchanged'?'continue':$('rezeptrx').value,
+      announcementMarquee:$('announcementAction').value==='unchanged'?'continue':$('announcementAction').value,
+      photoOfTheMonth:$('photoAction').value==='unchanged'?'continue':$('photoAction').value
+    };
+
+    const previousDetails = previousConfig?.details || {};
+    const newDetails = {
+      announcementText: $('announcement').value,
+      defaultAnnouncementText: DEFAULT_ANNOUNCEMENT,
+      mainStripTextColor: $('defaultAnnouncementTextColor').value,
+      mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
+      announcementTextColors: {
+        defaultStrip: $('defaultAnnouncementTextColor').value,
+        customStrip: $('customAnnouncementTextColor').value
+      },
+      announcementBackgroundColors: {
+        mainStrip: $('mainAnnouncementBackgroundColor').value,
+        secondStrip: $('customAnnouncementBackgroundColor').value
+      },
+      announcementMarqueeSpeedsSeconds: {
+        standardStrip: 101 - Number($('defaultMarqueeSpeed').value),
+        customStrip: 101 - Number($('customMarqueeSpeed').value)
+      },
+      photoOfMonthAction: $('photoAction').value,
+      photoOfMonth: selectedPhotoFile ? `configuration/photo-of-the-month/${selectedPhotoFile.name}` : '',
+      photoOfMonthFileName: selectedPhotoFile ? selectedPhotoFile.name : '',
+      photoOfMonthDestinationFolder: 'configuration/photo-of-the-month/',
+      photoCaption: $('photoCaption').value.trim(),
+      otherInstructions: ''
+    };
+    const details = {...previousDetails};
+    if (explicitChangeIds.includes('announcementAction')) {
+      ['announcementText','defaultAnnouncementText','mainStripTextColor','mainStripBackgroundColor',
+       'announcementTextColors','announcementBackgroundColors','announcementMarqueeSpeedsSeconds'].forEach(k=>details[k]=newDetails[k]);
+    }
+    if (explicitChangeIds.includes('photoAction')) {
+      details.photoOfMonthAction = newDetails.photoOfMonthAction;
+      details.photoOfMonthDestinationFolder = newDetails.photoOfMonthDestinationFolder;
+      if ($('photoAction').value === 'update') {
+        ['photoOfMonth','photoOfMonthFileName','photoCaption'].forEach(k=>details[k]=newDetails[k]);
+      }
+      // Disabling hides the current photo but retains its file and caption for a later re-enable.
+    }
+    if (!previousConfig) Object.assign(details,newDetails);
+
+    const mergedScheduleSettings = {...(previousConfig?.changeSchedules?.settings || {})};
+    const mergedGroups = [...(previousConfig?.changeSchedules?.groups || [])];
+    // Carry forward the previous schedule if it is present in the legacy top-level schedule object.
+    if (previousConfig?.schedule?.periods?.length && !previousConfig?.changeSchedules?.groups?.length) {
+      previousConfig.schedule.periods.forEach((period,i)=>{
+        const id=`legacy-schedule-${i+1}`;
+        mergedGroups.push({id,startDateTime:period.startDateTime,endDateTime:period.endDateTime,settings:period.settings||[]});
+        (period.settings||[]).forEach(key=>{
+          if(!mergedScheduleSettings[key]) mergedScheduleSettings[key]={duration:'temporary',scheduleGroupId:id};
+        });
+      });
+    }
+    // Explicitly changed fields replace their previous schedule; untouched fields keep it.
+    const newScheduleSettings = changeSchedules.settings;
+    const explicitScheduleKeys = new Set(explicitChangeIds.map(id=>({
+      appointment:'appointmentButton',whatsappBooking:'whatsappBookingOption',rezeptrx:'rezepRxBookingOption',
+      announcementAction:'announcementMarquee',photoAction:'photoOfTheMonth'
+    })[id]));
+    explicitScheduleKeys.forEach(key=>{ delete mergedScheduleSettings[key]; });
+    Object.entries(newScheduleSettings).forEach(([key,value])=>{ mergedScheduleSettings[key]=value; });
+    const newGroupIds = new Set(changeSchedules.groups.map(g=>g.id));
+    const retainedGroups = mergedGroups.map(g=>({
+      ...g,
+      settings:(g.settings||[]).filter(k=>!explicitScheduleKeys.has(k))
+    })).filter(g=>g.settings.length);
+    const allGroups = [...retainedGroups,...changeSchedules.groups];
+    // Remove stale references and ensure only groups used by temporary settings remain.
+    const usedGroupIds = new Set(Object.values(mergedScheduleSettings).filter(x=>x.duration==='temporary').map(x=>x.scheduleGroupId).filter(Boolean));
+    const finalGroups = allGroups.filter(g=>usedGroupIds.has(g.id));
+    const allDurations = Object.values(mergedScheduleSettings).map(x=>x.duration);
+    const mergedDuration = allDurations.length && allDurations.every(x=>x==='temporary')?'temporary':
+      allDurations.length && allDurations.every(x=>x==='permanent')?'permanent':allDurations.length?'mixed':'permanent';
+    const mergedPeriods = finalGroups.map(g=>({startDateTime:g.startDateTime,endDateTime:g.endDateTime,settings:(g.settings||[]).filter(k=>mergedScheduleSettings[k]?.duration==='temporary')}));
+    const changeSchedulesMerged = {settings:mergedScheduleSettings,groups:finalGroups,activateTemporary:true};
+    const mergedSummary = {
+      baselineFile:previousFileName || null,
+      generatedAt:new Date().toISOString(),
+      actions:changes.settingActions,
+      note:'Settings marked continue were carried forward from the loaded previous configuration where available.'
+    };
+
     const data = {
       schemaVersion: 2,
       formTitle: 'KidsGastro Website Change Request', doctor: 'Dr. Nitin Mohan',
@@ -533,34 +842,24 @@ select{cursor:pointer}
       targetFile: 'configuration/change-request.json',
       notice: 'This is a request only. It does not modify or publish the website.',
       changes,
-      changeSchedules,
-      details: {
-        announcementText: $('announcement').value,
-        defaultAnnouncementText: DEFAULT_ANNOUNCEMENT,
-        mainStripTextColor: $('defaultAnnouncementTextColor').value,
-        mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
-        announcementTextColors: {
-          defaultStrip: $('defaultAnnouncementTextColor').value,
-          customStrip: $('customAnnouncementTextColor').value
-        },
-        announcementBackgroundColors: {
-          mainStrip: $('mainAnnouncementBackgroundColor').value,
-          secondStrip: $('customAnnouncementBackgroundColor').value
-        },
-        announcementMarqueeSpeedsSeconds: {
-          standardStrip: 101 - Number($('defaultMarqueeSpeed').value),
-          customStrip: 101 - Number($('customMarqueeSpeed').value)
-        },
-        photoOfMonthAction: $('photoAction').value,
-        photoOfMonth: selectedPhotoFile ? `configuration/photo-of-the-month/${selectedPhotoFile.name}` : '',
-        photoOfMonthFileName: selectedPhotoFile ? selectedPhotoFile.name : '',
-        photoOfMonthDestinationFolder: 'configuration/photo-of-the-month/',
-        photoCaption: $('photoCaption').value.trim(),
-        otherInstructions: ''
-      },
-      duration,
-      schedule: { type: duration, periods, activateTemporary: changeSchedules.activateTemporary },
+      changeSchedules: changeSchedulesMerged,
+      details,
+      duration: mergedDuration,
+      schedule: { type: mergedDuration, periods: mergedPeriods, activateTemporary: true },
+      mergeMetadata: mergedSummary,
     };
+    const preserved = Object.values(changes.settingActions).filter(v=>v==='continue').length;
+    const modified = Object.values(changes.settingActions).filter(v=>v!=='continue').length;
+    const temporaryCarried = Object.values(mergedScheduleSettings).filter(v=>v.duration==='temporary').length;
+    $('mergeSummary').hidden = false;
+    $('preservedCount').textContent = String(preserved);
+    $('changedCount').textContent = String(modified);
+    $('temporaryCount').textContent = String(temporaryCarried);
+    if (previousConfig) {
+      $('baselineStatus').textContent = `Merged with ${previousFileName}. Previous settings were retained wherever “Continue last setting” was selected. Review the generated JSON before replacing the clone copy.`;
+    }
+    lastGeneratedConfig = data;
+    $('markApplied').disabled = false;
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob); const a = document.createElement('a');
     a.href = url; a.download = 'change-request.json';
@@ -571,6 +870,29 @@ select{cursor:pointer}
       $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'File downloaded.';
     }
   });
+  $('markApplied').addEventListener('click',()=>{
+    if(!lastGeneratedConfig) return;
+    try {
+      localStorage.setItem(BASELINE_STORAGE_KEY, JSON.stringify({name:'last generated JSON (marked applied)',config:lastGeneratedConfig}));
+      previousConfig=lastGeneratedConfig;
+      previousFileName='last generated JSON (marked applied)';
+      $('baselineStatus').textContent='Saved as a local fallback on this device. The live website snapshot will take precedence whenever it can be fetched.';
+      $('baselineStatus').style.borderColor='#9cc9ad';
+      updatePreviousLabels();
+      $('markApplied').disabled=true;
+    } catch(e) {
+      $('baselineStatus').textContent='Could not save this baseline in browser storage. Keep the generated JSON and load it manually next time.';
+    }
+  });
+  try {
+    const saved=localStorage.getItem(BASELINE_STORAGE_KEY);
+    if(saved) {
+      const parsed=JSON.parse(saved);
+      if(parsed && parsed.config) loadPreviousJsonObject(parsed.config, parsed.name || 'saved last-applied configuration');
+    }
+  } catch(e) {}
+  // A fresh server snapshot always takes precedence over the browser's older local copy.
+  fetchLiveSettings();
   refresh();
 })();
 </script>

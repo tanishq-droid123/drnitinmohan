@@ -2459,6 +2459,33 @@ html.kg-tab-hidden .kg-cosmos-background,html.kg-tab-hidden .kg-cosmos-backgroun
 .whatsapp-float.is-positioned span{min-width:0;white-space:nowrap;}
 @media(max-width:760px){.whatsapp-float.is-positioned{max-width:calc(100vw - 32px)!important;width:auto!important;height:auto!important;min-height:52px!important;padding:12px 16px!important;}}
 </style>
+
+<style id="kg-first-paint-settings-and-mobile-touch-cursor">
+/* Do not flash stale booking/announcement defaults before the live JSON is applied. */
+html:not([data-kg-settings-ready="true"]) #booking-menu-toggle,
+html:not([data-kg-settings-ready="true"]) .offline-appointment-marquee,
+html:not([data-kg-settings-ready="true"]) .whatsapp-float{
+  visibility:hidden!important;
+}
+/* Touchscreens have no native pointer cursor: provide a lightweight finger-follow cue. */
+.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{
+  position:fixed!important;left:0!important;top:0!important;z-index:2147483000!important;
+  pointer-events:none!important;border-radius:50%!important;opacity:0!important;
+  transform:translate3d(-100px,-100px,0) translate(-50%,-50%)!important;
+  will-change:transform,opacity!important;
+}
+.kg-mobile-touch-cursor{width:7px!important;height:7px!important;background:#0759a8!important;
+  box-shadow:0 0 0 3px rgba(255,255,255,.92),0 1px 8px rgba(0,35,70,.35)!important}
+.kg-mobile-touch-cursor-ring{width:30px!important;height:30px!important;border:2px solid #0759a8!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.82)!important}
+.kg-mobile-touch-cursor.is-visible,.kg-mobile-touch-cursor-ring.is-visible{opacity:1!important}
+@media(hover:hover) and (pointer:fine){
+  .kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{transition:none!important}
+}
+</style>
 </head><body><div aria-label="Appointment announcement" class="offline-appointment-marquee" role="region"><div class="offline-appointment-marquee__track"><span class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span><span aria-hidden="true" class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span></div></div><a class="skip-link" href="/?focus=main">Skip to content</a>
 <header class="header"><nav aria-label="Main navigation" class="nav container"><a class="brand" href="/"><img alt="Dr. Nitin Mohan KidsGastro logo" class="mark circular-brand-logo" data-embedded-logo="true" decoding="async" loading="eager" src="/assets/1000273559.webp"/><span>KidsGastro by Dr. Nitin Mohan</span></a><button aria-controls="hamburger-panel" aria-expanded="false" aria-label="Open navigation" class="toggle">☰</button><div aria-hidden="true" class="hamburger-panel" hidden="" id="hamburger-panel"></div><div class="links" id="links">
 <details class="nav-dropdown"><summary>Treatments<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/treatments/"><b>Paediatric Gastroenterology</b></a><a href="/treatments/"><b>Paediatric Hepatology — Liver Diseases</b></a><a href="/treatments/"><b>Paediatric Pancreatology — Pancreatic Disorders</b></a><a href="/treatments/"><b>Paediatric Biliary Tract Diseases</b></a><a href="/treatments/"><b>Paediatric Nutrition and Growth</b></a></div></details><details class="nav-dropdown"><summary>Services<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/services/"><b>Paediatric Gastrointestinal Procedures</b></a><a href="/services/"><b>Hepatology Procedures &amp; Investigations</b></a><a href="/services/"><b>Pancreatic Investigations</b></a><a href="/services/"><b>Biliary Tract Investigations</b></a><a href="/services/"><b>Gastrointestinal Diagnostic Investigations</b></a><a href="/services/"><b>Nutrition &amp; Growth Assessment</b></a></div></details><a class="nav-direct-link" href="/faqs/"><svg aria-hidden="true" class="kg-nav-icon" focusable="false" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.4-1.8 3M12 17.2h.01"></path></svg>FAQs</a><a class="nav-direct-link" href="/blog/">Blog</a><details class="nav-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 9h8M8 12.5h5"></path></svg><span>Testimonials</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/testimonials/"><b>Patient &amp; family testimonials</b><small>Read all patient and family experiences</small></a></div></details><details class="nav-dropdown kg-gallery-nav-dropdown"><summary>Gallery<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/gallery/"><b>KidsGastro Photo Gallery</b><small>Photos and clinical activities</small></a></div></details><details class="nav-dropdown"><summary>Health Library<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/latest/"><b>Latest from KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></b><small>Stories, videos and audio</small></a><a href="/publications/"><b>Research articles &amp; publications</b><small>Published work by Dr. Nitin Mohan</small></a><a href="/newsletter/"><b>Family newsletter</b><small>Request clinic updates</small></a></div></details><details class="nav-dropdown"><summary>Contact Info<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="tel:+919821020576"><b>Phone</b><small>+91 98210 20576</small></a><a href="/clinic/"><b>Churamani Multispeciality Hospital</b><small>Hisar, Haryana</small></a><a href="/clinic/"><b>View map</b><small>Google Maps location</small></a></div></details><details class="nav-dropdown nav-login-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20Z"></path></svg><span>Login</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a class="kg-admin-menu-link" href="/?admin=1"><b>Login</b></a></div></details></div><form class="site-search" id="site-search" role="search"><label class="sr-only" for="site-search-input">Search this website</label><input autocomplete="off" id="site-search-input" placeholder="Search this website" type="search"/><button aria-label="Search this website" type="submit">⌕</button><span aria-live="polite" class="search-status" id="search-status" role="status"></span></form></nav></header>
@@ -4894,6 +4921,8 @@ input,select,textarea{font-size:16px;max-width:100%}
         });
       });
     document.documentElement.dataset.kgSettingsTimezone = TIME_ZONE;
+    // Release the first-paint gate only after all JSON-derived visibility/text is applied.
+    document.documentElement.dataset.kgSettingsReady = "true";
   }
 
   async function refresh() {
@@ -4911,20 +4940,18 @@ input,select,textarea{font-size:16px;max-width:100%}
     applySettings(resolveSettings(defaultsFile, overridesFile, requestFile, legacySettings));
   }
 
-  // Configuration is non-critical to the first screen. Start after the initial
-  // paint so these four small JSON requests do not compete with the hero/LCP image.
+  // Fetch configuration as soon as this bridge is parsed. Configurable elements
+  // remain visually gated until the first JSON resolution, preventing stale content
+  // from flashing on screen while the network request is in flight.
   function scheduleRefresh() {
     if (document.hidden) return;
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(() => { if (!document.hidden) refresh(); }, { timeout: 1800 });
-    } else {
-      window.setTimeout(() => { if (!document.hidden) refresh(); }, 500);
-    }
+    refresh().catch(error => {
+      console.warn("[KidsGastro] Settings refresh failed; applying safe defaults.", error);
+      applySettings({ ...DEFAULTS });
+    });
   }
-  if (document.readyState === "complete") scheduleRefresh();
-  else window.addEventListener("load", scheduleRefresh, { once: true });
-  // A one-minute refresh is sufficient for manual display overrides and avoids
-  // repeatedly downloading all configuration files every 15 seconds.
+  scheduleRefresh();
+  // Refresh periodically for temporary overrides and changes made while the page is open.
   window.setInterval(scheduleRefresh, 60000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) scheduleRefresh(); });
   window.KidsGastroManualSettings = { refresh, timeZone: TIME_ZONE };
@@ -5740,6 +5767,34 @@ html body .kg-pointer-glow::after{display:none!important}
 })();
 </script>
 
+
+<script id="kg-mobile-touch-cursor-runtime">
+(()=>{
+  const coarse=window.matchMedia&&window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  if(!coarse)return;
+  let dot,ring,hideTimer=0;
+  const create=()=>{
+    if(dot&&ring)return;
+    dot=document.createElement('span');dot.className='kg-mobile-touch-cursor';dot.setAttribute('aria-hidden','true');
+    ring=document.createElement('span');ring.className='kg-mobile-touch-cursor-ring';ring.setAttribute('aria-hidden','true');
+    (document.body||document.documentElement).append(dot,ring);
+  };
+  const move=e=>{
+    if(e.pointerType!=='touch'&&e.pointerType!=='pen')return;
+    create();
+    const x=e.clientX,y=e.clientY,transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
+    dot.style.transform=transform;ring.style.transform=transform;
+    dot.classList.add('is-visible');ring.classList.add('is-visible');
+    window.clearTimeout(hideTimer);
+    hideTimer=window.setTimeout(()=>{dot?.classList.remove('is-visible');ring?.classList.remove('is-visible')},650);
+  };
+  document.addEventListener('pointerdown',move,{passive:true,capture:true});
+  document.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')move(e)},{passive:true,capture:true});
+  document.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){
+    window.clearTimeout(hideTimer);hideTimer=window.setTimeout(()=>{dot?.classList.remove('is-visible');ring?.classList.remove('is-visible')},420);
+  }},{passive:true,capture:true});
+})();
+</script>
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
