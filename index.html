@@ -3500,31 +3500,7 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
 @media(hover:none),(pointer:coarse){.kg-pointer-glow::after{display:none}.social-section.kg-pointer-glow::before{transform:translateY(-50%)}}
 @media(prefers-reduced-motion:reduce){.kg-pointer-glow::after,.social-section.kg-pointer-glow::before{transition:none!important}}
 </style>
-<script id="kg-subtle-pointer-reactive-backgrounds-script">
-(()=>{
- const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const finePointer=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
- if(reduce||!finePointer)return;
- const targets=[...document.querySelectorAll('.hero, .photo-reel-section, .latest-section, .newsletter-section, .opd-hours')];
- targets.forEach(el=>{
-  el.classList.add('kg-pointer-glow');
-  let frame=0,lastX=50,lastY=45;
-  el.addEventListener('pointermove',event=>{
-   if(event.pointerType==='touch')return;
-   const rect=el.getBoundingClientRect();
-   if(!rect.width||!rect.height)return;
-   lastX=Math.max(0,Math.min(100,(event.clientX-rect.left)/rect.width*100));
-   lastY=Math.max(0,Math.min(100,(event.clientY-rect.top)/rect.height*100));
-   if(!frame)frame=requestAnimationFrame(()=>{
-    el.style.setProperty('--kg-pointer-x',lastX+'%');
-    el.style.setProperty('--kg-pointer-y',lastY+'%');
-    el.classList.add('kg-pointer-active');frame=0;
-   });
-  },{passive:true});
-  el.addEventListener('pointerleave',()=>{el.classList.remove('kg-pointer-active');el.style.setProperty('--kg-pointer-x','50%');el.style.setProperty('--kg-pointer-y','45%')},{passive:true});
- });
-})();
-</script>
+
 <style id="clock-single-period-controls-final">
 /* One shared clock face with one visible AM/PM control pair. */
 .manual-periods{display:none!important}
@@ -3785,21 +3761,21 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
 </script>
 <style>
 /* Find the clinic: paired hospital photo and lazy-loaded map */
-/clinic/ { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
-/clinic/ .section-heading { max-width: 760px; margin-inline: auto; text-align: center; }
-/clinic/ .hospital-location-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 1.5rem); align-items: stretch; margin-top: clamp(1.25rem, 3vw, 2rem); }
-/clinic/ .clinic-photo-card, /clinic/ .clinic-map-card { min-width: 0; overflow: hidden; border: 1px solid rgba(35, 105, 165, .16); border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgba(24, 74, 115, .08); }
-/clinic/ .clinic-entrance-photo { display: block; width: 100%; height: 100%; min-height: 300px; max-height: 430px; object-fit: cover; }
-/clinic/ .clinic-photo-card { position: relative; }
-/clinic/ .clinic-photo-caption { position: absolute; left: 12px; bottom: 12px; padding: .5rem .8rem; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; background: rgba(255,255,255,.92); color: #174b76; font-size: .88rem; font-weight: 650; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
-/clinic/ .clinic-map-card { display: flex; flex-direction: column; }
-/clinic/ .clinic-map-card iframe { display: block; width: 100%; min-height: 300px; height: 100%; flex: 1 1 auto; border: 0; background: #eef5fb; }
-/clinic/ .clinic-map-actions { display: flex; justify-content: flex-start; padding: .85rem 1rem; border-top: 1px solid #e4edf5; }
-/clinic/ .clinic-map-open { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 42px; padding: .65rem 1rem; border-radius: 10px; background: #eaf4fc; color: #145b91; font-weight: 650; text-decoration: none; }
-/clinic/ .clinic-map-open:hover { background: #dceefb; }
-@media (max-width: 720px) { /clinic/ .hospital-location-grid { grid-template-columns: minmax(0,1fr); } /clinic/ .clinic-entrance-photo { min-height: 220px; max-height: 340px; } /clinic/ .clinic-map-card iframe { min-height: 270px; height: 270px; flex: none; } }
-@media (prefers-reduced-motion: reduce) { /clinic/ * { scroll-behavior: auto !important; } }
-</style><script>(function(){function loadClinicPhoto(){var target=document.querySelector("/clinic/ .clinic-entrance-photo");if(!target||target.dataset.loadedClinicPhoto)return;var source=document.querySelector('img[data-asset-id="kgasset6"]')||document.querySelector('img[alt="Hospital entrance and location"]');if(source&&source.src){target.src=source.src;target.dataset.loadedClinicPhoto="true";}}var target=document.querySelector("/clinic/ .clinic-entrance-photo");if(!target)return;if("IntersectionObserver" in window){var observer=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;})){loadClinicPhoto();observer.disconnect();}},{rootMargin:"300px"});observer.observe(target);}else{loadClinicPhoto();}})();</script><div aria-hidden="true" id="kg-tunnel-transition"><div class="kg-brand-card">
+#hospital-location { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
+#hospital-location .section-heading { max-width: 760px; margin-inline: auto; text-align: center; }
+#hospital-location .hospital-location-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 1.5rem); align-items: stretch; margin-top: clamp(1.25rem, 3vw, 2rem); }
+#hospital-location .clinic-photo-card, #hospital-location .clinic-map-card { min-width: 0; overflow: hidden; border: 1px solid rgba(35, 105, 165, .16); border-radius: 18px; background: #fff; box-shadow: 0 10px 28px rgba(24, 74, 115, .08); }
+#hospital-location .clinic-entrance-photo { display: block; width: 100%; height: 100%; min-height: 300px; max-height: 430px; object-fit: cover; }
+#hospital-location .clinic-photo-card { position: relative; }
+#hospital-location .clinic-photo-caption { position: absolute; left: 12px; bottom: 12px; padding: .5rem .8rem; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; background: rgba(255,255,255,.92); color: #174b76; font-size: .88rem; font-weight: 650; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+#hospital-location .clinic-map-card { display: flex; flex-direction: column; }
+#hospital-location .clinic-map-card iframe { display: block; width: 100%; min-height: 300px; height: 100%; flex: 1 1 auto; border: 0; background: #eef5fb; }
+#hospital-location .clinic-map-actions { display: flex; justify-content: flex-start; padding: .85rem 1rem; border-top: 1px solid #e4edf5; }
+#hospital-location .clinic-map-open { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 42px; padding: .65rem 1rem; border-radius: 10px; background: #eaf4fc; color: #145b91; font-weight: 650; text-decoration: none; }
+#hospital-location .clinic-map-open:hover { background: #dceefb; }
+@media (max-width: 720px) { #hospital-location .hospital-location-grid { grid-template-columns: minmax(0,1fr); } #hospital-location .clinic-entrance-photo { min-height: 220px; max-height: 340px; } #hospital-location .clinic-map-card iframe { min-height: 270px; height: 270px; flex: none; } }
+@media (prefers-reduced-motion: reduce) { #hospital-location * { scroll-behavior: auto !important; } }
+</style><script>(function(){function loadClinicPhoto(){var target=document.querySelector("#hospital-location .clinic-entrance-photo");if(!target||target.dataset.loadedClinicPhoto)return;var source=document.querySelector('img[data-asset-id="kgasset6"]')||document.querySelector('img[alt="Hospital entrance and location"]');if(source&&source.src){target.src=source.src;target.dataset.loadedClinicPhoto="true";}}var target=document.querySelector("#hospital-location .clinic-entrance-photo");if(!target)return;if("IntersectionObserver" in window){var observer=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;})){loadClinicPhoto();observer.disconnect();}},{rootMargin:"300px"});observer.observe(target);}else{loadClinicPhoto();}})();</script><div aria-hidden="true" id="kg-tunnel-transition"><div class="kg-brand-card">
 <svg aria-label="KidsGastro circular medical symbol" class="kg-brand-mark" height="112" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 112 112" width="112" xmlns="http://www.w3.org/2000/svg">
 <defs><clippath id="kg-brand-symbol-circle"><circle cx="56" cy="56" r="54"></circle></clippath></defs>
 <circle cx="56" cy="56" fill="#fff" r="55" stroke="#0759a8" stroke-width="2"></circle>
@@ -3836,11 +3812,19 @@ document.querySelectorAll('.nav-direct-link,.nav-dropdown-menu>a,.booking-menu-p
     const openMenu=()=>{links.classList.add('open');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Close navigation');toggle.textContent='×';};
     toggle.setAttribute('aria-controls','links');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open navigation');
     toggle.addEventListener('click',function(event){event.preventDefault();event.stopPropagation();if(toggle.getAttribute('aria-expanded')==='true')closeMenu();else openMenu();});
-    links.addEventListener('click',function(event){const link=event.target.closest('a');if(link)closeMenu();});
+    // A category summary is a disclosure control, not navigation: keep the panel
+    // open while it expands/collapses so the next tap can reach its submenu links.
+    links.addEventListener('click',function(event){
+      const summary=event.target.closest('details.nav-dropdown > summary');
+      if(summary){event.stopPropagation();return;}
+      const link=event.target.closest('a[href]');
+      if(link)closeMenu();
+    });
     links.querySelectorAll('.nav-dropdown').forEach(function(details){details.addEventListener('toggle',function(){if(details.open)links.querySelectorAll('.nav-dropdown[open]').forEach(function(other){if(other!==details)other.open=false;});});});
     document.addEventListener('keydown',function(event){if(event.key==='Escape'&&links.classList.contains('open')){closeMenu();toggle.focus();}});
-    document.addEventListener('click',function(event){if(links.classList.contains('open')&&!event.target.closest('.header'))closeMenu();});
-    window.addEventListener('hashchange',closeMenu);
+    document.addEventListener('click',function(event){if(links.classList.contains('open')&&!nav.contains(event.target))closeMenu();});
+    // Do not close the menu on hash changes caused by in-menu controls; actual
+    // link navigation already closes it in the link handler above.
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initHamburger,{once:true});else initHamburger();
 })();
@@ -4474,50 +4458,6 @@ input,select,textarea{font-size:16px;max-width:100%}
     if(scrolling && scrolling.scrollHeight>scrolling.clientHeight+2){scrolling.scrollTo({top:0,left:0,behavior});}
   },true);
 
-  // Slow only animations inside the blue/cosmic panel currently under the pointer.
-  // updatePlaybackRate preserves each animation's currentTime, so it resumes in place.
-  const slowRate=0.055;
-  const blueBoxSelector=[
-    '.kg-cosmos-host','.header.kg-cosmos-host','.hero.kg-cosmos-host',
-    '.hero-grid > div:first-child','.strip-grid > div','.newsletter-section',
-    '.social-section','.social-intro','.latest-section',
-    '.appointment-panel','.opd-hours','.photo-reel-section','.footer',
-    '.footer-contact-band','.secondary-page-content .newsletter-panel',
-    '.secondary-page-content .secondary-facts article',
-    '.secondary-page-content .secondary-hospital > div'
-  ].join(',');
-  function setRate(box,rate){
-    const state=window.__kgCosmicHoverState||(window.__kgCosmicHoverState={active:new Set(),slowRate:slowRate,apply:null});
-    state.slowRate=slowRate;
-    if(rate<1)state.active.add(box);else state.active.delete(box);
-    if(!state.apply)state.apply=function(){
-      const active=Array.from(state.active).filter(el=>el&&el.isConnected);
-      active.forEach(el=>{if(!el.isConnected)state.active.delete(el)});
-      state.touched=state.touched||new Set();
-      document.querySelectorAll('.kg-cosmos-host,.kg-cosmos-host *').forEach(node=>state.touched.add(node));
-      active.forEach(el=>{[el,...el.querySelectorAll('*')].forEach(node=>state.touched.add(node))});
-      state.touched.forEach(node=>{
-        if(!node||!node.isConnected){state.touched.delete(node);return}
-        if(typeof node.getAnimations!=='function')return;
-        const shouldSlow=active.some(el=>el===node||el.contains(node));
-        node.getAnimations().forEach(animation=>{try{const target=shouldSlow?state.slowRate:1;if(Math.abs((animation.playbackRate||1)-target)>.001){if(typeof animation.updatePlaybackRate==='function')animation.updatePlaybackRate(target);else animation.playbackRate=target;}}catch(_){}});
-      });
-    };
-    state.apply();
-  }
-  function attach(box){
-    if(!box||box.dataset.kgHoverRateBound==='true')return;
-    // Only attach to panels that actually contain the cosmic animation.
-    if(!box.matches('.kg-cosmos-host')&&!box.querySelector('.kg-cosmos-background'))return;
-    box.dataset.kgHoverRateBound='true';
-    box.addEventListener('pointerenter',event=>{if(event.pointerType==='touch')return;setRate(box,slowRate)});
-    box.addEventListener('pointerleave',event=>{if(event.pointerType==='touch')return;setRate(box,1)});
-    box.addEventListener('focusin',()=>setRate(box,slowRate));
-    box.addEventListener('focusout',event=>{if(!box.contains(event.relatedTarget))setRate(box,1)});
-  }
-  function init(){document.querySelectorAll(blueBoxSelector).forEach(attach);document.querySelectorAll('.kg-cosmos-host').forEach(attach)}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-  new MutationObserver(init).observe(document.documentElement,{childList:true,subtree:true});
 })();
 </script>
 <style id="kg-final-hamburger-route-and-cosmos-boundary-repair">
@@ -4618,6 +4558,7 @@ input,select,textarea{font-size:16px;max-width:100%}
     marqueeTextColor: "#0759a8",
     marqueeBackgroundColor: "#ffc400",
     marqueeSpeedSeconds: 8,
+    photoOfMonthDisabled: false,
     animationSpeed: 1
   });
   let lastAppliedSignature = "";
@@ -4779,12 +4720,21 @@ input,select,textarea{font-size:16px;max-width:100%}
         };
       }
     }
-    if (active("photoOfTheMonth") && c.updatePhotoOfMonth === "yes") {
-      const resolvedPhoto = photoPathFrom(d);
-      if (resolvedPhoto) {
-        settings.photoOfMonth = resolvedPhoto;
-        settings.photoCaption = typeof d.photoCaption === "string" ? d.photoCaption.slice(0, 180) : "";
+    if (active("photoOfTheMonth")) {
+      const photoAction = c.photoOfMonthAction ||
+        (c.disablePhotoOfMonth === "yes" ? "disable" :
+          (c.updatePhotoOfMonth === "yes" ? "update" : "continue"));
+      if (photoAction === "disable" || c.disablePhotoOfMonth === "yes") {
+        settings.photoOfMonthDisabled = true;
+      } else if (photoAction === "update" || c.updatePhotoOfMonth === "yes") {
+        const resolvedPhoto = photoPathFrom(d);
+        if (resolvedPhoto) {
+          settings.photoOfMonth = resolvedPhoto;
+          settings.photoCaption = typeof d.photoCaption === "string" ? d.photoCaption.slice(0, 180) : "";
+          settings.photoOfMonthDisabled = false;
+        }
       }
+      // "continue"/"unchanged" deliberately makes no change to the currently published photo.
     }
     return settings;
   }
@@ -4833,6 +4783,11 @@ input,select,textarea{font-size:16px;max-width:100%}
     const title = document.getElementById("main-uploaded-photo-title");
     const caption = document.getElementById("main-uploaded-photo-caption");
     if (!slot || !image || !section) return;
+    if (settings.photoOfMonthDisabled === true) {
+      section.hidden = true;
+      slot.hidden = true;
+      return;
+    }
 
     const requestPhoto = settings.photoOfMonth
       ? photoPathFrom({ photoOfMonth: settings.photoOfMonth, photoOfMonthFileName: "" })
@@ -5302,96 +5257,21 @@ input,select,textarea{font-size:16px;max-width:100%}
 }
 </style>
 
-<script id="kg-revolving-planets-init">
-(function(){
-  var selector='.header,.hero-grid>div:first-child,.footer,.footer-contact-band,.links,.newsletter-section,.newsletter-panel,.social-intro,.social-section,.appointment-panel,.opd-hours,.latest-section,.photo-reel-section,.doctor-credentials,.hero .reveal';
-  /* Each surface gets a naturally irregular, overlapping orbital field. Random values are
-     generated once when that surface is initialized, never on animation frames. */
-  function makeSvgMarkup(){
-    var rand=function(min,max){return min+Math.random()*(max-min);};
-    var cx=rand(610,990),cy=rand(320,580),rings='',orbits='';
-    var count= Math.floor(rand(4,7));
-    for(var i=0;i<count;i++){
-      var rx=rand(65,430), ry=rx*rand(.48,1.22), ox=cx+rand(-170,170), oy=cy+rand(-115,115);
-      var rot=rand(-55,55), planetR=rand(2.2,10.5), speed=rand(-.00072,.00072);
-      if(Math.abs(speed)<.00016)speed=speed<0?-.00019:.00019;
-      var start=rand(0,Math.PI*2), px=ox+Math.cos(start)*rx, py=oy+Math.sin(start)*ry;
-      rings+='<ellipse cx="'+ox.toFixed(1)+'" cy="'+oy.toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" transform="rotate('+rot.toFixed(1)+' '+ox.toFixed(1)+' '+oy.toFixed(1)+')"/>';
-      orbits+='<g class="kg-orbit-spin" data-radius="'+rx.toFixed(1)+'" data-speed="'+speed.toFixed(6)+'" style="transform-origin:'+cx+'px '+cy+'px"><circle class="kg-planet" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="'+planetR.toFixed(1)+'"/>';
-      if(Math.random()>.45)orbits+='<circle class="kg-planet-halo" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="'+(planetR*rand(1.7,3.1)).toFixed(1)+'"/>';
-      /* A few ringed worlds add a Saturn-like silhouette. */
-      if(planetR>5.4 && Math.random()>.38)orbits+='<ellipse class="kg-planet-ring" cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" rx="'+(planetR*1.8).toFixed(1)+'" ry="'+(planetR*.62).toFixed(1)+'" transform="rotate(-24 '+px.toFixed(1)+' '+py.toFixed(1)+')"/>';
-      /* Tiny moons travel around selected planets on their own circular tracks. */
-      if(Math.random()>.34){var mr=rand(1.1,2.1),md=planetR+rand(7,15),ma=rand(0,Math.PI*2),ms=(rand(.018,.055)*(Math.random()>.5?1:-1)).toFixed(3);orbits+='<g class="kg-moon-orbit" data-moon-speed="'+ms+'" data-moon-angle="'+ma.toFixed(3)+'" transform="translate('+px.toFixed(1)+' '+py.toFixed(1)+')"><circle class="kg-moon-track" r="'+md.toFixed(1)+'"/><circle class="kg-moon" r="'+mr.toFixed(1)+'" cx="'+md.toFixed(1)+'" cy="0"/></g>';}
-      if(Math.random()>.64){var p2=rand(0,Math.PI*2),pr2=rand(1.8,planetR*.9);orbits+='<circle class="kg-planet" cx="'+(ox+Math.cos(p2)*rx).toFixed(1)+'" cy="'+(oy+Math.sin(p2)*ry).toFixed(1)+'" r="'+pr2.toFixed(1)+'"/>';}
-      /* Small faceted asteroids, grouped into the same orbital motion. */
-      if(Math.random()>.30){var ax=ox+Math.cos(rand(0,Math.PI*2))*rx,ay=oy+Math.sin(rand(0,Math.PI*2))*ry,ar=rand(1.4,3.2);orbits+='<polygon class="kg-asteroid" points="'+(ax-ar).toFixed(1)+','+ay.toFixed(1)+' '+(ax-ar*.35).toFixed(1)+','+(ay-ar*1.1).toFixed(1)+' '+(ax+ar*.9).toFixed(1)+','+(ay-ar*.45).toFixed(1)+' '+(ax+ar*.55).toFixed(1)+','+(ay+ar*.8).toFixed(1)+' '+(ax-ar*.6).toFixed(1)+','+(ay+ar*.65).toFixed(1)+'"/>';}
-      orbits+='</g>';
-    }
-    return '<svg class="kg-orbit-overlay" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><g class="kg-orbit-ring">'+rings+'</g>'+orbits+'</svg>';
-  }
-  function add(){
-    document.querySelectorAll(selector).forEach(function(el){
-      if(el.querySelector(':scope > .kg-orbit-overlay'))return;
-      var bg=getComputedStyle(el).backgroundColor;
-      var m=bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-      if(!m)return;
-      var r=+m[1],g=+m[2],b=+m[3];
-      if(!(b>r*1.15 && b>g*1.02 && b>70))return;
-      el.classList.add('kg-orbit-surface');
-      el.insertAdjacentHTML('afterbegin',makeSvgMarkup());
-      var svg=el.querySelector(':scope > .kg-orbit-overlay');
-      var spins=Array.prototype.slice.call(svg.querySelectorAll('.kg-orbit-spin'));
-      spins.forEach(function(group){group.style.animation='none';group.dataset.angle='0';});
-      var targetAngle=0,active=false,lastTime=0,frame=0;
-      var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function pointAngle(ev){
-        var rect=el.getBoundingClientRect();
-        if(!rect.width||!rect.height)return targetAngle;
-        var px=(ev.clientX-rect.left)/rect.width,py=(ev.clientY-rect.top)/rect.height;
-        /* Convert the pointer into the SVG's centred coordinate system. */
-        return Math.atan2((py-.5)*-1,px-.5);
-      }
-      function move(ev){if(ev.pointerType==='touch'||reduce)return;targetAngle=pointAngle(ev);active=true;if(!frame)frame=requestAnimationFrame(tick);}
-      function leave(){active=false;if(!frame)frame=requestAnimationFrame(tick);}
-      function tick(now){
-        frame=0;var dt=lastTime?Math.min(40,now-lastTime):16;lastTime=now;
-        spins.forEach(function(group){
-          var angle=parseFloat(group.dataset.angle)||0;
-          if(active){var delta=targetAngle-angle;while(delta>Math.PI)delta-=Math.PI*2;while(delta< -Math.PI)delta+=Math.PI*2;angle+=delta*Math.min(.22,dt*.012);}
-          else if(!reduce){angle+=parseFloat(group.dataset.speed||'0')*dt;}
-          group.dataset.angle=String(angle);
-          group.style.transform='rotate('+angle+'rad)';
-        });
-        svg.querySelectorAll('.kg-moon-orbit').forEach(function(moon){
-          var a=parseFloat(moon.dataset.moonAngle)||0;
-          if(!reduce)a+=parseFloat(moon.dataset.moonSpeed||'.03')*dt;
-          moon.dataset.moonAngle=String(a);
-          moon.setAttribute('transform',moon.getAttribute('transform').replace(/rotate\([^)]*\)/,'').trim()+' rotate('+(a*180/Math.PI).toFixed(2)+')');
-        });
-        if(active||!reduce)frame=requestAnimationFrame(tick);else lastTime=0;
-      }
-      if(!reduce){el.addEventListener('pointermove',move,{passive:true});el.addEventListener('pointerleave',leave,{passive:true});}
-      if(!reduce)frame=requestAnimationFrame(tick);
-    });
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',add,{once:true});else add();
-  window.addEventListener('hashchange',add,{passive:true});
-})();
-</script>
+
 
 <!-- Unified white Starship, ISS, comet and asteroid-collision layer. -->
 <style id="kg-cosmos-unified-css">
-/* Retire only the old standalone craft/comet effects; preserve existing planets and orbits. */
+/* hide every old independent effect, including the old cursor-driven planet SVG and cursor glow */
+html body .kg-cosmos-background,
+html body .kg-orbit-overlay,
 html body .kg-cosmos-host .kg-flying-craft,
 html body .kg-cosmos-host .kg-cosmos-comet-streak,
-html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!important}
+html body .kg-pointer-glow::after{display:none!important}
 
-/* One new canvas per blue box: above the existing planet/orbit layer, below its content. */
-.kg-cosmos-host{position:relative!important;isolation:isolate!important}
-.kg-cosmos-host>.kg-cosmos-background,.header.kg-cosmos-host>.kg-cosmos-background{z-index:0!important}
+/* the single canvas used by every blue box (above the blue, below your text) */
+.kg-cosmos-host{position:relative!important;isolation:isolate}
 .kg-cosmos-host>canvas.kg-sky{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  z-index:1!important;pointer-events:none!important;opacity:.92}
+  z-index:0!important;pointer-events:none;opacity:.92}
 @media(max-width:600px){.kg-cosmos-host>canvas.kg-sky{opacity:.75}}
 </style>
 <script id="kg-cosmos-unified">
@@ -5403,340 +5283,419 @@ html body .kg-cosmos-host > .kg-cosmos-background .kg-cosmos-comet{display:none!
   const TAU = Math.PI * 2;
   const rand = (a, b) => a + Math.random() * (b - a);
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const mix = (a, b, t) => a + (b - a) * t;
-  const point = (p0, p1, p2, p3, t) => {
-    const u = 1 - t;
-    return {
-      x: u*u*u*p0.x + 3*u*u*t*p1.x + 3*u*t*t*p2.x + t*t*t*p3.x,
-      y: u*u*u*p0.y + 3*u*u*t*p1.y + 3*u*t*t*p2.y + t*t*t*p3.y
-    };
+
+  /* ===================== 1. ONE CLOCK + REAL-WORLD NUMBERS ===================== */
+  const CONFIG = {
+    timeScale: 90,        // 1 real second on screen = 90 seconds of real time
+    hoverSlow: 0.055,     // box under the pointer runs at 5.5% speed
+    speed: 1,             // global multiplier (see KGCosmos.setSpeed)
+    altExaggeration: 4,   // ISS altitude is drawn 4x higher than true scale so it clears the Earth disc
+    voyagerBoost: 2.5,    // 1 = strict real speed ratio to the ISS (17 : 7.66 km/s); >1 makes Voyager drift faster on screen
+    cursor: { glow: true, trail: true, flick: true, click: true }   // set any to false to switch that effect off
   };
-  const tangent = (p0, p1, p2, p3, t) => {
-    const u = 1 - t;
-    return {
-      x: 3*u*u*(p1.x-p0.x) + 6*u*t*(p2.x-p1.x) + 3*t*t*(p3.x-p2.x),
-      y: 3*u*u*(p1.y-p0.y) + 6*u*t*(p2.y-p1.y) + 3*t*t*(p3.y-p2.y)
-    };
+  const REAL = {
+    issPeriodMin: 92.68, issInclinationDeg: 51.6, issAltKm: 408, earthRadiusKm: 6371,
+    stackM: 123,                  // tallest vehicle (Starship stack) -> sets the common metres-to-pixels scale
+    orbitKms: 7.7,               // low-Earth-orbit speed both rockets build up to
+    voyager1Kms: 17, issKms: 7.66,
+    asteroidSpinH: [2.5, 12],     // typical main-belt rotation periods
+    impactKms: 5.3                // mean main-belt collision speed (sets the relative speed ratio)
   };
 
-  const CONFIG = { hoverSlow: 0.055, speed: 1 };
-  const REAL = { issPeriodMin: 92.68, issInclinationDeg: 51.6, issAltKm: 408, earthRadiusKm: 6371, altExaggeration: 4 };
-
+  /* ===================== 2. SHARED CLIPART (all white) ===================== */
   const rockShapes = Array.from({ length: 6 }, () => {
-    const n = 10, pts = [], path = new Path2D();
-    for (let i = 0; i < n; i++) {
-      const a = i / n * TAU, r = rand(.62, 1);
-      pts.push([Math.cos(a) * r, Math.sin(a) * r]);
-    }
-    const mid = (a, b) => [(a[0]+b[0])/2, (a[1]+b[1])/2];
-    let m = mid(pts[n-1], pts[0]); path.moveTo(m[0], m[1]);
-    for (let i = 0; i < n; i++) {
-      const e = mid(pts[i], pts[(i+1)%n]);
-      path.quadraticCurveTo(pts[i][0], pts[i][1], e[0], e[1]);
-    }
+    const n = 10, p = [], path = new Path2D(), mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    for (let i = 0; i < n; i++) { const a = i / n * TAU, r = rand(.62, 1); p.push([Math.cos(a) * r, Math.sin(a) * r]); }
+    let m = mid(p[n - 1], p[0]); path.moveTo(m[0], m[1]);
+    for (let i = 0; i < n; i++) { const e = mid(p[i], p[(i + 1) % n]); path.quadraticCurveTo(p[i][0], p[i][1], e[0], e[1]); }
     path.closePath(); return path;
   });
-
-  function drawISS(c, x, y, rot, width, alpha) {
-    c.save(); c.translate(x, y); c.rotate(rot);
-    const scale = width / 60; c.scale(scale, scale); c.translate(-30, -17);
-    c.globalAlpha = alpha; c.fillStyle = '#fff';
-    c.fillRect(4,16,52,2);
-    [2,13,38,49].forEach(px => { c.fillRect(px,3,9,11); c.fillRect(px,20,9,11); });
-    c.fillRect(24,12,12,10); c.fillRect(28,6,4,22);
-    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = .8; c.beginPath();
-    [6.5,17.5,42.5,53.5].forEach(px => {
-      c.moveTo(px,3); c.lineTo(px,14); c.moveTo(px,20); c.lineTo(px,31);
-    });
-    c.stroke(); c.restore();
+  /* Launch vehicles in metres (origin = base of the last stage; "up" is -y; dropped stages hang at +y). */
+  const P = d => new Path2D(d);
+  const VEH = {
+    starship: { ve: 3.4, burn: 520, order: ['boost', 'ship'],               // Starship + Super Heavy, ~8.7 min to orbit, booster cut-off T+162 s
+      parts: { ship: [P('M0 -52C3.2 -44 4.5 -34 4.5 -24L4.5 0L-4.5 0L-4.5 -24C-4.5 -34 -3.2 -44 0 -52Z'),
+                      P('M4.5 -33L8.2 -29L4.5 -25Z M-4.5 -33L-8.2 -29L-4.5 -25Z M4.5 -9L10 -2L10 3L4.5 0Z M-4.5 -9L-10 -2L-10 3L-4.5 0Z')],
+               boost: [P('M-4.5 1.2H4.5V71H-4.5Z M4.5 6L8.5 9L4.5 12Z M-4.5 6L-8.5 9L-4.5 12Z')] },
+      drops: [{ T: 162, part: 'boost' }],
+      nozzle: { boost: { y: 71, w: 3, len: 46 }, ship: { y: 0, w: 3, len: 36 } } },
+    saturn: { ve: 3.1, burn: 700, order: ['s1', 's2', 's4'],                // Saturn V, 110.6 m: S-IC cut-off T+161 s, S-II T+548 s, S-IVB to orbit ~T+11:40
+      parts: { s4: [P('M-3.3 -17.8H3.3V0H-3.3Z'),
+                    P('M-3.3 -18.7H3.3V-17.8H-3.3Z M-3.3 -19.1H3.3L1.95 -26H-1.95Z M-1.95 -26.4H1.95V-33.5H-1.95Z M-1.95 -33.9H1.95L.5 -37.4H-.5Z M-.3 -37.8H.3V-45.5L0 -48L-.3 -45.5Z')],
+               s2: [P('M-5.05 .5H5.05V24.9H-5.05Z')],
+               s1: [P('M-5.05 25.4H5.05V67.5H-5.05Z'), P('M5.05 57L9.4 67.5H5.05Z M-5.05 57L-9.4 67.5H-5.05Z')] },
+      drops: [{ T: 161, part: 's1' }, { T: 548, part: 's2' }],
+      nozzle: { s1: { y: 67.5, w: 4.6, len: 64 }, s2: { y: 24.9, w: 2.8, len: 44 }, s4: { y: 0, w: 1.4, len: 28 } } }
+  };
+  // Voyager (units ~ metres, dish axis = +x, always aimed at Earth like the real high-gain antenna)
+  const VOY_DISH = P('M0 -1.85Q-1.7 0 0 1.85Z'), VOY_BUS = P('M-2.1 -.9L-1.4 -1.3L-.7 -.9L-.7 .9L-1.4 1.3L-2.1 .9Z');
+  function drawVoyager(c, x, y, rot, k) {
+    c.save(); c.translate(x, y); c.rotate(rot); c.scale(k, k); c.fillStyle = '#fff'; c.strokeStyle = '#fff'; c.lineWidth = .3; c.lineCap = 'round';
+    c.fill(VOY_DISH); c.fill(VOY_BUS);
+    c.beginPath(); c.moveTo(-.2, 0); c.lineTo(1.4, 0);                         // feed horn
+    c.moveTo(-2.1, -.3); c.lineTo(-13, -4.2);                                  // 13 m magnetometer boom
+    c.moveTo(-2.1, .2); c.lineTo(-7, 2.4);                                     // RTG boom
+    c.moveTo(-1.8, .9); c.lineTo(-4.6, 4.3); c.stroke();                       // science boom
+    [[-4, 1.3], [-5.3, 1.8], [-6.6, 2.3]].forEach(p => c.fillRect(p[0] - .5, p[1] - .35, 1, .7));   // 3 RTGs
+    c.fillRect(-5.4, 3.9, 1.6, 1);                                             // scan platform
+    c.beginPath(); c.arc(1.4, 0, .28, 0, TAU); c.fill(); c.beginPath(); c.arc(-13, -4.2, .35, 0, TAU); c.fill();
+    c.restore();
   }
 
-  function drawTail(c, head, tail, curve, width, alpha) {
-    const dx = tail.x-head.x, dy = tail.y-head.y, len = Math.hypot(dx,dy) || 1;
-    const px = -dy/len, py = dx/len;
-    const grad = c.createLinearGradient(head.x,head.y,tail.x,tail.y);
-    grad.addColorStop(0, `rgba(255,255,255,${alpha})`);
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    c.fillStyle = grad; c.beginPath();
-    c.moveTo(head.x+px*width, head.y+py*width);
-    c.quadraticCurveTo(curve.x+px*width*.45,curve.y+py*width*.45,tail.x,tail.y);
-    c.quadraticCurveTo(curve.x-px*width*.45,curve.y-py*width*.45,head.x-px*width,head.y-py*width);
+  function drawISS(c, x, y, rot, wpx, alpha) {   // 60 x 34 unit drawing, truss 109 m
+    c.save(); c.translate(x, y); c.rotate(rot); const s = wpx / 60; c.scale(s, s); c.translate(-30, -17); c.globalAlpha = alpha;
+    c.fillStyle = '#fff'; c.fillRect(4, 16, 52, 2);
+    [2, 13, 38, 49].forEach(px => { c.fillRect(px, 3, 9, 11); c.fillRect(px, 20, 9, 11); });
+    c.fillRect(24, 12, 12, 10); c.fillRect(28, 6, 4, 22);
+    c.strokeStyle = 'rgba(7,89,168,.5)'; c.lineWidth = .8; c.beginPath();
+    [6.5, 17.5, 42.5, 53.5].forEach(px => { c.moveTo(px, 3); c.lineTo(px, 14); c.moveTo(px, 20); c.lineTo(px, 31); });
+    c.stroke(); c.restore();
+  }
+  function drawTail(c, head, end, ctrl, wd, a) {   // tapered curved tail
+    const dx = end.x - head.x, dy = end.y - head.y, L = Math.hypot(dx, dy) || 1, px = -dy / L, py = dx / L;
+    const g = c.createLinearGradient(head.x, head.y, end.x, end.y);
+    g.addColorStop(0, 'rgba(255,255,255,' + a + ')'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = g; c.beginPath(); c.moveTo(head.x + px * wd, head.y + py * wd);
+    c.quadraticCurveTo(ctrl.x + px * wd * .6, ctrl.y + py * wd * .6, end.x, end.y);
+    c.quadraticCurveTo(ctrl.x - px * wd * .6, ctrl.y - py * wd * .6, head.x - px * wd, head.y - py * wd);
     c.closePath(); c.fill();
   }
 
-  function drawVoyager(c, x, y, angle, scale, alpha) {
-    c.save(); c.translate(x,y); c.rotate(angle); c.scale(scale,scale);
-    c.globalAlpha = alpha; c.strokeStyle = '#fff'; c.fillStyle = '#fff';
-    c.lineWidth = 1.5; c.lineCap = 'round'; c.lineJoin = 'round';
-    // High-gain dish, feed support, instrument boom and RTG cylinders.
-    c.beginPath(); c.ellipse(-4,0,8,5,-.18,0,TAU); c.stroke();
-    c.beginPath(); c.moveTo(-4,0); c.lineTo(1,0); c.lineTo(5,-5);
-    c.moveTo(1,0); c.lineTo(5,5); c.moveTo(0,0); c.lineTo(13,0);
-    c.stroke();
-    c.fillRect(0,-2.2,4.5,4.4);
-    c.fillRect(12,-1.3,5,2.6);
-    c.beginPath(); c.moveTo(3,-2); c.lineTo(7,-7); c.moveTo(3,2); c.lineTo(7,7); c.stroke();
-    c.restore();
-  }
-
-  function drawSaturnV(c, x, y, angle, scale, alpha) {
-    c.save(); c.translate(x,y); c.rotate(angle); c.scale(scale,scale);
-    c.globalAlpha = alpha; c.fillStyle = '#fff'; c.strokeStyle = '#fff';
-    // Upright three-stage Saturn V silhouette, nose at the top.
-    c.beginPath();
-    c.moveTo(0,-22); c.lineTo(3.1,-15); c.lineTo(3.1,12);
-    c.lineTo(4.5,17); c.lineTo(3.2,20); c.lineTo(-3.2,20);
-    c.lineTo(-4.5,17); c.lineTo(-3.1,12); c.lineTo(-3.1,-15); c.closePath(); c.fill();
-    c.fillStyle = 'rgba(7,89,168,.9)';
-    c.fillRect(-3,-7,6,1.5); c.fillRect(-3,4,6,1.5);
-    c.fillStyle = '#fff';
-    c.beginPath(); c.moveTo(-3.1,12); c.lineTo(-6,19); c.lineTo(-3.2,18);
-    c.moveTo(3.1,12); c.lineTo(6,19); c.lineTo(3.2,18); c.fill();
-    c.beginPath(); c.moveTo(-1.6,20); c.lineTo(0,26); c.lineTo(1.6,20); c.fill();
-    c.restore();
-  }
-
+  /* ===================== 3. ONE SCENE CLASS = ALL FIVE BLUE BOXES ===================== */
   class Scene {
     constructor(host) {
       this.host = host;
-      this.cv = document.createElement('canvas');
-      this.cv.className = 'kg-sky';
-      this.cv.setAttribute('aria-hidden','true');
-      host.prepend(this.cv);
-      this.ctx = this.cv.getContext('2d', { alpha:true });
       this.resizeObserver = null;
-      this.vis = true; this.tf = 1; this.tfT = 1; this.phase = rand(0,TAU);
+      this.cv = document.createElement('canvas');
+      this.cv.className = 'kg-sky'; this.cv.setAttribute('aria-hidden', 'true');
+      host.prepend(this.cv);
+      this.ctx = this.cv.getContext('2d');
+      this.vis = true; this.tf = 1; this.tfT = 1; this.phase = rand(0, TAU); this.launchN = 0;
+      this.cur = { on: false, fresh: false, cx: 0, cy: 0, x: -999, y: -999, acc: 0, cd: 0, click: 0 };
+      this.sparks = []; this.shoot = [];
       this.resize();
+      this.bind();
+    }
+    /* ---- cursor: slow-motion + light touches, all drawn on the same canvas (no extra DOM, no layout reads while moving) ---- */
+    bind() {
+      const h = this.host, cur = this.cur;
+      h.addEventListener('pointerenter', e => { if (e.pointerType === 'touch') return; this.tfT = CONFIG.hoverSlow; cur.on = cur.fresh = true; cur.cx = e.clientX; cur.cy = e.clientY; });
+      h.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') { cur.cx = e.clientX; cur.cy = e.clientY; } }, { passive: true });
+      h.addEventListener('pointerleave', () => { this.tfT = 1; cur.on = false; });
+      h.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'touch' || e.button !== 0 || !CONFIG.cursor.click) return;
+        if (e.target.closest && e.target.closest('a,button,input,textarea,select,summary,label,[role=button],[contenteditable]')) return;
+        const r = h.getBoundingClientRect(); this.poke(e.clientX - r.left, e.clientY - r.top);
+      });
+    }
+    poke(x, y) {                                    // click on empty blue space: ripple, and a launch from that spot
+      this.fx.push({ k: 'ring', x, y, t: 0, d: .9, m: 1.6 });
+      if (!this.ship && this.h >= 100 && this.cur.click <= 0) { this.spawnShip(null, x); this.cur.click = 5; }
     }
     get active() { return this.vis && !document.hidden && this.host.isConnected; }
 
     resize() {
-      const w = this.w = Math.max(1,this.host.clientWidth);
-      const h = this.h = Math.max(1,this.host.clientHeight);
-      const dpr = this.dpr = Math.min(devicePixelRatio || 1, 1.5);
-      this.cv.width = Math.round(w*dpr); this.cv.height = Math.round(h*dpr);
-      this.ctx.setTransform(dpr,0,0,dpr,0,0);
-      this.unit = clamp(h*.045,5,10);
-      this.stars = Array.from({length:clamp(Math.round(w*h/15000),8,28)},()=>({
-        x:rand(0,w),y:rand(0,h),r:rand(.35,.85),a:rand(.18,.5),p:rand(0,TAU),f:rand(.25,.7)
-      }));
-      const earthR = clamp(h*.14,12,48);
-      this.center = {x:w*rand(.55,.84),y:h*rand(.52,.78)};
-      this.orbitR = earthR*(1+(REAL.issAltKm/REAL.earthRadiusKm)*REAL.altExaggeration);
-      this.issW = clamp(earthR*1.05,14,48);
-      this.tilt = -REAL.issInclinationDeg*Math.PI/180;
-      this.voyager = null; this.saturn = null; this.comets = [];
-      this.pair = null; this.debris = []; this.fx = [];
-      this.next = {voyager:rand(5,12),saturn:rand(10,18),comet:rand(7,14),hit:rand(12,22)};
+      const w = this.w = Math.max(1, this.host.clientWidth), h = this.h = Math.max(1, this.host.clientHeight);
+      const dpr = this.dpr = Math.min(devicePixelRatio || 1, 2);
+      this.cv.width = Math.round(w * dpr); this.cv.height = Math.round(h * dpr);
+      this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      this.u = clamp(h * .05, 6, 12);
+      this.pxM = clamp(h * .17, 26, 58) / REAL.stackM;      // metres -> px (same scale for every vehicle)
+      this.parts = []; this.debris = []; this.fx = []; this.boost = []; this.comets = []; this.ship = null; this.pair = null; this.voy = null; this.sparks = []; this.shoot = [];
+      // sun (lights Earth, defines comet tails)
+      this.sun = { x: w * (Math.random() < .5 ? rand(.06, .16) : rand(.84, .94)), y: h * rand(.15, .3), r: clamp(h * .022, 3, 7) };
+      // Earth + ISS orbit
+      const Re = this.Re = clamp(h * .17, 14, 60);
+      this.earth = { x: w * rand(.55, .88), y: h * rand(.5, .78), r: Re };
+      this.ro = Re * (1 + (REAL.issAltKm / REAL.earthRadiusKm) * CONFIG.altExaggeration);
+      this.issW = clamp(Re * 1.1, 14, 56);
+      this.tilt = -REAL.issInclinationDeg * Math.PI / 180;
+      // slow background asteroids (real spin periods, compressed by the one time scale)
+      const nr = clamp(Math.round(w * h / 60000), 2, 7);
+      this.rocks = Array.from({ length: nr }, () => {
+        const hrs = rand(REAL.asteroidSpinH[0], REAL.asteroidSpinH[1]), sp = rand(3, 9), d = rand(0, TAU);
+        return { x: rand(0, w), y: rand(0, h), s: this.u * rand(.6, 1.4), vx: Math.cos(d) * sp, vy: Math.sin(d) * sp,
+          a: rand(0, TAU), w: TAU / (hrs * 3600 / CONFIG.timeScale) * (Math.random() < .5 ? -1 : 1), k: (Math.random() * 6) | 0 };
+      });
+      this.next = { ship: rand(2, 5), comet: rand(1, 4), hit: rand(4, 8), voy: rand(6, 14) };
     }
 
-    spawnCraft(kind) {
-      const {w,h} = this, fromLeft = Math.random()<.5;
-      const y0 = rand(.18,.78)*h, y3 = clamp(y0+rand(-.2,.2)*h,h*.12,h*.88);
-      const p0 = {x:fromLeft?-42:w+42,y:y0};
-      const p3 = {x:fromLeft?w+42:-42,y:y3};
-      const bend = rand(-.17,.17)*h;
-      const p1 = {x:mix(p0.x,p3.x,.28),y:clamp(y0+bend,h*.06,h*.94)};
-      const p2 = {x:mix(p0.x,p3.x,.72),y:clamp(y3-bend,h*.06,h*.94)};
-      const duration = kind==='voyager' ? rand(24,34) : rand(20,29);
-      this[kind] = {kind,p0,p1,p2,p3,t:0,duration,scale:kind==='voyager'?rand(.85,1.15):rand(.9,1.15)};
+    /* ---------- spawners ---------- */
+    spawnShip(kind, xClick) {
+      kind = kind || (this.launchN++ % 2 ? 'saturn' : 'starship');
+      const V = VEH[kind], N = 120, tau = V.burn / (1 - Math.exp(-REAL.orbitKms / V.ve)), dT = V.burn / N;   // Tsiolkovsky: v = ve*ln(m0/m)
+      const pts = []; let x = 0, y = 0;
+      for (let i = 0; i <= N; i++) {
+        const T = i * dT, v = V.ve * Math.log(1 / (1 - T / tau));
+        const th = T < 12 ? 0 : (Math.PI / 2) * Math.pow(clamp((T - 12) / (V.burn - 12), 0, 1), .75);   // vertical -> gravity turn
+        pts.push({ x, y }); x += v * Math.sin(th) * dT; y += v * Math.cos(th) * dT;
+      }
+      const dir = xClick != null ? (xClick < this.w / 2 ? 1 : -1) : (Math.random() < .5 ? 1 : -1);
+      const x0 = xClick != null ? xClick : dir > 0 ? this.w * rand(.06, .3) : this.w * (1 - rand(.06, .3));
+      const sx = this.w * .75 / (pts[N].x || 1), sy = Math.min(this.h * .72 / (pts[N].y || 1), sx * 6);   // altitude exaggerated for visibility
+      const att = {}; V.order.forEach(k => att[k] = true);
+      this.ship = { V, att, T: 0, N, dT, dir, x: 0, y: 0, h: -Math.PI / 2, vpx: 0, vpy: 0,
+        path: pts.map(p => ({ x: x0 + dir * p.x * sx, y: this.h + 4 - p.y * sy })) };
     }
-
+    spawnVoyager() {                                // straight, unpowered cruise; speed keeps the real Voyager 1 : ISS ratio (x voyagerBoost)
+      const { w, h } = this, dir = Math.random() < .5 ? 1 : -1, y0 = h * rand(.2, .8), dx = dir * (w + 100), dy = h * rand(-.2, .2), L = Math.hypot(dx, dy);
+      const v = this.ro * TAU / (REAL.issPeriodMin * 60 / CONFIG.timeScale) * (REAL.voyager1Kms / REAL.issKms) * CONFIG.voyagerBoost;
+      this.voy = { x: dir > 0 ? -50 : w + 50, y: y0, vx: dx / L * v, vy: dy / L * v, dir };
+    }
     spawnComet() {
-      const {w,h} = this, fromLeft = Math.random()<.5;
-      const y0 = rand(.08,.9)*h, y3 = clamp(y0+rand(-.35,.35)*h,h*.05,h*.95);
-      const p0 = {x:fromLeft?-35:w+35,y:y0};
-      const p3 = {x:fromLeft?w+35:-35,y:y3};
-      const bend = rand(-.22,.22)*h;
-      const p1 = {x:mix(p0.x,p3.x,.3),y:clamp(y0+bend,h*.02,h*.98)};
-      const p2 = {x:mix(p0.x,p3.x,.7),y:clamp(y3-bend,h*.02,h*.98)};
-      this.comets.push({p0,p1,p2,p3,t:0,duration:rand(11,16),curve:rand(-.18,.18)*h});
+      const { w, h, sun } = this, q = Math.min(w, h * 2) * rand(.14, .24), rmax = Math.hypot(w, h) * 1.2;
+      const vref = clamp(w * .045, 40, 90), rref = w * .5, mu = vref * vref * rref / 2;      // parabolic orbit, v = sqrt(2*mu/r)
+      const nuMax = Math.acos(clamp(2 * q / rmax - 1, -1, 1)), psi = rand(0, TAU), sgn = Math.random() < .5 ? 1 : -1;
+      const c = { q, mu, psi, sgn, nu: -nuMax, nuMax, sun, x: 0, y: 0, vx: 0, vy: 0, r: 1, started: false };
+      const pos = nu => { const r = 2 * q / (1 + Math.cos(nu)), a = psi + sgn * nu; return { r, x: sun.x + r * Math.cos(a), y: sun.y + r * Math.sin(a) }; };
+      for (let i = 0; i < 4000; i++) {                       // fast-forward until the comet is just outside the box
+        const p = pos(c.nu); if (p.x > -30 && p.x < w + 30 && p.y > -30 && p.y < h + 30) break;
+        c.nu += .002; if (c.nu > nuMax) return;
+      }
+      c.pos = pos; this.comets.push(c);
     }
-
     spawnCollision() {
-      const {w,h} = this, P={x:rand(.25,.75)*w,y:rand(.25,.75)*h}, ang=rand(0,TAU);
-      const n={x:Math.cos(ang),y:Math.sin(ang)};
-      const sA=this.unit*rand(1.5,2.1),sB=this.unit*rand(1.2,1.8);
-      const mA=sA**3,mB=sB**3,M=mA+mB,v=clamp(w*.07,42,85),sep=Math.min(w,h*3)*.62;
-      const mk=(s,m,sign,frac)=>({s,m,k:(Math.random()*6)|0,a:rand(0,TAU),w:rand(.35,.8)*(Math.random()<.5?-1:1),
-        x:P.x+sign*n.x*sep*frac,y:P.y+sign*n.y*sep*frac,
-        vx:-sign*n.x*v*(1-frac),vy:-sign*n.y*v*(1-frac),age:0});
-      this.pair={v,A:mk(sA,mA,1,mB/M),B:mk(sB,mB,-1,mA/M)};
+      const { w, h } = this, P = { x: rand(.25, .75) * w, y: rand(.25, .75) * h }, ang = rand(0, TAU), n = { x: Math.cos(ang), y: Math.sin(ang) };
+      const sA = this.u * rand(1.5, 2.2), sB = this.u * rand(1.2, 1.9), mA = sA ** 3, mB = sB ** 3, M = mA + mB;
+      const vrel = clamp(w * .09, 55, 120), sep = Math.min(w, this.h * 3) * .7, cv = { x: rand(-14, 14), y: rand(-14, 14) };
+      const mk = (s, m, sign, frac) => ({ s, m, k: (Math.random() * 6) | 0, a: rand(0, TAU), w: rand(.3, .8) * (Math.random() < .5 ? -1 : 1),
+        x: P.x + sign * n.x * sep * frac, y: P.y + sign * n.y * sep * frac,
+        vx: cv.x - sign * n.x * vrel * (1 - frac), vy: cv.y - sign * n.y * vrel * (1 - frac), life: 0 });
+      this.pair = { vrel, A: mk(sA, mA, 1, mB / M), B: mk(sB, mB, -1, mA / M) };   // equal & opposite momentum in the centre-of-mass frame
     }
-
-    impact(pair) {
-      const {A,B}=pair,M=A.m+B.m;
-      const x=(A.x*B.m+B.x*A.m)/M,y=(A.y*B.m+B.y*A.m)/M;
-      this.fx.push({kind:'flash',x,y,t:0,d:.42},{kind:'ring',x,y,t:0,d:.8});
-      const n=9,vel=[];
-      let mx=0,my=0;
-      for(let i=0;i<n;i++){const a=rand(0,TAU),v=pair.v*rand(.12,.5);vel.push([Math.cos(a)*v,Math.sin(a)*v]);mx+=Math.cos(a)*v;my+=Math.sin(a)*v;}
-      vel.forEach(e=>{
-        const size=this.unit*rand(.18,.48);
-        this.debris.push({x:x+rand(-2,2),y:y+rand(-2,2),s:size,vx:e[0]-mx/n,vy:e[1]-my/n,
-          a:rand(0,TAU),w:rand(1,3),k:(Math.random()*6)|0,age:0,life:rand(5,8)});
+    impact(pr) {
+      const { A, B } = pr, M = A.m + B.m, x = (A.x * B.m + B.x * A.m) / M, y = (A.y * B.m + B.y * A.m) / M;
+      const vcx = (A.vx * A.m + B.vx * B.m) / M, vcy = (A.vy * A.m + B.vy * B.m) / M;     // momentum conserved: debris share the pair's velocity
+      this.fx.push({ k: 'flash', x, y, t: 0, d: .5 }, { k: 'ring', x, y, t: 0, d: .9 });
+      const n = 10 + (Math.random() * 5 | 0), out = []; let mx = 0, my = 0;
+      for (let i = 0; i < n; i++) { const a = rand(0, TAU), v = pr.vrel * rand(.1, .55); out.push([Math.cos(a) * v, Math.sin(a) * v]); mx += Math.cos(a) * v; my += Math.sin(a) * v; }
+      out.forEach(e => {
+        const s = (Math.random() < .2 ? rand(.3, .5) : rand(.12, .3)) * (A.s + B.s) / 2;
+        this.debris.push({ x: x + rand(-3, 3), y: y + rand(-3, 3), s, vx: vcx + e[0] - mx / n, vy: vcy + e[1] - my / n,
+          a: rand(0, TAU), w: rand(1.2, 4) * Math.sqrt(this.u / s) * (Math.random() < .5 ? -1 : 1), k: (Math.random() * 6) | 0, age: 0, life: rand(8, 13) });
       });
     }
 
+    /* ---------- one update step ---------- */
     step(dt) {
-      this.tf += (this.tfT-this.tf)*(1-Math.exp(-dt*6));
-      const d=dt*this.tf*CONFIG.speed,{w,h}=this;
-      this.phase=(this.phase+TAU/(REAL.issPeriodMin*60)*d)%TAU;
-      const n=this.next;
-      if(!this.voyager && (n.voyager-=d)<0){this.spawnCraft('voyager');n.voyager=rand(35,52);}
-      if(!this.saturn && (n.saturn-=d)<0){this.spawnCraft('saturn');n.saturn=rand(42,62);}
-      if(this.comets.length<1 && (n.comet-=d)<0){this.spawnComet();n.comet=rand(24,38);}
-      if(!this.pair && (n.hit-=d)<0){this.spawnCollision();n.hit=rand(32,48);}
+      this.tf += (this.tfT - this.tf) * (1 - Math.exp(-dt * 6));
+      const d = dt * this.tf * CONFIG.speed, TS = CONFIG.timeScale, { w, h } = this;
+      this.phase = (this.phase + TAU / (REAL.issPeriodMin * 60 / TS) * d) % TAU;
 
-      ['voyager','saturn'].forEach(kind=>{
-        const craft=this[kind];
-        if(craft){craft.t+=d/craft.duration;if(craft.t>=1)this[kind]=null;}
-      });
-      this.comets=this.comets.filter(k=>(k.t+=d/k.duration)<1);
+      const nx = this.next;
+      if (h >= 100 && !this.ship && (nx.ship -= d) < 0) { this.spawnShip(); nx.ship = rand(10, 20); }
+      if (w >= 260 && this.comets.length < (w > 900 ? 2 : 1) && (nx.comet -= d) < 0) { this.spawnComet(); nx.comet = rand(7, 15); }
+      if (h >= 100 && !this.pair && (nx.hit -= d) < 0) { this.spawnCollision(); nx.hit = rand(12, 24); }
+      if (w >= 420 && h >= 120 && !this.voy && (nx.voy -= d) < 0) { this.spawnVoyager(); nx.voy = rand(25, 45); }
+      if (this.voy) { const v = this.voy; v.x += v.vx * d; v.y += v.vy * d; if (v.dir > 0 ? v.x > w + 60 : v.x < -60) this.voy = null; }
 
-      const pair=this.pair;
-      if(pair){
-        [pair.A,pair.B].forEach(o=>{o.x+=o.vx*d;o.y+=o.vy*d;o.a+=o.w*d;o.age+=d;});
-        if(Math.hypot(pair.A.x-pair.B.x,pair.A.y-pair.B.y)<(pair.A.s+pair.B.s)*.52){
-          this.impact(pair);this.pair=null;
-        } else if(pair.A.age>12)this.pair=null;
-      }
-      this.debris.forEach(o=>{o.age+=d;o.x+=o.vx*d;o.y+=o.vy*d;o.a+=o.w*d;});
-      this.debris=this.debris.filter(o=>o.age<o.life);
-      this.fx.forEach(f=>f.t+=d);this.fx=this.fx.filter(f=>f.t<f.d);
-    }
+      this.rocks.forEach(r => { r.x += r.vx * d; r.y += r.vy * d; r.a += r.w * d; const m = r.s;
+        if (r.x < -m) r.x = w + m; else if (r.x > w + m) r.x = -m; if (r.y < -m) r.y = h + m; else if (r.y > h + m) r.y = -m; });
 
-    draw() {
-      const c=this.ctx,{w,h,center}=this;
-      c.clearRect(0,0,w,h);
-      const now=performance.now()/1000;
-      this.stars.forEach(s=>{
-        c.globalAlpha=s.a*(.78+.22*Math.sin(now*s.f+s.p));
-        c.fillStyle='#fff';c.beginPath();c.arc(s.x,s.y,s.r,0,TAU);c.fill();
-      });
-
-      // A fine orbital track and the ISS only: no large glowing sun, Earth or moon-like discs.
-      const cp=Math.cos(this.phase),sp=Math.sin(this.phase),ct=Math.cos(this.tilt),st=Math.sin(this.tilt);
-      const rx=this.orbitR,ry=this.orbitR*.3;
-      c.save();c.translate(center.x,center.y);c.rotate(this.tilt);
-      c.globalAlpha=.2;c.strokeStyle='#fff';c.lineWidth=.8;c.beginPath();c.ellipse(0,0,rx,ry,0,0,TAU);c.stroke();c.restore();
-      const ix=center.x+rx*cp*ct-ry*sp*st,iy=center.y+rx*cp*st+ry*sp*ct;
-      const issRot=Math.atan2(iy-center.y,ix-center.x)+Math.PI/2;
-      drawISS(c,ix,iy,issRot,this.issW*(1+.12*sp),.9);
-
-      // Smooth curved comets; the tapered tail follows the actual direction of travel.
-      this.comets.forEach(k=>{
-        const head=point(k.p0,k.p1,k.p2,k.p3,k.t);
-        const v=tangent(k.p0,k.p1,k.p2,k.p3,k.t),vl=Math.hypot(v.x,v.y)||1;
-        const ux=v.x/vl,uy=v.y/vl,px=-uy,py=ux;
-        const len=clamp(w*.105,28,105)*(0.7+0.3*Math.sin(Math.PI*k.t));
-        const tail={x:head.x-ux*len,y:head.y-uy*len};
-        const curve={x:(head.x+tail.x)/2+px*k.curve*.16,y:(head.y+tail.y)/2+py*k.curve*.16};
-        drawTail(c,head,tail,curve,2.1,.58);
-        const g=c.createRadialGradient(head.x,head.y,0,head.x,head.y,4);
-        g.addColorStop(0,'rgba(255,255,255,.9)');g.addColorStop(1,'rgba(255,255,255,0)');
-        c.fillStyle=g;c.beginPath();c.arc(head.x,head.y,4,0,TAU);c.fill();
-        c.fillStyle='#fff';c.beginPath();c.arc(head.x,head.y,1.5,0,TAU);c.fill();
-      });
-
-      // Voyager 2 and Saturn V travel on slow, smooth Bézier paths.
-      ['voyager','saturn'].forEach(kind=>{
-        const craft=this[kind];if(!craft)return;
-        const pos=point(craft.p0,craft.p1,craft.p2,craft.p3,craft.t);
-        const v=tangent(craft.p0,craft.p1,craft.p2,craft.p3,craft.t);
-        const angle=Math.atan2(v.y,v.x);
-        const fade=Math.min(1,craft.t*7,(1-craft.t)*7);
-        if(kind==='voyager')drawVoyager(c,pos.x,pos.y,angle,craft.scale,fade);
-        else drawSaturnV(c,pos.x,pos.y,angle+Math.PI/2,craft.scale,fade);
-      });
-
-      // Collision rocks, flash, expanding ring and nine fading fragments.
-      c.fillStyle='#fff';
-      const rock=(o,alpha)=>{
-        c.save();c.globalAlpha=alpha;c.translate(o.x,o.y);c.rotate(o.a);
-        c.scale(o.s/2,o.s/2);c.fill(rockShapes[o.k]);c.restore();
-      };
-      if(this.pair){rock(this.pair.A,1);rock(this.pair.B,1);}
-      this.debris.forEach(o=>rock(o,clamp(1-o.age/o.life,0,1)));
-      this.fx.forEach(f=>{
-        const k=f.t/f.d;
-        if(f.kind==='flash'){
-          const r=this.unit*4*(.2+1.2*k),g=c.createRadialGradient(f.x,f.y,0,f.x,f.y,r);
-          g.addColorStop(0,`rgba(255,255,255,${1-k})`);g.addColorStop(1,'rgba(255,255,255,0)');
-          c.fillStyle=g;c.beginPath();c.arc(f.x,f.y,r,0,TAU);c.fill();
-        } else {
-          c.globalAlpha=.85*(1-k);c.strokeStyle='#fff';c.lineWidth=1.3;
-          c.beginPath();c.arc(f.x,f.y,this.unit*2.8*(.1+2.2*Math.pow(k,.6)),0,TAU);c.stroke();
+      /* Launch vehicle: Tsiolkovsky velocity profile, gravity turn, real staging times, then orbit-speed coast */
+      const sh = this.ship;
+      if (sh) {
+        const V = sh.V; sh.T += d * TS;
+        if (sh.T <= V.burn) {
+          const f = sh.T / sh.dT, i = Math.min(sh.N - 1, f | 0), k = f - i, a = sh.path[i], b = sh.path[i + 1];
+          sh.x = a.x + (b.x - a.x) * k; sh.y = a.y + (b.y - a.y) * k;
+          sh.vpx = (b.x - a.x) / sh.dT * TS; sh.vpy = (b.y - a.y) / sh.dT * TS;
+        } else { sh.x += sh.vpx * d; sh.y += sh.vpy * d; }
+        if (Math.hypot(sh.vpx, sh.vpy) > 1) sh.h = Math.atan2(sh.vpy, sh.vpx);
+        V.drops.forEach(dp => {
+          if (sh.att[dp.part] && sh.T >= dp.T) {
+            sh.att[dp.part] = false;
+            this.boost.push({ paths: V.parts[dp.part], x: sh.x, y: sh.y, vx: sh.vpx * .55, vy: sh.vpy * .55, a: sh.h + Math.PI / 2, w: sh.dir * rand(.5, 1), age: 0 });
+          }
+        });
+        const noz = V.nozzle[V.order.find(k => sh.att[k])], L = this.pxM * REAL.stackM, fx = Math.cos(sh.h), fy = Math.sin(sh.h), nz = noz.y * this.pxM;
+        for (let i = 0, n = Math.ceil(dt * 60); i < n; i++) {
+          if (this.parts.length > 160) this.parts.shift();
+          this.parts.push({ x: sh.x - fx * nz + rand(-1, 1), y: sh.y - fy * nz + rand(-1, 1), vx: -fx * 14 + rand(-6, 6), vy: -fy * 14 + rand(-6, 6), age: 0, life: rand(.9, 1.5), r: this.pxM * noz.w * .9 });
         }
+        if (sh.x < -L * 2 || sh.x > w + L * 2 || sh.y < -L * 2 || sh.y > h + L * 3) this.ship = null;
+      }
+      this.boost.forEach(b => { b.age += d; b.x += b.vx * d; b.y += b.vy * d; b.vy += this.h * .12 * d; b.a += b.w * d; });
+      this.boost = this.boost.filter(b => b.age < 3.5);
+      this.parts.forEach(p => { p.age += d; p.x += p.vx * d; p.y += p.vy * d; });
+      this.parts = this.parts.filter(p => p.age < p.life);
+
+      /* comets: Kepler parabola around the sun -> fastest at perihelion; tail always points away from the sun */
+      this.comets = this.comets.filter(c => {
+        const p = c.pos(c.nu), r = p.r, hh = Math.sqrt(2 * c.mu * c.q);
+        c.nu += hh / (r * r) * d; const q = c.pos(c.nu);
+        c.vx = (q.x - p.x) / (d || 1e-3); c.vy = (q.y - p.y) / (d || 1e-3); c.x = q.x; c.y = q.y; c.r = q.r;
+        const out = c.x < -60 || c.x > w + 60 || c.y < -60 || c.y > h + 60;
+        return !(c.nu > 0 && out) && c.nu < c.nuMax;
       });
-      c.globalAlpha=1;
+
+      /* asteroid collision */
+      const pr = this.pair;
+      if (pr) {
+        [pr.A, pr.B].forEach(o => { o.x += o.vx * d; o.y += o.vy * d; o.a += o.w * d; o.life += d; });
+        if (Math.hypot(pr.A.x - pr.B.x, pr.A.y - pr.B.y) <= (pr.A.s + pr.B.s) * .5 * .9) { this.impact(pr); this.pair = null; }
+        else if (pr.A.life > 14) this.pair = null;
+      }
+      this.debris.forEach(o => { o.age += d; o.x += o.vx * d; o.y += o.vy * d; o.a += o.w * d; });
+      this.debris = this.debris.filter(o => o.age < o.life);
+      this.fx.forEach(f => f.t += d); this.fx = this.fx.filter(f => f.t < f.d);
+
+      /* cursor effects run on real time (not slowed) so they always feel instant */
+      const cur = this.cur, CC = CONFIG.cursor; cur.cd -= dt; cur.click -= dt;
+      if (cur.on) {
+        const r = this.host.getBoundingClientRect(), nx2 = cur.cx - r.left, ny2 = cur.cy - r.top;
+        if (cur.fresh) { cur.x = nx2; cur.y = ny2; cur.fresh = false; }
+        const dx = nx2 - cur.x, dy = ny2 - cur.y, dist = Math.hypot(dx, dy), sp = dist / Math.max(dt, .001);
+        cur.x = nx2; cur.y = ny2;
+        if (CC.trail && dist > 0) { cur.acc += dist; while (cur.acc > 22) { cur.acc -= 22; if (this.sparks.length < 36) this.sparks.push({ x: cur.x + rand(-4, 4), y: cur.y + rand(-4, 4), r: rand(.8, 1.8), age: 0, life: rand(.5, .9) }); } }
+        if (CC.flick && sp > 1500 && cur.cd <= 0) { this.shoot.push({ x: cur.x, y: cur.y, vx: dx / dist * 560, vy: dy / dist * 560, age: 0, life: .85 }); cur.cd = .9; }
+      }
+      this.sparks.forEach(p => p.age += dt); this.sparks = this.sparks.filter(p => p.age < p.life);
+      this.shoot.forEach(p => { p.age += dt; p.x += p.vx * dt; p.y += p.vy * dt; }); this.shoot = this.shoot.filter(p => p.age < p.life);
+    }
+
+    /* ---------- draw (back to front) ---------- */
+    draw() {
+      const c = this.ctx, { w, h, sun, earth: E } = this;
+      c.clearRect(0, 0, w, h); c.fillStyle = '#fff';
+      const now = performance.now() / 1000;
+      const cur = this.cur, lit = cur.on && CONFIG.cursor.glow;
+      if (lit) { const g = c.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, 90); g.addColorStop(0, 'rgba(255,255,255,.13)'); g.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = g; c.globalAlpha = 1; c.beginPath(); c.arc(cur.x, cur.y, 90, 0, TAU); c.fill(); c.fillStyle = '#fff'; }
+      // sun
+      const sg = c.createRadialGradient(sun.x, sun.y, 0, sun.x, sun.y, sun.r * 6);
+      sg.addColorStop(0, 'rgba(255,255,255,.5)'); sg.addColorStop(1, 'rgba(255,255,255,0)');
+      c.globalAlpha = 1; c.fillStyle = sg; c.beginPath(); c.arc(sun.x, sun.y, sun.r * 6, 0, TAU); c.fill();
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(sun.x, sun.y, sun.r, 0, TAU); c.fill();
+
+      // comets
+      this.comets.forEach(k => {
+        const ax = k.x - sun.x, ay = k.y - sun.y, L = Math.hypot(ax, ay) || 1, ux = ax / L, uy = ay / L;   // anti-solar direction
+        const vl = Math.hypot(k.vx, k.vy) || 1, vx = k.vx / vl, vy = k.vy / vl;
+        const len = clamp(w * .16 * clamp(k.q * 1.4 / k.r, .2, 1.4), 24, 260), head = { x: k.x, y: k.y };
+        drawTail(c, head, { x: k.x + ux * len, y: k.y + uy * len }, { x: k.x + ux * len * .5, y: k.y + uy * len * .5 }, 1.4, .55);          // ion tail: straight
+        drawTail(c, head, { x: k.x + ux * len * .8 - vx * len * .28, y: k.y + uy * len * .8 - vy * len * .28 },
+          { x: k.x + ux * len * .45, y: k.y + uy * len * .45 }, 3.2, .4);                                                                      // dust tail: curved, lags behind
+        const g = c.createRadialGradient(k.x, k.y, 0, k.x, k.y, 9); g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(k.x, k.y, 9, 0, TAU); c.fill();
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(k.x, k.y, 2.2, 0, TAU); c.fill();
+      });
+
+      // Voyager: dish locked on Earth, with a few radio pulses travelling toward it
+      const vy = this.voy;
+      if (vy) {
+        const ang = Math.atan2(E.y - vy.y, E.x - vy.x), dE = Math.hypot(E.x - vy.x, E.y - vy.y), kv = clamp(h * .13, 22, 40) / 14;
+        c.strokeStyle = '#fff'; c.lineWidth = 1;
+        for (let i = 0; i < 3; i++) { const t = (now * .5 + i / 3) % 1; c.globalAlpha = .5 * (1 - t); c.beginPath(); c.arc(vy.x, vy.y, 6 + t * Math.min(dE * .6, 110), ang - .3, ang + .3); c.stroke(); }
+        c.globalAlpha = .95; drawVoyager(c, vy.x, vy.y, ang, kv);
+      }
+
+      // ISS far side -> Earth (erases what is behind it) -> ISS near side
+      const cp = Math.cos(this.phase), sp = Math.sin(this.phase), ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
+      const lx = this.ro * cp, ly = this.ro * .3 * sp, ix = E.x + lx * ct - ly * st, iy = E.y + lx * st + ly * ct;
+      const issRot = Math.atan2(iy - E.y, ix - E.x) + Math.PI / 2, depth = 1 + .18 * sp;
+      if (sp < 0) drawISS(c, ix, iy, issRot, this.issW * depth, .8);
+      c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1; c.beginPath(); c.arc(E.x, E.y, E.r, 0, TAU); c.fill();
+      c.globalCompositeOperation = 'source-over';
+      const sl = Math.hypot(sun.x - E.x, sun.y - E.y) || 1, lx2 = (sun.x - E.x) / sl, ly2 = (sun.y - E.y) / sl;
+      const eg = c.createRadialGradient(E.x + lx2 * E.r * .35, E.y + ly2 * E.r * .35, 0, E.x, E.y, E.r);
+      eg.addColorStop(0, 'rgba(255,255,255,.6)'); eg.addColorStop(1, 'rgba(255,255,255,.08)');
+      c.fillStyle = eg; c.beginPath(); c.arc(E.x, E.y, E.r, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 1; c.stroke();
+      if (sp >= 0) drawISS(c, ix, iy, issRot, this.issW * depth, 1);
+
+      // background asteroids
+      c.fillStyle = '#fff';
+      const rock = (o, al) => { c.save(); c.globalAlpha = al; c.translate(o.x, o.y); c.rotate(o.a); c.scale(o.s / 2, o.s / 2); c.fill(rockShapes[o.k]); c.restore(); };
+      this.rocks.forEach(r => rock(r, .75));
+      if (this.pair) { rock(this.pair.A, 1); rock(this.pair.B, 1); }
+      this.debris.forEach(o => rock(o, clamp(1 - o.age / o.life, 0, 1)));
+      this.fx.forEach(f => {
+        const k = f.t / f.d;
+        if (f.k === 'flash') { const r = this.u * 5 * (.2 + 1.3 * k), g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, r);
+          g.addColorStop(0, 'rgba(255,255,255,' + (1 - k) + ')'); g.addColorStop(1, 'rgba(255,255,255,0)'); c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(f.x, f.y, r, 0, TAU); c.fill(); }
+        else { c.globalAlpha = .9 * (1 - k); c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.arc(f.x, f.y, this.u * 3.5 * (f.m || 1) * (.1 + 2.4 * Math.pow(k, .6)), 0, TAU); c.stroke(); }
+      });
+
+      // exhaust, dropped stages, launch vehicle
+      c.fillStyle = '#fff';
+      this.parts.forEach(p => { const k = p.age / p.life; c.globalAlpha = .45 * (1 - k); c.beginPath(); c.arc(p.x, p.y, p.r * (1 + 1.2 * k), 0, TAU); c.fill(); });
+      this.boost.forEach(b => { c.save(); c.globalAlpha = clamp(1 - b.age / 3.5, 0, 1); c.translate(b.x, b.y); c.rotate(b.a); c.scale(this.pxM, this.pxM); b.paths.forEach(p => c.fill(p)); c.restore(); });
+      const sh = this.ship;
+      if (sh) {
+        const V = sh.V, low = V.order.find(k => sh.att[k]), noz = V.nozzle[low];
+        c.save(); c.globalAlpha = 1; c.translate(sh.x, sh.y); c.rotate(sh.h + Math.PI / 2); c.scale(this.pxM, this.pxM);
+        c.fillStyle = '#fff'; V.order.forEach(k => { if (sh.att[k]) V.parts[k].forEach(p => c.fill(p)); });
+        const len = noz.len * (.85 + Math.random() * .3), g = c.createLinearGradient(0, noz.y, 0, noz.y + len);
+        g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.fillStyle = g; c.beginPath(); c.moveTo(-noz.w, noz.y); c.lineTo(0, noz.y + len); c.lineTo(noz.w, noz.y); c.fill();
+        c.restore();
+      }
+      // cursor sparkles + flick shooting stars
+      c.fillStyle = '#fff';
+      this.sparks.forEach(p => { const k = p.age / p.life, r = p.r * (1 - k * .5); c.globalAlpha = .9 * (1 - k); c.fillRect(p.x - r * 2, p.y - .35, r * 4, .7); c.fillRect(p.x - .35, p.y - r * 2, .7, r * 4); c.beginPath(); c.arc(p.x, p.y, r * .6, 0, TAU); c.fill(); });
+      this.shoot.forEach(p => { const k = p.age / p.life, sp = Math.hypot(p.vx, p.vy), ux = p.vx / sp, uy = p.vy / sp, L = 80 * (1 - k * .4);
+        c.globalAlpha = 1 - k * k; drawTail(c, { x: p.x, y: p.y }, { x: p.x - ux * L, y: p.y - uy * L }, { x: p.x - ux * L * .5, y: p.y - uy * L * .5 }, 1.1, .9);
+        c.globalAlpha = 1 - k * k; c.fillStyle = '#fff'; c.beginPath(); c.arc(p.x, p.y, 2, 0, TAU); c.fill(); });
+      c.globalAlpha = 1;
     }
   }
 
-  const scenes=new Set();let raf=0,last=0;
-  function frame(now){
-    raf=requestAnimationFrame(frame);
-    const dt=Math.min(.05,(now-last)/1000||0);last=now;let any=false;
-    scenes.forEach(scene=>{
-      if(!scene.host.isConnected){
-        if(scene.resizeObserver)scene.resizeObserver.disconnect();
-        io.unobserve(scene.host);
-        scenes.delete(scene);
-        return;
-      }
-      if(scene.active){any=true;scene.step(dt);scene.draw();}
+  /* ===================== 4. ONE ENGINE (single rAF loop, visibility) ===================== */
+  const scenes = new Set(); let raf = 0, last = 0;
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    const dt = Math.min(.05, (now - last) / 1000 || 0); last = now; let any = false;
+    scenes.forEach(s => {
+      if (!s.host.isConnected) { disposeScene(s); return; }
+      if (s.active) { any = true; s.step(dt); s.draw(); }
     });
-    if(!any){cancelAnimationFrame(raf);raf=0;}
+    if (!any) { cancelAnimationFrame(raf); raf = 0; }
   }
-  const wake=()=>{if(!raf){last=performance.now();raf=requestAnimationFrame(frame);}};
-  document.addEventListener('visibilitychange',wake);
+  const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+  document.addEventListener('visibilitychange', wake);
 
-  const SELECTORS=[
-    '.header','.hero','.hero-grid > div:first-child','.strip','.strip-grid > div',
-    '.newsletter-section','.social-section','.social-intro','.latest-section',
-    '.appointment-panel','.opd-hours','.photo-reel-section','.footer','.footer-contact-band',
-    '.secondary-page-content .newsletter-panel',
-    '.secondary-page-content .secondary-facts article',
-    '.secondary-page-content .secondary-hospital > div'
-  ];
-  const BLUE_CLASSES=['header','newsletter-section','social-section','social-intro','latest-section',
-    'appointment-panel','opd-hours','photo-reel-section','strip','footer','footer-contact-band'];
-  const isBlue=el=>!el.closest('#hospital-location')&&(
-    /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/.test(getComputedStyle(el).backgroundColor)||
-    BLUE_CLASSES.some(name=>el.classList.contains(name))
+  const SELECTORS = ['.header', '.hero', '.hero-grid > div:first-child', '.strip', '.strip-grid > div', '.newsletter-section', '.social-section',
+    '.social-intro', '.latest-section', '.hospital-map-section', '.appointment-panel', '.opd-hours', '.photo-reel-section', '.footer', '.footer-contact-band',
+    '.secondary-page-content .newsletter-panel', '.secondary-page-content .secondary-facts article', '.secondary-page-content .secondary-hospital > div'];
+  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-section', 'social-intro', 'latest-section', 'hospital-map-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
+  const isBlue = el => !el.closest('#hospital-location') && (
+    /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/.test(getComputedStyle(el).backgroundColor) ||
+    BLUE_CLASSES.some(k => el.classList.contains(k))
   );
 
-  const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
-    let scene=entry.target._kg;
-    if(entry.isIntersecting&&!scene&&entry.target.clientWidth>=220&&entry.target.clientHeight>=60){
-      scene=entry.target._kg=new Scene(entry.target);scenes.add(scene);
-      entry.target.addEventListener('pointerenter',ev=>{if(ev.pointerType!=='touch')scene.tfT=CONFIG.hoverSlow;});
-      entry.target.addEventListener('pointerleave',()=>{scene.tfT=1;});
-      scene.resizeObserver=new ResizeObserver(()=>{
-        if(Math.abs(scene.w-scene.host.clientWidth)>2||Math.abs(scene.h-scene.host.clientHeight)>2)scene.resize();
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    let s = e.target._kg;
+    if (e.isIntersecting && !s && e.target.clientWidth >= 220 && e.target.clientHeight >= 60) {
+      s = e.target._kg = new Scene(e.target); scenes.add(s);
+      s.resizeObserver = new ResizeObserver(() => {
+        if (Math.abs(s.w - s.host.clientWidth) > 2 || Math.abs(s.h - s.host.clientHeight) > 2) s.resize();
       });
-      scene.resizeObserver.observe(entry.target);
+      s.resizeObserver.observe(e.target);
     }
-    if(scene){scene.vis=entry.isIntersecting;if(scene.vis)wake();}
-  }),{rootMargin:'100px'});
+    if (s) { s.vis = e.isIntersecting; if (s.vis) wake(); }
+  }), { rootMargin: '120px' });
 
-  const seen=new WeakSet();
-  function scan(){
-    SELECTORS.forEach(selector=>document.querySelectorAll(selector).forEach(el=>{
-      if(seen.has(el)||!isBlue(el)||el.closest('#hospital-location'))return;
-      seen.add(el);el.classList.add('kg-cosmos-host');io.observe(el);
+  const seen = new WeakSet();
+  function disposeScene(s) {
+    if (s.resizeObserver) s.resizeObserver.disconnect();
+    io.unobserve(s.host);
+    scenes.delete(s);
+    if (s.cv && s.cv.isConnected) s.cv.remove();
+    if (s.host._kg === s) delete s.host._kg;
+    seen.delete(s.host);
+  }
+  function scan() {
+    // Also clean detached scenes while the animation loop is asleep off-screen.
+    scenes.forEach(s => { if (!s.host.isConnected) disposeScene(s); });
+    SELECTORS.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      if (seen.has(el) || el.closest('#hospital-location') || !isBlue(el)) return; seen.add(el);
+      el.classList.add('kg-cosmos-host'); io.observe(el);
     }));
   }
-  const start=()=>{
-    scan();let timer;
-    new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(scan,250);})
-      .observe(document.documentElement,{childList:true,subtree:true});
-  };
-  document.readyState==='loading'
-    ?document.addEventListener('DOMContentLoaded',start,{once:true})
-    :start();
+  const start = () => { scan(); let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(scan, 200); }).observe(document.documentElement, { childList: true, subtree: true }); };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', start, { once: true }) : start();
 
-  window.KGCosmos={config:CONFIG,real:REAL,scenes,Scene,setSpeed:value=>{CONFIG.speed=value;}};
+  window.KGCosmos = { config: CONFIG, real: REAL, scenes, Scene, setSpeed: v => { CONFIG.speed = v; } };
 })();
 </script>
 
@@ -6383,3 +6342,45 @@ img.kg-logo,
   #kg-photo-of-month-section .main-image-story-media{aspect-ratio:4/3!important;order:0!important}
 }
 </style>
+
+<style id="kg-mobile-hamburger-scroll-and-stable-dropdown-final">
+@media(max-width:760px){
+  .header #links.open{
+    position:absolute!important;top:calc(100% + 3px)!important;left:0!important;right:0!important;
+    width:auto!important;height:auto!important;max-height:calc(100vh - 125px)!important;
+    max-height:calc(100dvh - 125px)!important;overflow-y:scroll!important;overflow-x:hidden!important;
+    overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+    scrollbar-width:thin!important;scrollbar-color:#0759a8 #e5edf4!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    z-index:10000!important;touch-action:pan-y!important;
+  }
+  .header #links.open::-webkit-scrollbar{width:8px!important}
+  .header #links.open::-webkit-scrollbar-track{background:#e5edf4!important;border-radius:8px!important}
+  .header #links.open::-webkit-scrollbar-thumb{background:#0759a8!important;border:1px solid #e5edf4!important;border-radius:8px!important}
+  .header #links.open>details.nav-dropdown{flex:0 0 auto!important;position:relative!important}
+  .header #links.open>details.nav-dropdown>summary{touch-action:manipulation!important;user-select:none!important;-webkit-tap-highlight-color:rgba(7,89,168,.14)!important}
+  .header #links.open>details.nav-dropdown[open]>.nav-dropdown-menu{display:grid!important;position:static!important;max-height:none!important;overflow:visible!important}
+}
+
+/* Final dropdown hover contrast fix: submenu items remain clearly readable under the pointer. */
+.header #links .nav-dropdown-menu a:hover,
+.header #links .nav-dropdown-menu a:focus,
+.header #links .nav-dropdown-menu a:focus-visible,
+.header #links .nav-dropdown-menu a:active,
+.header #links .nav-dropdown[open]>.nav-dropdown-menu a:hover,
+.header #links .nav-dropdown[open]>.nav-dropdown-menu a:focus-visible{
+  background:#0759a8!important;
+  color:#fff!important;
+  outline:2px solid #ffc400!important;
+  outline-offset:-2px!important;
+  box-shadow:inset 4px 0 #ffc400!important;
+  opacity:1!important;
+  filter:none!important;
+  text-decoration:none!important;
+}
+.header #links .nav-dropdown-menu a:hover *,
+.header #links .nav-dropdown-menu a:focus-visible *{
+  color:#fff!important;
+}
+</style>
+

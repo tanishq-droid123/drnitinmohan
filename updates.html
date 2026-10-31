@@ -178,7 +178,8 @@ select{cursor:pointer}
 
       <div class="subpanel">
         <h3 class="group-title">Photo of the Month</h3>
-        <div class="control" style="margin-bottom:12px"><label for="photoAction">Photo setting</label><select id="photoAction"><option value="unchanged">No change</option><option value="update">Update Photo of the Month</option></select></div>
+        <div class="control" style="margin-bottom:12px"><label for="photoAction">What would you like to do?</label><select id="photoAction"><option value="unchanged" selected>Continue displaying the current Photo of the Month (default)</option><option value="update">Update Photo of the Month</option><option value="disable">Disable Photo of the Month</option></select></div>
+        <p class="hint">The default keeps the currently published photo unchanged. Choose Update to upload a replacement, or Disable to stop displaying the Photo of the Month.</p>
         <div class="conditional" id="photoPanel" hidden>
           <div class="field-grid">
             <div class="field full">
@@ -521,7 +522,9 @@ select{cursor:pointer}
       changeAnnouncement: ['edit','add','restore_default'].includes($('announcementAction').value) ? 'yes' : 'no',
       announcementMode: $('announcementAction').value,
       mainStripBackgroundColor: $('mainAnnouncementBackgroundColor').value,
-      updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'unchanged'
+      photoOfMonthAction: $('photoAction').value,
+      updatePhotoOfMonth: $('photoAction').value === 'update' ? 'yes' : 'no',
+      disablePhotoOfMonth: $('photoAction').value === 'disable' ? 'yes' : 'no'
     };
     const data = {
       schemaVersion: 2,
@@ -548,6 +551,7 @@ select{cursor:pointer}
           standardStrip: 101 - Number($('defaultMarqueeSpeed').value),
           customStrip: 101 - Number($('customMarqueeSpeed').value)
         },
+        photoOfMonthAction: $('photoAction').value,
         photoOfMonth: selectedPhotoFile ? `configuration/photo-of-the-month/${selectedPhotoFile.name}` : '',
         photoOfMonthFileName: selectedPhotoFile ? selectedPhotoFile.name : '',
         photoOfMonthDestinationFolder: 'configuration/photo-of-the-month/',
