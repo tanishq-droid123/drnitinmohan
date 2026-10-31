@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-31T09:53:31.525Z",
+  "createdAt": "2026-10-31T10:39:09.097Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -18,9 +18,16 @@
     "changeAnnouncement": "yes",
     "announcementMode": "edit",
     "mainStripBackgroundColor": "#ffc400",
-    "photoOfMonthAction": "unchanged",
-    "updatePhotoOfMonth": "no",
-    "disablePhotoOfMonth": "no"
+    "photoOfMonthAction": "update",
+    "updatePhotoOfMonth": "yes",
+    "disablePhotoOfMonth": "no",
+    "settingActions": {
+      "appointmentButton": "continue",
+      "whatsappBookingOption": "continue",
+      "rezepRxBookingOption": "continue",
+      "announcementMarquee": "continue",
+      "photoOfTheMonth": "update"
+    }
   },
   "changeSchedules": {
     "settings": {
@@ -37,6 +44,10 @@
         "scheduleGroupId": "schedule-1"
       },
       "announcementMarquee": {
+        "duration": "permanent",
+        "scheduleGroupId": null
+      },
+      "photoOfTheMonth": {
         "duration": "permanent",
         "scheduleGroupId": null
       }
@@ -72,11 +83,11 @@
       "standardStrip": 83,
       "customStrip": 9
     },
-    "photoOfMonthAction": "unchanged",
-    "photoOfMonth": "",
-    "photoOfMonthFileName": "",
+    "photoOfMonthAction": "update",
+    "photoOfMonth": "configuration/photo-of-the-month/abcd.jpg",
+    "photoOfMonthFileName": "abcd.jpg",
     "photoOfMonthDestinationFolder": "configuration/photo-of-the-month/",
-    "photoCaption": "",
+    "photoCaption": "An infant and his mother visiting Dr. Nitin Mohan",
     "otherInstructions": ""
   },
   "duration": "mixed",
@@ -94,5 +105,17 @@
       }
     ],
     "activateTemporary": true
+  },
+  "mergeMetadata": {
+    "baselineFile": "change-request.json",
+    "generatedAt": "2026-10-31T10:39:09.096Z",
+    "actions": {
+      "appointmentButton": "continue",
+      "whatsappBookingOption": "continue",
+      "rezepRxBookingOption": "continue",
+      "announcementMarquee": "continue",
+      "photoOfTheMonth": "update"
+    },
+    "note": "Settings marked continue were carried forward from the loaded previous configuration where available."
   }
 }

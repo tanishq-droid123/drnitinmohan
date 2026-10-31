@@ -141,6 +141,29 @@ select{cursor:pointer}
 .fallback-upload input{max-width:220px;padding:5px;border:0;font-size:.78rem}
 #refreshLiveSettings{white-space:nowrap}
 
+
+/* Colour-coded appointment hierarchy: blue parent, teal child options. */
+.appointment-settings{border:1px solid #8bb8df!important;border-radius:12px!important;background:#f4f8ff!important;overflow:hidden}
+.appointment-settings>.group-title{margin:0 0 14px!important;padding:13px 16px!important;background:#0759a8!important;color:#fff!important;border-radius:0!important}
+.appointment-parent-control{position:relative;max-width:100%;margin:0 14px!important;padding:15px 16px!important;background:#e2efff!important;border:1px solid #8bb8df!important;border-left:5px solid #0759a8!important;border-radius:9px!important}
+.appointment-parent-control:before{content:'MAIN CONTROL';display:block;margin:0 0 7px;color:#0759a8;font-size:.68rem;font-weight:800;letter-spacing:.09em}
+.appointment-parent-control label{color:#123e68;font-weight:800}
+.appointment-parent-control select{max-width:100%;border-color:#8bb8df!important;background:#fff!important}
+.booking-suboptions{margin:14px 14px 14px 30px!important;padding:13px 14px 14px!important;border:1px solid #a8d8cd!important;border-left:5px solid #16836f!important;border-radius:9px!important;background:#edf8f5!important}
+.booking-suboptions-heading{display:grid;gap:3px;margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid #c8e5dd}
+.booking-suboptions-heading:before{content:'MENU OPTIONS';color:#137461;font-size:.68rem;font-weight:800;letter-spacing:.09em}
+.booking-suboptions-heading strong{font-size:.9rem;color:#105b50}
+.booking-suboptions-heading .hint{margin:0;font-size:.78rem;color:#4f746d}
+.booking-suboptions .control-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.booking-child-control{padding:12px!important;background:#fff!important;border:1px solid #b9ded4!important;border-radius:8px!important;min-width:0}
+.booking-child-control label{color:#145f53;font-weight:750}
+.booking-child-control select{background:#fbfffd!important;border-color:#b9ded4!important;max-width:100%}
+.booking-child-control:has(select:disabled){opacity:.58;background:#e7efec!important;border-style:dashed!important}
+.booking-child-control .previous-meta{color:#4e716a}
+.booking-disabled-note{margin:11px 0 0!important;padding:10px 12px!important;border-radius:7px!important;background:#fff3d5!important;border:1px solid #e8ce87!important;color:#725515!important;font-size:.8rem}
+.booking-disabled-note[hidden]{display:none}
+@media(max-width:650px){.booking-suboptions{margin:12px 10px 12px 18px!important;padding:11px!important}.booking-suboptions .control-grid{grid-template-columns:1fr}.appointment-parent-control{margin-inline:10px!important}}
+
 </style>
 </head>
 <body>
@@ -175,14 +198,24 @@ select{cursor:pointer}
       <div class="section-head"><span class="num">1</span><h2>Website settings</h2></div>
       <p class="hint">Change only the items you select. Everything else stays as it is.</p>
 
-      <div class="subpanel">
+      <div class="subpanel appointment-settings">
         <h3 class="group-title">Appointment booking</h3>
-        <div class="control-grid">
-          <div class="control"><label for="appointment">Appointment button</label><select id="appointment"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable (keep visible)</option></select><div class="previous-meta" id="appointmentPrevious">Previous setting: not loaded</div></div>
-          <div class="control"><label for="whatsappBooking">WhatsApp booking option</label><select id="whatsappBooking"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="whatsappBookingPrevious">Previous setting: not loaded</div></div>
-          <div class="control"><label for="rezeptrx">RezeptRX booking option</label><select id="rezeptrx"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="rezeptrxPrevious">Previous setting: not loaded</div></div>
+        <div class="control appointment-parent-control">
+          <label for="appointment">Appointment button</label>
+          <select id="appointment"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable booking (button stays visible)</option></select>
+          <div class="previous-meta" id="appointmentPrevious">Previous setting: not loaded</div>
         </div>
-        <p class="hint group-hint">These two booking options appear inside the appointment button menu. Disabling the appointment button automatically disables both options; the button itself remains visible.</p>
+        <div class="booking-suboptions" id="bookingSuboptions">
+          <div class="booking-suboptions-heading">
+            <strong>Options inside the appointment menu</strong>
+            <span class="hint">These options are available only when appointment booking is enabled.</span>
+          </div>
+          <div class="control-grid">
+            <div class="control booking-child-control"><label for="whatsappBooking">WhatsApp booking</label><select id="whatsappBooking"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="whatsappBookingPrevious">Previous setting: not loaded</div></div>
+            <div class="control booking-child-control"><label for="rezeptrx">RezeptRX booking</label><select id="rezeptrx"><option value="unchanged" selected>Continue last setting</option><option value="enable">Enable</option><option value="disable">Disable</option></select><div class="previous-meta" id="rezeptrxPrevious">Previous setting: not loaded</div></div>
+          </div>
+          <p class="booking-disabled-note" id="bookingDisabledNote" hidden>Appointment booking is disabled. Both menu options are automatically unavailable; their individual settings are preserved and will apply again if appointment booking is re-enabled.</p>
+        </div>
       </div>
 
       <div class="subpanel">
@@ -542,7 +575,11 @@ select{cursor:pointer}
     const customSpeedLabel = document.querySelector('label[for="customMarqueeSpeed"]');
     if (customSpeedLabel) customSpeedLabel.textContent = announcementMode === 'edit' ? 'Main strip speed' : 'Additional strip speed';
     const appointmentOff = $('appointment').value === 'disable';
-    ['whatsappBooking','rezeptrx'].forEach(id => { if (appointmentOff) { $(id).value = 'disable'; $(id).disabled = true; } else { $(id).disabled = false; } });
+    // Parent-off disables the menu controls without overwriting their selections.
+    // This preserves the two independent menu settings if appointment booking is re-enabled.
+    ['whatsappBooking','rezeptrx'].forEach(id => { $(id).disabled = appointmentOff; });
+    $('bookingDisabledNote').hidden = !appointmentOff;
+    $('bookingSuboptions').classList.toggle('is-disabled-by-parent', appointmentOff);
     toggle('photoPanel', $('photoAction').value === 'update');
     renderChangeScheduleEditor();
     updateAnnouncementPreview();

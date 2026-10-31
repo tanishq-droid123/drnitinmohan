@@ -5770,29 +5770,58 @@ html body .kg-pointer-glow::after{display:none!important}
 
 <script id="kg-mobile-touch-cursor-runtime">
 (()=>{
-  const coarse=window.matchMedia&&window.matchMedia('(hover: none), (pointer: coarse)').matches;
-  if(!coarse)return;
-  let dot,ring,hideTimer=0;
-  const create=()=>{
-    if(dot&&ring)return;
-    dot=document.createElement('span');dot.className='kg-mobile-touch-cursor';dot.setAttribute('aria-hidden','true');
-    ring=document.createElement('span');ring.className='kg-mobile-touch-cursor-ring';ring.setAttribute('aria-hidden','true');
+  // Mobile browsers do not expose a permanent mouse pointer. Show a visible
+  // touch marker at the finger position and keep it briefly after release.
+  const coarse=()=>!!(window.matchMedia&&(
+    window.matchMedia('(hover: none)').matches ||
+    window.matchMedia('(pointer: coarse)').matches
+  ));
+  if(!coarse())return;
+  let dot=null,ring=null,hideTimer=0;
+  function create(){
+    if(dot&&ring&&dot.isConnected&&ring.isConnected)return;
+    dot=document.createElement('span');
+    dot.className='kg-mobile-touch-cursor';
+    dot.setAttribute('aria-hidden','true');
+    ring=document.createElement('span');
+    ring.className='kg-mobile-touch-cursor-ring';
+    ring.setAttribute('aria-hidden','true');
     (document.body||document.documentElement).append(dot,ring);
-  };
-  const move=e=>{
-    if(e.pointerType!=='touch'&&e.pointerType!=='pen')return;
+  }
+  function showAt(x,y){
+    if(!Number.isFinite(x)||!Number.isFinite(y))return;
     create();
-    const x=e.clientX,y=e.clientY,transform=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-    dot.style.transform=transform;ring.style.transform=transform;
-    dot.classList.add('is-visible');ring.classList.add('is-visible');
+    const t=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
+    // The stylesheet uses !important for the safe off-screen initial position;
+    // set the live coordinates with the same priority so they actually win.
+    dot.style.setProperty('transform',t,'important');
+    ring.style.setProperty('transform',t,'important');
+    dot.classList.add('is-visible');
+    ring.classList.add('is-visible');
     window.clearTimeout(hideTimer);
-    hideTimer=window.setTimeout(()=>{dot?.classList.remove('is-visible');ring?.classList.remove('is-visible')},650);
-  };
-  document.addEventListener('pointerdown',move,{passive:true,capture:true});
-  document.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')move(e)},{passive:true,capture:true});
-  document.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){
-    window.clearTimeout(hideTimer);hideTimer=window.setTimeout(()=>{dot?.classList.remove('is-visible');ring?.classList.remove('is-visible')},420);
-  }},{passive:true,capture:true});
+  }
+  function scheduleHide(delay=1100){
+    window.clearTimeout(hideTimer);
+    hideTimer=window.setTimeout(()=>{
+      dot?.classList.remove('is-visible');
+      ring?.classList.remove('is-visible');
+    },delay);
+  }
+  function pointer(e){
+    if(e.pointerType==='touch'||e.pointerType==='pen')showAt(e.clientX,e.clientY);
+  }
+  function touch(e){
+    const t=e.changedTouches&&e.changedTouches[0] || e.touches&&e.touches[0];
+    if(!t)return;
+    showAt(t.clientX,t.clientY);
+  }
+  document.addEventListener('pointerdown',pointer,{passive:true,capture:true});
+  document.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')pointer(e)},{passive:true,capture:true});
+  document.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')scheduleHide(1100)},{passive:true,capture:true});
+  document.addEventListener('touchstart',touch,{passive:true,capture:true});
+  document.addEventListener('touchmove',touch,{passive:true,capture:true});
+  document.addEventListener('touchend',e=>{touch(e);scheduleHide(1100)},{passive:true,capture:true});
+  document.addEventListener('touchcancel',()=>scheduleHide(500),{passive:true,capture:true});
 })();
 </script>
 </body></html>
