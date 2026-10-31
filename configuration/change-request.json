@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "formTitle": "KidsGastro Website Change Request",
   "doctor": "Dr. Nitin Mohan",
-  "createdAt": "2026-10-31T11:20:52.173Z",
+  "createdAt": "2026-10-31T11:29:59.196Z",
   "timezone": "Asia/Kolkata",
   "targetFile": "configuration/change-request.json",
   "notice": "This is a request only. It does not modify or publish the website.",
@@ -16,16 +16,16 @@
     "showWhatsAppButton": "no",
     "hideWhatsAppButton": "yes",
     "changeAnnouncement": "yes",
-    "announcementMode": "restore_default",
+    "announcementMode": "edit",
     "mainStripBackgroundColor": "#ffc400",
     "photoOfMonthAction": "update",
     "updatePhotoOfMonth": "yes",
     "disablePhotoOfMonth": "no",
     "settingActions": {
-      "appointmentButton": "disable",
+      "appointmentButton": "continue",
       "whatsappBookingOption": "continue",
       "rezepRxBookingOption": "continue",
-      "announcementMarquee": "restore_default",
+      "announcementMarquee": "edit",
       "photoOfTheMonth": "continue"
     }
   },
@@ -67,7 +67,14 @@
         "startDateTime": "2026-10-31T15:48",
         "endDateTime": "2026-11-01T03:59",
         "settings": [
-          "appointmentButton",
+          "appointmentButton"
+        ]
+      },
+      {
+        "id": "new-schedule-1",
+        "startDateTime": "2026-10-31T16:59",
+        "endDateTime": "2026-11-01T23:59",
+        "settings": [
           "announcementMarquee"
         ]
       }
@@ -75,13 +82,13 @@
     "activateTemporary": true
   },
   "details": {
-    "announcementText": "",
+    "announcementText": "Appointments unavailable between 31/10/26 to 1/11/26.                       Kindly cooperate",
     "defaultAnnouncementText": "OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW.               CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.",
     "mainStripTextColor": "#0759a8",
     "mainStripBackgroundColor": "#ffc400",
     "announcementTextColors": {
       "defaultStrip": "#0759a8",
-      "customStrip": "#0759a8"
+      "customStrip": "#da1043"
     },
     "announcementBackgroundColors": {
       "mainStrip": "#ffc400",
@@ -89,7 +96,7 @@
     },
     "announcementMarqueeSpeedsSeconds": {
       "standardStrip": 83,
-      "customStrip": 83
+      "customStrip": 13
     },
     "photoOfMonthAction": "update",
     "photoOfMonth": "configuration/photo-of-the-month/abcd.jpg",
@@ -114,7 +121,13 @@
         "startDateTime": "2026-10-31T15:48",
         "endDateTime": "2026-11-01T03:59",
         "settings": [
-          "appointmentButton",
+          "appointmentButton"
+        ]
+      },
+      {
+        "startDateTime": "2026-10-31T16:59",
+        "endDateTime": "2026-11-01T23:59",
+        "settings": [
           "announcementMarquee"
         ]
       }
@@ -123,12 +136,12 @@
   },
   "mergeMetadata": {
     "baselineFile": "change-request.json",
-    "generatedAt": "2026-10-31T11:20:52.172Z",
+    "generatedAt": "2026-10-31T11:29:59.195Z",
     "actions": {
-      "appointmentButton": "disable",
+      "appointmentButton": "continue",
       "whatsappBookingOption": "continue",
       "rezepRxBookingOption": "continue",
-      "announcementMarquee": "restore_default",
+      "announcementMarquee": "edit",
       "photoOfTheMonth": "continue"
     },
     "note": "Settings marked continue were carried forward from the loaded previous configuration where available."
