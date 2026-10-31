@@ -1172,8 +1172,8 @@ img.asset-pending{visibility:hidden!important}
 @keyframes kg-mark-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
 /* Profile block: layered rings behind the existing KG watermark. */
 .social-section,.latest-section,.hospital-map-section,.newsletter-section,.appointment-panel,.opd-hours,.photo-reel-section{position:relative;isolation:isolate;overflow:hidden}
-.social-section::before,.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before{content:"";position:absolute;z-index:0;pointer-events:none;width:clamp(180px,30vw,360px);height:clamp(180px,30vw,360px);border:1px solid rgba(7,89,168,.10);border-radius:50%;right:-95px;top:-115px;box-shadow:0 0 0 24px rgba(7,89,168,.025),0 0 0 54px rgba(7,89,168,.018);animation:kg-orbit-drift 18s ease-in-out infinite}
-.social-section::after,.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after{content:"";position:absolute;z-index:0;pointer-events:none;width:9px;height:9px;border-radius:50%;right:11%;top:26%;background:#ffc400;box-shadow:0 0 0 8px rgba(255,196,0,.10),0 0 28px rgba(7,89,168,.12);animation:kg-soft-pulse 5s ease-in-out infinite}
+.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before{content:"";position:absolute;z-index:0;pointer-events:none;width:clamp(180px,30vw,360px);height:clamp(180px,30vw,360px);border:1px solid rgba(7,89,168,.10);border-radius:50%;right:-95px;top:-115px;box-shadow:0 0 0 24px rgba(7,89,168,.025),0 0 0 54px rgba(7,89,168,.018);animation:kg-orbit-drift 18s ease-in-out infinite}
+.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after{content:"";position:absolute;z-index:0;pointer-events:none;width:9px;height:9px;border-radius:50%;right:11%;top:26%;background:#ffc400;box-shadow:0 0 0 8px rgba(255,196,0,.10),0 0 28px rgba(7,89,168,.12);animation:kg-soft-pulse 5s ease-in-out infinite}
 .social-section>.container,.latest-section>.container,.hospital-map-section>.container,.newsletter-section>.container,.appointment-panel>.container,.opd-hours>.container,.photo-reel-section>.container{position:relative;z-index:1}
 .social-intro::after{animation:kg-mark-float 8s ease-in-out infinite,kg-soft-pulse 7s ease-in-out infinite;transform-origin:75% 75%}
 .social-intro{background-image:radial-gradient(circle at 16% 18%,rgba(255,255,255,.12) 0 2px,transparent 3px),linear-gradient(125deg,#0759a8,#0b65b4,#0759a8);background-size:34px 34px,220% 220%;animation:kg-glow-slide 18s ease-in-out infinite}
@@ -1187,8 +1187,8 @@ img.asset-pending{visibility:hidden!important}
 .newsletter-section::before{border-color:rgba(255,255,255,.18);box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 54px rgba(255,255,255,.025)}
 .newsletter-section::after{background:#ffc400;top:25%;right:47%}
 .photo-reel-section::after{right:46%;top:12%;background:#168cbb}
-@media(max-width:700px){.social-section::before,.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before{right:-150px;top:-130px}.social-section::after,.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after{right:8%;top:12%}.newsletter-section::after{right:18%;top:12%}}
-@media(prefers-reduced-motion:reduce){.social-section::before,.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before,.social-section::after,.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after,.social-intro,.social-section>.container,.latest-section>.container,.hospital-map-section>.container,.newsletter-section>.container,.appointment-panel>.container,.opd-hours>.container,.photo-reel-section>.container{position:relative;z-index:1}
+@media(max-width:700px){.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before{right:-150px;top:-130px}.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after{right:8%;top:12%}.newsletter-section::after{right:18%;top:12%}}
+@media(prefers-reduced-motion:reduce){.latest-section::before,.hospital-map-section::before,.newsletter-section::before,.appointment-panel::before,.opd-hours::before,.photo-reel-section::before,.latest-section::after,.hospital-map-section::after,.appointment-panel::after,.opd-hours::after,.photo-reel-section::after,.social-intro,.social-section>.container,.latest-section>.container,.hospital-map-section>.container,.newsletter-section>.container,.appointment-panel>.container,.opd-hours>.container,.photo-reel-section>.container{position:relative;z-index:1}
 .social-intro::after{animation:none!important}.profile-links .social-placeholder::after{display:none}.profile-links .social-mark{transition:none}}
 </style>
 <style id="footer-screenshot-layout">
@@ -5551,7 +5551,8 @@ html body .kg-pointer-glow::after{display:none!important}
       const { w, h, sun } = this, q = Math.min(w, h * 2) * rand(.14, .24), rmax = Math.hypot(w, h) * 1.2;
       const vref = clamp(w * .045, 40, 90), rref = w * .5, mu = vref * vref * rref / 2;      // parabolic orbit, v = sqrt(2*mu/r)
       const nuMax = Math.acos(clamp(2 * q / rmax - 1, -1, 1)), psi = rand(0, TAU), sgn = Math.random() < .5 ? 1 : -1;
-      const c = { q, mu, psi, sgn, nu: -nuMax, nuMax, sun, x: 0, y: 0, vx: 0, vy: 0, r: 1, started: false };
+      const c = { q, mu, psi, sgn, nu: -nuMax, nuMax, sun, x: 0, y: 0, vx: 0, vy: 0, r: 1, started: false,
+        trail: [], dust: [], shed: 0 };
       const pos = nu => { const r = 2 * q / (1 + Math.cos(nu)), a = psi + sgn * nu; return { r, x: sun.x + r * Math.cos(a), y: sun.y + r * Math.sin(a) }; };
       for (let i = 0; i < 4000; i++) {                       // fast-forward until the comet is just outside the box
         const p = pos(c.nu); if (p.x > -30 && p.x < w + 30 && p.y > -30 && p.y < h + 30) break;
@@ -5628,8 +5629,26 @@ html body .kg-pointer-glow::after{display:none!important}
       /* comets: Kepler parabola around the sun -> fastest at perihelion; tail always points away from the sun */
       this.comets = this.comets.filter(c => {
         const p = c.pos(c.nu), r = p.r, hh = Math.sqrt(2 * c.mu * c.q);
-        c.nu += hh / (r * r) * d; const q = c.pos(c.nu);
-        c.vx = (q.x - p.x) / (d || 1e-3); c.vy = (q.y - p.y) / (d || 1e-3); c.x = q.x; c.y = q.y; c.r = q.r;
+        /* Kepler motion accelerates sharply at perihelion: the close solar pass becomes a fast curved whip. */
+        c.nu += (hh / (r * r)) * d * 1.22;
+        const q = c.pos(c.nu);
+        c.vx = (q.x - p.x) / (d || 1e-3); c.vy = (q.y - p.y) / (d || 1e-3);
+        c.x = q.x; c.y = q.y; c.r = q.r;
+        c.trail = c.trail || [];
+        c.trail.unshift({x:c.x,y:c.y});
+        if(c.trail.length>34)c.trail.length=34;
+        const heat = clamp(1.35 - r / (c.q * 3.2), 0, 1);
+        c.shed = (c.shed || 0) + d * (2 + heat * 22);
+        while(c.shed >= 1){
+          c.shed -= 1;
+          if(c.dust.length < 72){
+            const a=rand(0,TAU), sp=rand(8,34)*(0.45+heat);
+            c.dust.push({x:c.x+rand(-2,2),y:c.y+rand(-2,2),vx:-c.vx*.018+Math.cos(a)*sp,
+              vy:-c.vy*.018+Math.sin(a)*sp,life:rand(.45,1.25),age:0,size:rand(.45,1.45)});
+          }
+        }
+        c.dust.forEach(z=>{z.age+=d;z.x+=z.vx*d;z.y+=z.vy*d;z.vx*=Math.pow(.985,d*60);z.vy*=Math.pow(.985,d*60);});
+        c.dust=c.dust.filter(z=>z.age<z.life);
         const out = c.x < -60 || c.x > w + 60 || c.y < -60 || c.y > h + 60;
         return !(c.nu > 0 && out) && c.nu < c.nuMax;
       });
@@ -5674,15 +5693,85 @@ html body .kg-pointer-glow::after{display:none!important}
 
       // comets
       this.comets.forEach(k => {
-        const ax = k.x - sun.x, ay = k.y - sun.y, L = Math.hypot(ax, ay) || 1, ux = ax / L, uy = ay / L;   // anti-solar direction
+        const ax = k.x - sun.x, ay = k.y - sun.y, L = Math.hypot(ax, ay) || 1, ux = ax / L, uy = ay / L;
         const vl = Math.hypot(k.vx, k.vy) || 1, vx = k.vx / vl, vy = k.vy / vl;
-        const len = clamp(w * .16 * clamp(k.q * 1.4 / k.r, .2, 1.4), 24, 260), head = { x: k.x, y: k.y };
-        drawTail(c, head, { x: k.x + ux * len, y: k.y + uy * len }, { x: k.x + ux * len * .5, y: k.y + uy * len * .5 }, 1.4, .55);          // ion tail: straight
-        drawTail(c, head, { x: k.x + ux * len * .8 - vx * len * .28, y: k.y + uy * len * .8 - vy * len * .28 },
-          { x: k.x + ux * len * .45, y: k.y + uy * len * .45 }, 3.2, .4);                                                                      // dust tail: curved, lags behind
-        const g = c.createRadialGradient(k.x, k.y, 0, k.x, k.y, 9); g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-        c.globalAlpha = 1; c.fillStyle = g; c.beginPath(); c.arc(k.x, k.y, 9, 0, TAU); c.fill();
-        c.fillStyle = '#fff'; c.beginPath(); c.arc(k.x, k.y, 2.2, 0, TAU); c.fill();
+        const heat = clamp(1.35 - k.r / (k.q * 3.2), 0, 1);
+        const len = clamp(w * (.13 + heat * .12) * clamp(k.q * 1.4 / k.r, .2, 1.5), 28, 290), head = { x: k.x, y: k.y };
+
+        /* The real travelled arc stays visible behind the nucleus, so the comet visibly whips around the Sun. */
+        if(k.trail && k.trail.length>2){
+          c.save(); c.lineCap='round'; c.lineJoin='round';
+          for(let i=1;i<k.trail.length;i++){
+            const a=k.trail[i-1],b=k.trail[i],fade=(1-i/k.trail.length);
+            c.strokeStyle='rgba(177,224,255,'+(fade*.62)+')'; c.lineWidth=.7+fade*1.8;
+            c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.stroke();
+          }
+          c.restore();
+        }
+        /* Ion tail points away from the Sun; dust tail bends and lags along the orbit. */
+        drawTail(c, head, { x: k.x + ux * len, y: k.y + uy * len },
+          { x: k.x + ux * len * .5, y: k.y + uy * len * .5 }, 1.8+heat*1.3, .72);
+        drawTail(c, head, { x: k.x + ux * len * .72 - vx * len * .42, y: k.y + uy * len * .72 - vy * len * .42 },
+          { x: k.x + ux * len * .35 - vx * len * .12, y: k.y + uy * len * .35 - vy * len * .12 }, 3.5+heat*3, .56);
+
+        /* Ice and dust boil off in a turbulent, fading particle wake. */
+        k.dust.forEach(z=>{
+          const fade=1-z.age/z.life;c.globalAlpha=fade*.9;
+          c.fillStyle=z.age<.18?'#fff2c7':'#b9e4ff';
+          c.beginPath();c.arc(z.x,z.y,z.size*(.55+fade*.55),0,TAU);c.fill();
+        });
+        c.globalAlpha=1;
+        const glow=9+heat*17;
+        const g=c.createRadialGradient(k.x,k.y,0,k.x,k.y,glow);
+        g.addColorStop(0,'rgba(255,255,255,1)');
+        g.addColorStop(.22,'rgba(255,238,190,.95)');
+        g.addColorStop(.58,'rgba(109,202,255,'+(.38+heat*.35)+')');
+        g.addColorStop(1,'rgba(255,255,255,0)');
+        c.fillStyle=g;c.beginPath();c.arc(k.x,k.y,glow,0,TAU);c.fill();
+        c.fillStyle='#fff';c.beginPath();c.arc(k.x,k.y,2.4+heat*1.4,0,TAU);c.fill();
+        if(heat>.35){
+          c.strokeStyle='rgba(255,231,174,'+(heat*.7)+')';c.lineWidth=1.2+heat;
+          c.beginPath();c.arc(k.x,k.y,5+heat*5,0,TAU);c.stroke();
+        }
+
+        /* Brief supernova-like outburst: an expanding shock ring, radial rays and ejecta.
+           This is deliberately a visual burst, not a literal stellar supernova. */
+        if(heat>.82 && !k.nova && k.r < k.q*1.48){
+          k.nova={age:0,duration:.72,particles:[]};
+          for(let n=0;n<46;n++){
+            const a=rand(0,TAU),speed=rand(38,190)*(0.65+heat*.5);
+            k.nova.particles.push({a,speed,dist:rand(2,12),size:rand(.6,2.2),life:rand(.35,.78)});
+          }
+        }
+        if(k.nova){
+          const nova=k.nova;nova.age+=d;
+          const t=clamp(nova.age/nova.duration,0,1),ease=1-Math.pow(1-t,3);
+          c.save();c.globalCompositeOperation='lighter';
+          const radius=10+ease*(30+heat*34),alpha=(1-t)*.78;
+          c.strokeStyle='rgba(255,239,205,'+alpha+')';c.lineWidth=1.2+(1-t)*2.8;
+          c.beginPath();c.arc(k.x,k.y,radius,0,TAU);c.stroke();
+          c.strokeStyle='rgba(130,211,255,'+(alpha*.72)+')';c.lineWidth=1;
+          c.beginPath();c.arc(k.x,k.y,radius*.68,0,TAU);c.stroke();
+          const flash=(1-t)*.72;
+          const flashGlow=c.createRadialGradient(k.x,k.y,0,k.x,k.y,18+ease*34);
+          flashGlow.addColorStop(0,'rgba(255,255,255,'+flash+')');
+          flashGlow.addColorStop(.28,'rgba(255,224,160,'+(flash*.85)+')');
+          flashGlow.addColorStop(1,'rgba(90,190,255,0)');
+          c.fillStyle=flashGlow;c.beginPath();c.arc(k.x,k.y,18+ease*34,0,TAU);c.fill();
+          nova.particles.forEach(z=>{
+            const distance=z.dist+z.speed*nova.age;
+            const px=k.x+Math.cos(z.a)*distance,py=k.y+Math.sin(z.a)*distance;
+            const fade=Math.max(0,1-nova.age/z.life);
+            if(fade<=0)return;
+            c.globalAlpha=fade;
+            c.strokeStyle=z.size>1.55?'#fff0c4':'#9cddff';
+            c.lineWidth=z.size;
+            c.beginPath();c.moveTo(px-Math.cos(z.a)*z.size*3,py-Math.sin(z.a)*z.size*3);
+            c.lineTo(px,py);c.stroke();
+          });
+          c.restore();
+          if(nova.age>=nova.duration)k.nova=null;
+        }
       });
 
       // Voyager: dish locked on Earth, with a few radio pulses travelling toward it
@@ -5759,10 +5848,10 @@ html body .kg-pointer-glow::after{display:none!important}
   const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
   document.addEventListener('visibilitychange', wake);
 
-  const SELECTORS = ['.header', '.hero', '.hero-grid > div:first-child', '.strip', '.strip-grid > div', '.newsletter-section', '.social-section',
+  const SELECTORS = ['.header', '.hero', '.hero-grid > div:first-child', '.strip', '.strip-grid > div', '.newsletter-section', 
     '.social-intro', '.latest-section', '.hospital-map-section', '.appointment-panel', '.opd-hours', '.photo-reel-section', '.footer', '.footer-contact-band',
     '.secondary-page-content .newsletter-panel', '.secondary-page-content .secondary-facts article', '.secondary-page-content .secondary-hospital > div'];
-  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-section', 'social-intro', 'latest-section', 'hospital-map-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
+  const BLUE_CLASSES = ['header', 'newsletter-section', 'social-intro', 'latest-section', 'hospital-map-section', 'appointment-panel', 'opd-hours', 'photo-reel-section', 'strip', 'footer', 'footer-contact-band'];
   const isBlue = el => !el.closest('#hospital-location') && (
     /0,\s*89,\s*168|11,\s*52,\s*126|7,\s*89,\s*168|11,\s*101,\s*180|23,\s*63,\s*141/.test(getComputedStyle(el).backgroundColor) ||
     BLUE_CLASSES.some(k => el.classList.contains(k))
@@ -6867,6 +6956,63 @@ img.kg-logo,
     aspect-ratio: 4 / 5;
     object-fit: contain !important;
   }
+}
+</style>
+
+
+<style id="kg-fast-section-entrance">
+/* Short, low-cost section reveal: opacity + a small translate only (no filters or large effects). */
+.kg-section-enter{opacity:0;transform:translate3d(0,14px,0);transition:opacity .42s ease-out,transform .42s cubic-bezier(.2,.7,.25,1);will-change:opacity,transform}
+.kg-section-enter.kg-section-entered{opacity:1;transform:translate3d(0,0,0);will-change:auto}
+@media(prefers-reduced-motion:reduce){.kg-section-enter,.kg-section-enter.kg-section-entered{opacity:1;transform:none;transition:none;will-change:auto}}
+</style>
+<script id="kg-fast-section-entrance-js">
+(function(){
+  function init(){
+    var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var selectors=[
+      '#connect','#kg-photo-of-month-section','#watch-our-content',
+      '#hospital-location','#featured-testimonials','.latest-section',
+      '.appointment-panel','.newsletter-section','.social-section',
+      '.photo-reel-section','.faq-section','.contact'
+    ];
+    var sections=Array.from(new Set(selectors.flatMap(function(sel){
+      return Array.from(document.querySelectorAll(sel));
+    }))).filter(function(el){
+      return el && !el.hidden && !el.closest('[hidden]');
+    });
+    if(reduced || !('IntersectionObserver' in window)){
+      sections.forEach(function(el){el.classList.add('kg-section-entered');});
+      return;
+    }
+    sections.forEach(function(el){el.classList.add('kg-section-enter');});
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('kg-section-entered');
+          observer.unobserve(entry.target);
+        }
+      });
+    },{rootMargin:'0px 0px -8% 0px',threshold:0.06});
+    sections.forEach(function(el){
+      /* Never hide content that is already in the initial viewport. */
+      if(el.getBoundingClientRect().top < (window.innerHeight||800)*0.92){
+        el.classList.add('kg-section-entered');
+      }else{
+        observer.observe(el);
+      }
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+</script>
+
+
+<style id="kg-stay-connected-white-area-static">
+/* The white surround stays still; all existing motion in the blue .social-intro panel is preserved. */
+#connect::before,#connect::after,.social-section::before,.social-section::after{
+  content:none!important;display:none!important;animation:none!important;
 }
 </style>
 
