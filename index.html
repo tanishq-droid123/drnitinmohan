@@ -2489,6 +2489,37 @@ html:not([data-kg-settings-ready="true"]) .whatsapp-float{
 @media(hover:hover) and (pointer:fine){.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring,.kg-mobile-touch-cursor-ripple{display:none!important}}
 @media(prefers-reduced-motion:reduce){.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring,.kg-mobile-touch-cursor-ripple{transition:none!important;animation:none!important}}
 </style>
+
+<style id="kg-native-pc-cursor-final">
+/* Use the real operating-system cursor on computers: arrow for normal content, hand for controls, I-beam for text. */
+@media (hover: hover) and (pointer: fine) {
+  html, body, body * { cursor: auto !important; }
+  a, area, button, summary, label, select, [role="button"], [role="link"], input[type="button"], input[type="submit"], input[type="reset"], .btn, .reel-control, .kg-admin-action { cursor: pointer !important; }
+  input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"] { cursor: text !important; }
+  :disabled, [aria-disabled="true"] { cursor: not-allowed !important; }
+}
+/* Remove all decorative circular cursor overlays; they must never replace the native cursor. */
+#kg-main-cursor-flow, #kg-main-cursor-ring, .kg-mobile-touch-cursor, .kg-mobile-touch-cursor-ring, .kg-mobile-touch-cursor-ripple { display: none !important; opacity: 0 !important; visibility: hidden !important; }
+</style>
+
+<style id="kids-gastro-social-clipart-refresh">
+/* Friendly illustrated profile clipart, coordinated with the site's blue/white/yellow visual language. */
+#connect .profile-links .social-mark{display:grid!important;place-items:center!important;width:58px!important;height:58px!important;min-width:58px!important;border-radius:15px!important;background:linear-gradient(145deg,#edf6fc,#dcecf7)!important;box-shadow:inset 0 0 0 1px #d2e5f2!important;overflow:visible!important}
+#connect .profile-links .social-mark svg.social-clipart{display:block!important;width:52px!important;height:52px!important;max-width:none!important;max-height:none!important;overflow:visible!important;fill:initial}
+#connect .profile-links .social-placeholder:hover .social-mark,#connect .profile-links .social-placeholder:focus-visible .social-mark{transform:translateY(-2px) rotate(-3deg) scale(1.06)!important;border-radius:17px!important;box-shadow:0 5px 13px rgba(7,89,168,.14)!important}
+@media(max-width:760px){#connect .profile-links .social-mark{width:52px!important;height:52px!important;min-width:52px!important}#connect .profile-links .social-mark svg.social-clipart{width:47px!important;height:47px!important}}
+</style>
+
+<style id="kids-gastro-social-icon-reference-style">
+/* Minimal platform-symbol treatment based on the supplied reference image. */
+#connect .profile-links .social-mark{display:grid!important;place-items:center!important;width:58px!important;height:58px!important;min-width:58px!important;border-radius:4px!important;background:#07377f!important;box-shadow:none!important;overflow:hidden!important;transition:transform .2s ease!important}
+#connect .profile-links .social-mark svg.social-clipart{display:block!important;width:54px!important;height:54px!important;max-width:54px!important;max-height:54px!important;overflow:visible!important}
+#connect .profile-links .instagram-profile .social-mark{background:#07377f!important}
+#connect .profile-links .linkedin-profile .social-mark{background:#07377f!important}
+#connect .profile-links .scholar-profile .social-mark{background:#07377f!important}
+#connect .profile-links .social-placeholder:hover .social-mark,#connect .profile-links .social-placeholder:focus-visible .social-mark{transform:translateY(-2px)!important;border-radius:4px!important;box-shadow:none!important}
+@media(max-width:760px){#connect .profile-links .social-mark{width:52px!important;height:52px!important;min-width:52px!important}#connect .profile-links .social-mark svg.social-clipart{width:49px!important;height:49px!important}}
+</style>
 </head><body><div aria-label="Appointment announcement" class="offline-appointment-marquee" role="region"><div class="offline-appointment-marquee__track"><span class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span><span aria-hidden="true" class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span></div></div><a class="skip-link" href="/?focus=main">Skip to content</a>
 <header class="header"><nav aria-label="Main navigation" class="nav container"><a class="brand" href="/"><img alt="Dr. Nitin Mohan KidsGastro logo" class="mark circular-brand-logo" data-embedded-logo="true" decoding="async" loading="eager" src="/assets/1000273559.webp"/><span>KidsGastro by Dr. Nitin Mohan</span></a><button aria-controls="hamburger-panel" aria-expanded="false" aria-label="Open navigation" class="toggle">☰</button><div aria-hidden="true" class="hamburger-panel" hidden="" id="hamburger-panel"></div><div class="links" id="links">
 <details class="nav-dropdown"><summary>Treatments<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/treatments/"><b>Paediatric Gastroenterology</b></a><a href="/treatments/"><b>Paediatric Hepatology — Liver Diseases</b></a><a href="/treatments/"><b>Paediatric Pancreatology — Pancreatic Disorders</b></a><a href="/treatments/"><b>Paediatric Biliary Tract Diseases</b></a><a href="/treatments/"><b>Paediatric Nutrition and Growth</b></a></div></details><details class="nav-dropdown"><summary>Services<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/services/"><b>Paediatric Gastrointestinal Procedures</b></a><a href="/services/"><b>Hepatology Procedures &amp; Investigations</b></a><a href="/services/"><b>Pancreatic Investigations</b></a><a href="/services/"><b>Biliary Tract Investigations</b></a><a href="/services/"><b>Gastrointestinal Diagnostic Investigations</b></a><a href="/services/"><b>Nutrition &amp; Growth Assessment</b></a></div></details><a class="nav-direct-link" href="/faqs/"><svg aria-hidden="true" class="kg-nav-icon" focusable="false" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.4-1.8 3M12 17.2h.01"></path></svg>FAQs</a><a class="nav-direct-link" href="/blog/">Blog</a><details class="nav-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 9h8M8 12.5h5"></path></svg><span>Testimonials</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/testimonials/"><b>Patient &amp; family testimonials</b><small>Read all patient and family experiences</small></a></div></details><details class="nav-dropdown kg-gallery-nav-dropdown"><summary>Gallery<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/gallery/"><b>KidsGastro Photo Gallery</b><small>Photos and clinical activities</small></a></div></details><details class="nav-dropdown"><summary>Health Library<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="/latest/"><b>Latest from KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></b><small>Stories, videos and audio</small></a><a href="/publications/"><b>Research articles &amp; publications</b><small>Published work by Dr. Nitin Mohan</small></a><a href="/newsletter/"><b>Family newsletter</b><small>Request clinic updates</small></a></div></details><details class="nav-dropdown"><summary>Contact Info<svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a href="tel:+919821020576"><b>Phone</b><small>+91 98210 20576</small></a><a href="/clinic/"><b>Churamani Multispeciality Hospital</b><small>Hisar, Haryana</small></a><a href="/clinic/"><b>View map</b><small>Google Maps location</small></a></div></details><details class="nav-dropdown nav-login-dropdown"><summary><svg aria-hidden="true" class="kg-nav-icon" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20Z"></path></svg><span>Login</span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="m3 6 5 5 5-5"></path></svg></summary><div class="nav-dropdown-menu"><a class="kg-admin-menu-link" href="/?admin=1"><b>Login</b></a></div></details></div><form class="site-search" id="site-search" role="search"><label class="sr-only" for="site-search-input">Search this website</label><input autocomplete="off" id="site-search-input" placeholder="Search this website" type="search"/><button aria-label="Search this website" type="submit">⌕</button><span aria-live="polite" class="search-status" id="search-status" role="status"></span></form></nav></header>
@@ -2566,9 +2597,9 @@ html:not([data-kg-settings-ready="true"]) .whatsapp-float{
 </div>
 </section>
 <section class="social-section kg-progressive-part" id="connect"><div class="container social-wrap"><div class="social-intro"><span class="social-kicker">OFFICIAL PROFILES</span><h2>Stay connected with KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></h2><p>Follow clinic updates and explore professional profiles.</p></div><div class="profile-links">
-<a aria-label="Visit the KidsGastro Instagram profile, opens in a new tab" class="social-placeholder instagram-profile" href="https://www.instagram.com/kidsgastro/" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle class="instagram-dot" cx="17.5" cy="6.7" r="1"></circle></svg></span><span><b>Instagram</b><small>@kidsgastro</small></span><span class="profile-tag instagram-tag">Visit Instagram profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
-<a aria-label="Visit Dr. Nitin Mohan on LinkedIn, opens in a new tab" class="social-placeholder linkedin-profile" href="https://in.linkedin.com/in/dr-nitin-mohan-b91975175" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.2 8.4H2.1V21h3.1V8.4ZM3.65 2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM21.9 13.8c0-3.8-2-5.6-4.7-5.6-2.2 0-3.2 1.2-3.7 2.1V8.4h-3.1V21h3.1v-6.2c0-1.6.3-3.2 2.3-3.2 1.9 0 1.9 1.9 1.9 3.3V21h3.1v-7.2Z"></path></svg></span><span><b>LinkedIn</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag linkedin-tag">View professional profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
-<a aria-label="Open Dr. Nitin Mohan's Google Scholar profile, opens in a new tab" class="social-placeholder scholar-profile" href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></span><span><b>Google Scholar</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag scholar-tag">View publications <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+<a aria-label="Visit the KidsGastro Instagram profile, opens in a new tab" class="social-placeholder instagram-profile" href="https://www.instagram.com/kidsgastro/" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg class="social-clipart" focusable="false" viewBox="0 0 64 64" aria-hidden="true"><rect x="7" y="7" width="50" height="50" rx="13" fill="none" stroke="#8bdcff" stroke-width="5.5"/><circle cx="32" cy="32" r="12.5" fill="none" stroke="#8bdcff" stroke-width="5.5"/><circle cx="46.5" cy="17.5" r="3.8" fill="#8bdcff"/></svg></span><span><b>Instagram</b><small>@kidsgastro</small></span><span class="profile-tag instagram-tag">Visit Instagram profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+<a aria-label="Visit Dr. Nitin Mohan on LinkedIn, opens in a new tab" class="social-placeholder linkedin-profile" href="https://in.linkedin.com/in/dr-nitin-mohan-b91975175" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg class="social-clipart" focusable="false" viewBox="0 0 64 64" aria-hidden="true"><rect x="5" y="5" width="54" height="54" rx="6" fill="#8bdcff"/><path d="M17 26h8v23h-8zM21 15.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM30 26h7.7v3.2h.1c1.1-2 3.8-4.1 7.8-4.1 8.3 0 9.8 5.4 9.8 12.4V49h-8V38.8c0-2.4 0-5.5-3.4-5.5s-3.9 2.6-3.9 5.3V49H32V26z" fill="#07377f"/></svg></span><span><b>LinkedIn</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag linkedin-tag">View professional profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+<a aria-label="Open Dr. Nitin Mohan's Google Scholar profile, opens in a new tab" class="social-placeholder scholar-profile" href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg class="social-clipart" focusable="false" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 23 32 9l26 14-26 14L6 23Z" fill="#8bdcff"/><path d="M16 29v14c9 8 23 8 32 0V29L32 38 16 29Z" fill="none" stroke="#8bdcff" stroke-width="4" stroke-linejoin="round"/><path d="M56 24v17" stroke="#8bdcff" stroke-width="3.5" stroke-linecap="round"/><circle cx="56" cy="44" r="3" fill="#8bdcff"/></svg></span><span><b>Google Scholar</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag scholar-tag">View publications <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
 </div></div></section>
 <section aria-labelledby="kg-watch-content-title" class="kg-watch-content-section kg-progressive-part" id="watch-our-content">
 <div class="container kg-watch-content-container">
@@ -5265,7 +5296,7 @@ html body .kg-pointer-glow::after{display:none!important}
     speed: 1,             // global multiplier (see KGCosmos.setSpeed)
     altExaggeration: 4,   // ISS altitude is drawn 4x higher than true scale so it clears the Earth disc
     voyagerBoost: 2.5,    // 1 = strict real speed ratio to the ISS (17 : 7.66 km/s); >1 makes Voyager drift faster on screen
-    cursor: { glow: true, trail: true, flick: true, click: true }   // set any to false to switch that effect off
+    cursor: { glow: false, trail: false, flick: false, click: false } // Use the browser's native PC cursor; keep pointer-based hover interaction
   };
   const REAL = {
     issPeriodMin: 92.68, issInclinationDeg: 51.6, issAltKm: 408, earthRadiusKm: 6371,
@@ -5784,6 +5815,75 @@ html body .kg-pointer-glow::after{display:none!important}
   document.addEventListener('touchcancel',release,{passive:true,capture:true});
 })();
 </script>
+
+<style id="kg-mobile-hamburger-viewport-fit-final">
+/* Keep the expanded mobile menu wholly inside the visible screen area. */
+@media (max-width: 760px) {
+  .header #links.open {
+    position: fixed !important;
+    top: var(--kg-mobile-menu-top, 180px) !important;
+    left: var(--kg-mobile-menu-left, 16px) !important;
+    right: auto !important;
+    width: var(--kg-mobile-menu-width, calc(100vw - 32px)) !important;
+    max-width: calc(100vw - 24px) !important;
+    height: auto !important;
+    max-height: calc(100vh - var(--kg-mobile-menu-top, 180px) - env(safe-area-inset-bottom, 0px) - 12px) !important;
+    max-height: calc(100dvh - var(--kg-mobile-menu-top, 180px) - env(safe-area-inset-bottom, 0px) - 12px) !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 10050 !important;
+  }
+  /* The floating WhatsApp shortcut must not cover the menu's last items. */
+  body.kg-mobile-menu-open .whatsapp-float {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .header #links.open .kg-menu-scrollbar { top: 8px !important; bottom: 8px !important; }
+}
+</style>
+<script id="kg-mobile-hamburger-viewport-fit-js">
+(function () {
+  function initViewportFit() {
+    var header = document.querySelector('.header');
+    var nav = document.querySelector('.header .nav');
+    var panel = document.querySelector('.header #links');
+    var toggle = document.querySelector('.header .toggle');
+    if (!header || !nav || !panel || !toggle || panel.dataset.viewportFitWired === 'true') return;
+    panel.dataset.viewportFitWired = 'true';
+
+    function sync() {
+      var open = panel.classList.contains('open') && window.matchMedia('(max-width: 760px)').matches;
+      document.body.classList.toggle('kg-mobile-menu-open', open);
+      if (!open) return;
+      var headerRect = header.getBoundingClientRect();
+      var navRect = nav.getBoundingClientRect();
+      var top = Math.max(8, Math.min(headerRect.bottom + 4, window.innerHeight - 120));
+      var left = Math.max(8, navRect.left);
+      var width = Math.min(navRect.width, window.innerWidth - left - 8);
+      panel.style.setProperty('--kg-mobile-menu-top', top + 'px');
+      panel.style.setProperty('--kg-mobile-menu-left', left + 'px');
+      panel.style.setProperty('--kg-mobile-menu-width', width + 'px');
+    }
+
+    var observer = new MutationObserver(sync);
+    observer.observe(panel, { attributes: true, attributeFilter: ['class', 'style'] });
+    toggle.addEventListener('click', function () { requestAnimationFrame(sync); });
+    window.addEventListener('resize', sync, { passive: true });
+    window.addEventListener('orientationchange', function () { setTimeout(sync, 80); }, { passive: true });
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', sync, { passive: true });
+    sync();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initViewportFit, { once: true });
+  else initViewportFit();
+})();
+</script>
+
 </body></html>
 <style id="two-phrase-rotation-and-underline-fix">
 .hero-typing-headline,.hero-typing-text,.hero-typing-prefix{ text-decoration:none!important; }
