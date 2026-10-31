@@ -296,7 +296,7 @@ select{cursor:pointer}
     let duration = st.duration || null, endAt = null, startAt = null;
     const groups = schedules.groups || [];
     let groupId = st.scheduleGroupId || st.groupId;
-    let group = groups.find(g => g.id === groupId);
+    let group = groups.find(g => g.id === groupId && Array.isArray(g.settings) && g.settings.includes(scheduleKey));
     if (!group && Array.isArray(config?.schedule?.periods)) {
       const period = config.schedule.periods.find(p => (p.settings || []).includes(scheduleKey) || (p.settings || []).includes(key));
       if (period) { group = period; duration = 'temporary'; }
@@ -730,6 +730,15 @@ select{cursor:pointer}
 
     const mergedScheduleSettings = {...(previousConfig?.changeSchedules?.settings || {})};
     const mergedGroups = [...(previousConfig?.changeSchedules?.groups || [])];
+    // Upgrade older permanent requests that predate per-setting schedule metadata.
+    // Without this migration, a later mixed request could preserve their values in
+    // changes/details but the index runtime would not know those values are permanent.
+    const legacyPermanent = previousConfig && !previousConfig?.changeSchedules?.settings &&
+      (previousConfig.duration === 'permanent' || previousConfig?.schedule?.type === 'permanent');
+    if (legacyPermanent) {
+      ['appointmentButton','whatsappBookingOption','rezepRxBookingOption','announcementMarquee','photoOfTheMonth']
+        .forEach(key => { if (!mergedScheduleSettings[key]) mergedScheduleSettings[key]={duration:'permanent',scheduleGroupId:null}; });
+    }
     // Carry forward the previous schedule if it is present in the legacy top-level schedule object.
     if (previousConfig?.schedule?.periods?.length && !previousConfig?.changeSchedules?.groups?.length) {
       previousConfig.schedule.periods.forEach((period,i)=>{
@@ -748,12 +757,33 @@ select{cursor:pointer}
     })[id]));
     explicitScheduleKeys.forEach(key=>{ delete mergedScheduleSettings[key]; });
     Object.entries(newScheduleSettings).forEach(([key,value])=>{ mergedScheduleSettings[key]=value; });
-    const newGroupIds = new Set(changeSchedules.groups.map(g=>g.id));
     const retainedGroups = mergedGroups.map(g=>({
       ...g,
       settings:(g.settings||[]).filter(k=>!explicitScheduleKeys.has(k))
     })).filter(g=>g.settings.length);
-    const allGroups = [...retainedGroups,...changeSchedules.groups];
+    // IDs generated in a fresh browser session can collide with IDs from the
+    // previously uploaded JSON (both may start at "new-schedule-1"). Remap every
+    // colliding incoming group and its setting references before combining them.
+    const occupiedGroupIds = new Set(retainedGroups.map(g=>g.id));
+    const incomingGroups = changeSchedules.groups.map((group,index)=>{
+      const originalId = group.id;
+      let finalId = originalId;
+      if (occupiedGroupIds.has(finalId)) {
+        let suffix = 1;
+        do { finalId = `request-${Date.now()}-${index+1}-${suffix++}`; }
+        while (occupiedGroupIds.has(finalId));
+      }
+      occupiedGroupIds.add(finalId);
+      if (finalId !== originalId) {
+        (group.settings||[]).forEach(key=>{
+          if (mergedScheduleSettings[key]?.scheduleGroupId === originalId) {
+            mergedScheduleSettings[key] = {...mergedScheduleSettings[key],scheduleGroupId:finalId};
+          }
+        });
+      }
+      return {...group,id:finalId};
+    });
+    const allGroups = [...retainedGroups,...incomingGroups];
     // Remove stale references and ensure only groups used by temporary settings remain.
     const usedGroupIds = new Set(Object.values(mergedScheduleSettings).filter(x=>x.duration==='temporary').map(x=>x.scheduleGroupId).filter(Boolean));
     const finalGroups = allGroups.filter(g=>usedGroupIds.has(g.id));
@@ -771,6 +801,7 @@ select{cursor:pointer}
 
     const data = {
       schemaVersion: 2,
+      configContract: 'kidsgastro-manual-settings-v2',
       formTitle: 'KidsGastro Website Change Request', doctor: 'Dr. Nitin Mohan',
       createdAt: new Date().toISOString(), timezone: 'Asia/Kolkata',
       targetFile: 'configuration/change-request.json',

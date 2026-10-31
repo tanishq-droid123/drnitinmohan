@@ -4665,17 +4665,36 @@ input,select,textarea{font-size:16px;max-width:100%}
     return utc - (5 * 60 + 30) * 60 * 1000;
   }
 
-  function settingIsActive(request, key, now) {
-    const meta = request && request.changeSchedules && request.changeSchedules.settings &&
-      request.changeSchedules.settings[key];
-    if (!meta) return false;
-    if (meta.duration === "permanent") return true;
-    if (meta.duration !== "temporary" || request.changeSchedules.activateTemporary !== true) return false;
-    const group = (request.changeSchedules.groups || []).find(g => g.id === meta.scheduleGroupId);
-    if (!group || !Array.isArray(group.settings) || !group.settings.includes(key)) return false;
-    const start = indiaLocalDateTimeToMs(group.startDateTime);
-    const end = indiaLocalDateTimeToMs(group.endDateTime);
+  function periodIsActive(period, key, now) {
+    if (!period || (Array.isArray(period.settings) && !period.settings.includes(key))) return false;
+    const start = indiaLocalDateTimeToMs(period.startDateTime || period.start);
+    const end = indiaLocalDateTimeToMs(period.endDateTime || period.end);
     return Number.isFinite(start) && Number.isFinite(end) && end > start && now >= start && now < end;
+  }
+
+  function settingIsActive(request, key, now) {
+    const schedules = request && request.changeSchedules;
+    const meta = schedules && schedules.settings && schedules.settings[key];
+    if (meta && meta.duration === "permanent") return true;
+    // Older merged requests sometimes have a global permanent duration but no
+    // per-setting metadata. Preserve their published values during migration.
+    if (!meta && request && (request.duration === "permanent" ||
+        (request.schedule && request.schedule.type === "permanent"))) return true;
+    if (meta && meta.duration === "temporary" && schedules.activateTemporary === true) {
+      // Group IDs can be reused by older Change Manager versions. Match the
+      // requested setting as well, never just the first matching ID.
+      const group = (schedules.groups || []).find(g =>
+        g && g.id === meta.scheduleGroupId && Array.isArray(g.settings) && g.settings.includes(key));
+      if (periodIsActive(group, key, now)) return true;
+    }
+    // Compatibility fallback: the form also writes normalized per-setting periods
+    // here. This protects existing requests if their group metadata is stale.
+    if (request && request.schedule && request.schedule.activateTemporary === true) {
+      const period = (request.schedule.periods || []).find(p =>
+        p && Array.isArray(p.settings) && p.settings.includes(key));
+      if (periodIsActive(period, key, now)) return true;
+    }
+    return false;
   }
 
   function requestValueIsActive(request, key, now) {
@@ -4687,6 +4706,10 @@ input,select,textarea{font-size:16px;max-width:100%}
         const start = indiaLocalDateTimeToMs(request.schedule.startDateTime);
         const end = indiaLocalDateTimeToMs(request.schedule.endDateTime);
         return Number.isFinite(start) && Number.isFinite(end) && end > start && now >= start && now < end;
+      }
+      if (request && request.schedule && request.schedule.activateTemporary === true) {
+        const period = (request.schedule.periods || []).find(p => p && Array.isArray(p.settings) && p.settings.includes(key));
+        return periodIsActive(period, key, now);
       }
       return false;
     }
@@ -4750,9 +4773,12 @@ input,select,textarea{font-size:16px;max-width:100%}
       if (mode === "edit" && typeof d.announcementText === "string" &&
           d.announcementText.trim() && d.announcementText.length <= 500) {
         settings.marqueeText = d.announcementText.trim();
-        const editTextColor = d.announcementTextColors && d.announcementTextColors.customStrip;
+        const editTextColor = (d.announcementTextColors && d.announcementTextColors.customStrip) ||
+          d.mainStripTextColor || c.mainStripTextColor;
+        const editBackground = d.mainStripBackgroundColor || c.mainStripBackgroundColor ||
+          (d.announcementBackgroundColors && d.announcementBackgroundColors.mainStrip);
         if (safeColor(editTextColor)) settings.marqueeTextColor = editTextColor;
-        if (safeColor(d.mainStripBackgroundColor)) settings.marqueeBackgroundColor = d.mainStripBackgroundColor;
+        if (safeColor(editBackground)) settings.marqueeBackgroundColor = editBackground;
         const seconds = Number(d.announcementMarqueeSpeedsSeconds &&
           d.announcementMarqueeSpeedsSeconds.customStrip);
         if (Number.isFinite(seconds)) settings.marqueeSpeedSeconds = Math.min(60, Math.max(2, seconds));
@@ -4971,6 +4997,7 @@ input,select,textarea{font-size:16px;max-width:100%}
     if (signature !== lastRequestSignature) {
       lastRequestSignature = signature;
       if (requestFile) console.info("[KidsGastro] Loaded change-request.json for Dr. Nitin Mohan.");
+      else console.info("[KidsGastro] No valid configuration/change-request.json found; using defaults and other configuration files.");
     }
     applySettings(resolveSettings(defaultsFile, overridesFile, requestFile, legacySettings));
   }
