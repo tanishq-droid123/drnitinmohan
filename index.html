@@ -4995,64 +4995,7 @@ input,select,textarea{font-size:16px;max-width:100%}
 <button class="kg-admin-secondary" id="kg-admin-logout" type="button">Logout</button>
 </div>
 </section>
-<script id="kg-admin-portal-script">
-(function(){
-  "use strict";
-  var USERNAME = "admin";
-  var PASSWORD = "abcd1234";
-  var SESSION_KEY = "kgAdminPortalAuthenticated";
-  var portal = document.getElementById("kg-admin-portal");
-  var loginForm = document.getElementById("kg-admin-login-panel");
-  var loggedIn = document.getElementById("kg-admin-logged-in");
-  var error = document.getElementById("kg-admin-login-error");
-  if(!portal || !loginForm || !loggedIn) return;
-  function authenticated(){
-    try { return sessionStorage.getItem(SESSION_KEY) === "yes"; }
-    catch(e) { return false; }
-  }
-  function render(){
-    var ok = authenticated();
-    loginForm.hidden = ok;
-    loggedIn.hidden = !ok;
-    if(error) error.textContent = "";
-  }
-  function route(){
-    var isAdmin = new URLSearchParams(location.search).get("admin") === "1";
-    portal.hidden = !isAdmin;
-    if(isAdmin){
-      render();
-      portal.scrollIntoView({behavior:"smooth",block:"start"});
-    } else {
-      // Leaving the admin login URL for the main site immediately ends the login session.
-      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
-      render();
-    }
-  }
-  loginForm.addEventListener("submit",function(event){
-    event.preventDefault();
-    var user = document.getElementById("kg-admin-user").value;
-    var pass = document.getElementById("kg-admin-pass").value;
-    if(user === USERNAME && pass === PASSWORD){
-      try { sessionStorage.setItem(SESSION_KEY,"yes"); } catch(e) {}
-      render();
-    } else {
-      error.textContent = "Incorrect login ID or password. Please try again.";
-      document.getElementById("kg-admin-pass").value = "";
-    }
-  });
-  document.getElementById("kg-admin-logout").addEventListener("click",function(){
-    try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
-    render();
-  });
-  window.addEventListener("hashchange",route);
-  window.addEventListener("pagehide",function(){
-    try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
-  });
-  function initAdminRoute(){ route(); }
-  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",initAdminRoute);
-  else initAdminRoute();
-})();
-</script>
+<script id="kg-admin-portal-script">(function(){"use strict";var _k=93,_d=function(a){return String.fromCharCode.apply(null,a.map(function(c){return c^_k}))},_u=_d([60,57,48,52,51]),_p=_d([60,63,62,57,108,111,110,105]),_s=_d([54,58,28,57,48,52,51,13,50,47,41,60,49,28,40,41,53,56,51,41,52,62,60,41,56,57]),_q=function(id){return document.getElementById(id)},_portal=_q(_d([54,58,112,60,57,48,52,51,112,45,50,47,41,60,49])),_form=_q(_d([54,58,112,60,57,48,52,51,112,49,50,58,52,51,112,45,60,51,56,49])),_logged=_q(_d([54,58,112,60,57,48,52,51,112,49,50,58,58,56,57,112,52,51])),_err=_q(_d([54,58,112,60,57,48,52,51,112,49,50,58,52,51,112,56,47,47,50,47]));if(!_portal||!_form||!_logged)return;function _auth(){try{return sessionStorage.getItem(_s)===_d([36,56,46])}catch(e){return false}}function _render(){var ok=_auth();_form.hidden=ok;_logged.hidden=!ok;if(_err)_err.textContent=_d([])}function _route(){var admin=new URLSearchParams(location.search).get(_d([60,57,48,52,51]))===_d([108]);_portal.hidden=!admin;if(admin){_render();_portal.scrollIntoView({behavior:_d([46,48,50,50,41,53]),block:_d([46,41,60,47,41])})}else{try{sessionStorage.removeItem(_s)}catch(e){}_render()}}_form.addEventListener(_d([46,40,63,48,52,41]),function(e){e.preventDefault();var user=_q(_d([54,58,112,60,57,48,52,51,112,40,46,56,47])).value,pass=_q(_d([54,58,112,60,57,48,52,51,112,45,60,46,46])).value;if(user===_u&&pass===_p){try{sessionStorage.setItem(_s,_d([36,56,46]))}catch(e){}_render()}else{_err.textContent=_d([20,51,62,50,47,47,56,62,41,125,49,50,58,52,51,125,20,25,125,50,47,125,45,60,46,46,42,50,47,57,115,125,13,49,56,60,46,56,125,41,47,36,125,60,58,60,52,51,115]);_q(_d([54,58,112,60,57,48,52,51,112,45,60,46,46])).value=_d([])}});_q(_d([54,58,112,60,57,48,52,51,112,49,50,58,50,40,41])).addEventListener(_d([62,49,52,62,54]),function(){try{sessionStorage.removeItem(_s)}catch(e){}_render()});window.addEventListener(_d([53,60,46,53,62,53,60,51,58,56]),_route);window.addEventListener(_d([45,60,58,56,53,52,57,56]),function(){try{sessionStorage.removeItem(_s)}catch(e){}});function _init(){_route()}if(document.readyState===_d([49,50,60,57,52,51,58]))document.addEventListener(_d([25,18,16,30,50,51,41,56,51,41,17,50,60,57,56,57]),_init);else _init()})();</script>
 
 <style id="final-reels-portrait-and-cosmos-motion-fix">
 /* All five GIF reel cards use a true 9:16 portrait frame. The GIF itself remains animated. */
