@@ -2467,24 +2467,27 @@ html:not([data-kg-settings-ready="true"]) .offline-appointment-marquee,
 html:not([data-kg-settings-ready="true"]) .whatsapp-float{
   visibility:hidden!important;
 }
-/* Touchscreens have no native pointer cursor: provide a lightweight finger-follow cue. */
-.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{
+/* Sleek mobile touch cursor: blue core, smooth trailing ring and tap ripple. */
+.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring,.kg-mobile-touch-cursor-ripple{
   position:fixed!important;left:0!important;top:0!important;z-index:2147483000!important;
   pointer-events:none!important;border-radius:50%!important;opacity:0!important;
-  transform:translate3d(-100px,-100px,0) translate(-50%,-50%)!important;
-  will-change:transform,opacity!important;
+  transform:translate3d(-120px,-120px,0) translate(-50%,-50%)!important;
+  will-change:transform,opacity,width,height!important;
 }
-.kg-mobile-touch-cursor{width:7px!important;height:7px!important;background:#0759a8!important;
-  box-shadow:0 0 0 3px rgba(255,255,255,.92),0 1px 8px rgba(0,35,70,.35)!important}
-.kg-mobile-touch-cursor-ring{width:30px!important;height:30px!important;border:2px solid #0759a8!important;
-  box-shadow:0 0 0 2px rgba(255,255,255,.82)!important}
+.kg-mobile-touch-cursor{width:8px!important;height:8px!important;background:#0759a8!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.98),0 0 13px rgba(7,89,168,.62)!important;
+  transition:opacity .16s ease,transform .045s linear!important}
+.kg-mobile-touch-cursor-ring{width:34px!important;height:34px!important;border:1.8px solid #0759a8!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.9),0 0 14px rgba(7,89,168,.16)!important;
+  transition:opacity .2s ease,width .2s ease,height .2s ease,border-color .2s ease!important}
+.kg-mobile-touch-cursor-ripple{width:18px!important;height:18px!important;border:2px solid rgba(7,89,168,.75)!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.7)!important}
 .kg-mobile-touch-cursor.is-visible,.kg-mobile-touch-cursor-ring.is-visible{opacity:1!important}
-@media(hover:hover) and (pointer:fine){
-  .kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{display:none!important}
-}
-@media(prefers-reduced-motion:reduce){
-  .kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring{transition:none!important}
-}
+.kg-mobile-touch-cursor-ring.is-pressed{width:46px!important;height:46px!important;border-color:#0b65bd!important;background:rgba(7,89,168,.07)!important}
+.kg-mobile-touch-cursor-ripple.is-rippling{animation:kg-mobile-cursor-ripple .58s cubic-bezier(.15,.7,.25,1) forwards!important}
+@keyframes kg-mobile-cursor-ripple{0%{opacity:.82;box-shadow:0 0 0 1px rgba(7,89,168,.5),0 0 0 2px rgba(255,255,255,.7)}100%{opacity:0;box-shadow:0 0 0 18px rgba(7,89,168,0),0 0 0 20px rgba(255,255,255,0)}}
+@media(hover:hover) and (pointer:fine){.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring,.kg-mobile-touch-cursor-ripple{display:none!important}}
+@media(prefers-reduced-motion:reduce){.kg-mobile-touch-cursor,.kg-mobile-touch-cursor-ring,.kg-mobile-touch-cursor-ripple{transition:none!important;animation:none!important}}
 </style>
 </head><body><div aria-label="Appointment announcement" class="offline-appointment-marquee" role="region"><div class="offline-appointment-marquee__track"><span class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span><span aria-hidden="true" class="offline-appointment-marquee__text">OFFLINE APPOINTMENTS AVAILABLE RIGHT NOW. <span aria-hidden="true" class="marquee-inline-gap">      </span>CLICK THE APPOINTMENT BUTTON BELOW TO PROCEED.</span></div></div><a class="skip-link" href="/?focus=main">Skip to content</a>
 <header class="header"><nav aria-label="Main navigation" class="nav container"><a class="brand" href="/"><img alt="Dr. Nitin Mohan KidsGastro logo" class="mark circular-brand-logo" data-embedded-logo="true" decoding="async" loading="eager" src="/assets/1000273559.webp"/><span>KidsGastro by Dr. Nitin Mohan</span></a><button aria-controls="hamburger-panel" aria-expanded="false" aria-label="Open navigation" class="toggle">☰</button><div aria-hidden="true" class="hamburger-panel" hidden="" id="hamburger-panel"></div><div class="links" id="links">
@@ -2550,11 +2553,7 @@ html:not([data-kg-settings-ready="true"]) .whatsapp-float{
 @media(max-width:760px){.kg-slot-picker-list{max-height:min(62vh,480px)!important}.kg-slot-picker-option{min-height:32px!important;padding:5px 8px!important;font-size:.88rem!important}}
 @media(prefers-reduced-motion:reduce){.kg-testimonial-track{animation:none!important}.kg-testimonial-controls .kg-testimonial-play{transition:none!important}}
 </style>
-<section class="social-section kg-progressive-part" id="connect"><div class="container social-wrap"><div class="social-intro"><span class="social-kicker">OFFICIAL PROFILES</span><h2>Stay connected with KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></h2><p>Follow clinic updates and explore professional profiles.</p></div><div class="profile-links">
-<a aria-label="Visit the KidsGastro Instagram profile, opens in a new tab" class="social-placeholder instagram-profile" href="https://www.instagram.com/kidsgastro/" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle class="instagram-dot" cx="17.5" cy="6.7" r="1"></circle></svg></span><span><b>Instagram</b><small>@kidsgastro</small></span><span class="profile-tag instagram-tag">Visit Instagram profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
-<a aria-label="Visit Dr. Nitin Mohan on LinkedIn, opens in a new tab" class="social-placeholder linkedin-profile" href="https://in.linkedin.com/in/dr-nitin-mohan-b91975175" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.2 8.4H2.1V21h3.1V8.4ZM3.65 2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM21.9 13.8c0-3.8-2-5.6-4.7-5.6-2.2 0-3.2 1.2-3.7 2.1V8.4h-3.1V21h3.1v-6.2c0-1.6.3-3.2 2.3-3.2 1.9 0 1.9 1.9 1.9 3.3V21h3.1v-7.2Z"></path></svg></span><span><b>LinkedIn</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag linkedin-tag">View professional profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
-<a aria-label="Open Dr. Nitin Mohan's Google Scholar profile, opens in a new tab" class="social-placeholder scholar-profile" href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></span><span><b>Google Scholar</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag scholar-tag">View publications <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
-</div></div></section><section class="main-image-stories kg-progressive-part kg-photo-of-month-section" hidden="" id="kg-photo-of-month-section">
+<section class="main-image-stories kg-progressive-part kg-photo-of-month-section" hidden="" id="kg-photo-of-month-section">
 <div class="container main-image-stories-container">
 <div class="main-image-stories-heading">
 <span class="eyebrow">Featured</span>
@@ -2566,6 +2565,11 @@ html:not([data-kg-settings-ready="true"]) .whatsapp-float{
 </article>
 </div>
 </section>
+<section class="social-section kg-progressive-part" id="connect"><div class="container social-wrap"><div class="social-intro"><span class="social-kicker">OFFICIAL PROFILES</span><h2>Stay connected with KidsGastro<img alt="Dr. Nitin Mohan KidsGastro logo" class="inline-kg-mark circular-brand-logo" data-embedded-logo="true" decoding="async" fetchpriority="low" loading="lazy" src="/assets/1000273559.webp"/></h2><p>Follow clinic updates and explore professional profiles.</p></div><div class="profile-links">
+<a aria-label="Visit the KidsGastro Instagram profile, opens in a new tab" class="social-placeholder instagram-profile" href="https://www.instagram.com/kidsgastro/" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle class="instagram-dot" cx="17.5" cy="6.7" r="1"></circle></svg></span><span><b>Instagram</b><small>@kidsgastro</small></span><span class="profile-tag instagram-tag">Visit Instagram profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+<a aria-label="Visit Dr. Nitin Mohan on LinkedIn, opens in a new tab" class="social-placeholder linkedin-profile" href="https://in.linkedin.com/in/dr-nitin-mohan-b91975175" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.2 8.4H2.1V21h3.1V8.4ZM3.65 2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM21.9 13.8c0-3.8-2-5.6-4.7-5.6-2.2 0-3.2 1.2-3.7 2.1V8.4h-3.1V21h3.1v-6.2c0-1.6.3-3.2 2.3-3.2 1.9 0 1.9 1.9 1.9 3.3V21h3.1v-7.2Z"></path></svg></span><span><b>LinkedIn</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag linkedin-tag">View professional profile <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+<a aria-label="Open Dr. Nitin Mohan's Google Scholar profile, opens in a new tab" class="social-placeholder scholar-profile" href="https://scholar.google.com/citations?user=p9PYPvIAAAAJ&amp;hl=en" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="social-mark"><svg focusable="false" viewbox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></svg></span><span><b>Google Scholar</b><small>Dr. Nitin Mohan</small></span><span class="profile-tag scholar-tag">View publications <span aria-hidden="true" class="profile-arrow">↗</span></span></a>
+</div></div></section>
 <section aria-labelledby="kg-watch-content-title" class="kg-watch-content-section kg-progressive-part" id="watch-our-content">
 <div class="container kg-watch-content-container">
 <h2 id="kg-watch-content-title">Watch our content</h2>
@@ -4994,8 +4998,8 @@ input,select,textarea{font-size:16px;max-width:100%}
 <script id="kg-admin-portal-script">
 (function(){
   "use strict";
-  var USERNAME = "admin123456";
-  var PASSWORD = "Paedsgastro@123";
+  var USERNAME = "admin";
+  var PASSWORD = "abcd1234";
   var SESSION_KEY = "kgAdminPortalAuthenticated";
   var portal = document.getElementById("kg-admin-portal");
   var loginForm = document.getElementById("kg-admin-login-panel");
@@ -5407,13 +5411,31 @@ html body .kg-pointer-glow::after{display:none!important}
     bind() {
       const h = this.host, cur = this.cur;
       h.addEventListener('pointerenter', e => { if (e.pointerType === 'touch') return; this.tfT = CONFIG.hoverSlow; cur.on = cur.fresh = true; cur.cx = e.clientX; cur.cy = e.clientY; });
-      h.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') { cur.cx = e.clientX; cur.cy = e.clientY; } }, { passive: true });
-      h.addEventListener('pointerleave', () => { this.tfT = 1; cur.on = false; });
+      h.addEventListener('pointermove', e => {
+        if (e.pointerType === 'touch' || e.pointerType === 'pen') { cur.on = true; cur.cx = e.clientX; cur.cy = e.clientY; }
+        else { cur.cx = e.clientX; cur.cy = e.clientY; }
+      }, { passive: true });
+      h.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') { this.tfT = 1; cur.on = false; } });
       h.addEventListener('pointerdown', e => {
-        if (e.pointerType === 'touch' || e.button !== 0 || !CONFIG.cursor.click) return;
+        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+          cur.on = cur.fresh = true; cur.cx = e.clientX; cur.cy = e.clientY; this.tfT = CONFIG.hoverSlow;
+          if (CONFIG.cursor.click && !(e.target.closest && e.target.closest('a,button,input,textarea,select,summary,label,[role=button],[contenteditable]'))) {
+            const r = h.getBoundingClientRect(); this.poke(e.clientX - r.left, e.clientY - r.top);
+          }
+          clearTimeout(this.touchCursorTimer);
+          return;
+        }
+        if (e.button !== 0 || !CONFIG.cursor.click) return;
         if (e.target.closest && e.target.closest('a,button,input,textarea,select,summary,label,[role=button],[contenteditable]')) return;
         const r = h.getBoundingClientRect(); this.poke(e.clientX - r.left, e.clientY - r.top);
       });
+      const finishTouchCursor = e => {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        clearTimeout(this.touchCursorTimer);
+        this.touchCursorTimer = setTimeout(() => { cur.on = false; this.tfT = 1; }, 520);
+      };
+      h.addEventListener('pointerup', finishTouchCursor, { passive: true });
+      h.addEventListener('pointercancel', finishTouchCursor, { passive: true });
     }
     poke(x, y) {                                    // click on empty blue space: ripple, and a launch from that spot
       this.fx.push({ k: 'ring', x, y, t: 0, d: .9, m: 1.6 });
@@ -5770,58 +5792,53 @@ html body .kg-pointer-glow::after{display:none!important}
 
 <script id="kg-mobile-touch-cursor-runtime">
 (()=>{
-  // Mobile browsers do not expose a permanent mouse pointer. Show a visible
-  // touch marker at the finger position and keep it briefly after release.
   const coarse=()=>!!(window.matchMedia&&(
-    window.matchMedia('(hover: none)').matches ||
-    window.matchMedia('(pointer: coarse)').matches
+    window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches
   ));
   if(!coarse())return;
-  let dot=null,ring=null,hideTimer=0;
-  function create(){
-    if(dot&&ring&&dot.isConnected&&ring.isConnected)return;
-    dot=document.createElement('span');
-    dot.className='kg-mobile-touch-cursor';
-    dot.setAttribute('aria-hidden','true');
-    ring=document.createElement('span');
-    ring.className='kg-mobile-touch-cursor-ring';
-    ring.setAttribute('aria-hidden','true');
-    (document.body||document.documentElement).append(dot,ring);
-  }
-  function showAt(x,y){
+  let dot,ring,ripple,raf=0,hideTimer=0,lastPress=0;
+  let target={x:-120,y:-120},pos={x:-120,y:-120},visible=false;
+  const make=()=>{
+    if(dot&&dot.isConnected)return;
+    dot=document.createElement('span');dot.className='kg-mobile-touch-cursor';dot.setAttribute('aria-hidden','true');
+    ring=document.createElement('span');ring.className='kg-mobile-touch-cursor-ring';ring.setAttribute('aria-hidden','true');
+    ripple=document.createElement('span');ripple.className='kg-mobile-touch-cursor-ripple';ripple.setAttribute('aria-hidden','true');
+    document.body.append(dot,ring,ripple);
+  };
+  const place=(el,x,y)=>el.style.setProperty('transform',`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`,'important');
+  const frame=()=>{
+    const dx=target.x-pos.x,dy=target.y-pos.y;
+    pos.x+=dx*.42;pos.y+=dy*.42;
+    place(dot,target.x,target.y);place(ring,pos.x,pos.y);
+    if(Math.abs(dx)+Math.abs(dy)>.25){raf=requestAnimationFrame(frame)}else raf=0;
+  };
+  const show=(x,y)=>{
     if(!Number.isFinite(x)||!Number.isFinite(y))return;
-    create();
-    const t=`translate3d(${x}px,${y}px,0) translate(-50%,-50%)`;
-    // The stylesheet uses !important for the safe off-screen initial position;
-    // set the live coordinates with the same priority so they actually win.
-    dot.style.setProperty('transform',t,'important');
-    ring.style.setProperty('transform',t,'important');
-    dot.classList.add('is-visible');
-    ring.classList.add('is-visible');
-    window.clearTimeout(hideTimer);
-  }
-  function scheduleHide(delay=1100){
-    window.clearTimeout(hideTimer);
-    hideTimer=window.setTimeout(()=>{
-      dot?.classList.remove('is-visible');
-      ring?.classList.remove('is-visible');
-    },delay);
-  }
-  function pointer(e){
-    if(e.pointerType==='touch'||e.pointerType==='pen')showAt(e.clientX,e.clientY);
-  }
-  function touch(e){
-    const t=e.changedTouches&&e.changedTouches[0] || e.touches&&e.touches[0];
-    if(!t)return;
-    showAt(t.clientX,t.clientY);
-  }
-  document.addEventListener('pointerdown',pointer,{passive:true,capture:true});
-  document.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')pointer(e)},{passive:true,capture:true});
-  document.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')scheduleHide(1100)},{passive:true,capture:true});
-  document.addEventListener('touchstart',touch,{passive:true,capture:true});
+    make();target={x,y};
+    if(!visible){visible=true;pos={x,y};dot.classList.add('is-visible');ring.classList.add('is-visible')}
+    if(!raf)raf=requestAnimationFrame(frame);
+    clearTimeout(hideTimer);hideTimer=setTimeout(hide,650);
+  };
+  const hide=()=>{visible=false;dot?.classList.remove('is-visible');ring?.classList.remove('is-visible','is-pressed')};
+  const press=(x,y)=>{
+    const now=performance.now();if(now-lastPress<90)return;lastPress=now;
+    show(x,y);ring.classList.add('is-pressed');
+    ripple.classList.remove('is-rippling');ripple.style.setProperty('--kg-cx',x+'px');ripple.style.setProperty('--kg-cy',y+'px');
+    // Restart the CSS ripple without a layout read.
+    requestAnimationFrame(()=>ripple.classList.add('is-rippling'));
+    clearTimeout(hideTimer);
+  };
+  const release=()=>{ring?.classList.remove('is-pressed');clearTimeout(hideTimer);hideTimer=setTimeout(hide,520)};
+  const pointer=e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){show(e.clientX,e.clientY)}};
+  const touch=e=>{const t=e.touches?.[0]||e.changedTouches?.[0];if(t)show(t.clientX,t.clientY)};
+  document.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')press(e.clientX,e.clientY)},{passive:true,capture:true});
+  document.addEventListener('pointermove',pointer,{passive:true,capture:true});
+  document.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen')release()},{passive:true,capture:true});
+  document.addEventListener('pointercancel',release,{passive:true,capture:true});
+  document.addEventListener('touchstart',e=>{touch(e);const t=e.touches?.[0];if(t)press(t.clientX,t.clientY)},{passive:true,capture:true});
   document.addEventListener('touchmove',touch,{passive:true,capture:true});
-  document.addEventListener('touchend',e=>{touch(e);scheduleHide(1100)},{passive:true,capture:true});
-  document.addEventListener('touchcancel',()=>scheduleHide(500),{passive:true,capture:true});
+  document.addEventListener('touchend',release,{passive:true,capture:true});
+  document.addEventListener('touchcancel',release,{passive:true,capture:true});
 })();
 </script>
 </body></html>

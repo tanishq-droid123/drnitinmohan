@@ -52,14 +52,6 @@ textarea{min-height:100px;resize:vertical;white-space:pre-wrap}
 
 .color-control input[type=color]{width:54px;height:42px;padding:3px;flex:0 0 54px;cursor:pointer}
 .color-control code{font-size:.8rem;color:var(--muted)}
-.password-wrap{display:flex;gap:7px;align-items:stretch}
-.password-wrap input{flex:1;min-width:0}
-.password-toggle{width:46px;min-width:46px;border:1px solid #cbd9e3;border-radius:8px;background:#f7fafc;color:#173e61;display:grid;place-items:center;cursor:pointer;padding:0}
-.password-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.password-toggle .eye-slash{display:none}
-.password-toggle.is-visible .eye-open{display:none}
-.password-toggle.is-visible .eye-slash{display:block}
-.password-toggle:focus{outline:3px solid #0759a825;border-color:var(--blue)}
 @media(max-width:600px){.announcement-screen-preview{padding:9px}.marquee-strip{padding:11px;font-size:.85rem}}
 
 .preview-label{display:block;margin-top:10px;color:var(--muted);font-size:.78rem;font-weight:700}
@@ -120,26 +112,11 @@ select{cursor:pointer}
 
 
 /* Previous-configuration comparison */
-.baseline-panel{padding:15px;border:1px solid #b8d2e5;background:#f2f8fd;border-radius:12px;margin:0 0 22px}
-.baseline-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.baseline-panel h3{margin:0;color:#173e61;font-size:1rem}
-.baseline-panel p{margin:6px 0;color:var(--muted);font-size:.84rem}
-.baseline-file{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.baseline-file input{flex:1;min-width:220px;background:#fff}
-.baseline-status{margin-top:10px;padding:10px 12px;border-radius:8px;background:#fff;border:1px solid var(--line);font-size:.84rem}
 .previous-meta{font-size:.76rem;color:#536b7c;line-height:1.45;margin-top:2px}
 .previous-meta strong{color:#24465c}
 .control select{min-height:42px}
-.merge-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
-.merge-chip{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.78rem}
-.merge-chip strong{display:block;font-size:1rem;color:#173e61}
-@media(max-width:600px){.merge-summary{grid-template-columns:1fr}}
 
 
-.baseline-file{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.fallback-upload{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:.82rem;color:var(--muted)}
-.fallback-upload input{max-width:220px;padding:5px;border:0;font-size:.78rem}
-#refreshLiveSettings{white-space:nowrap}
 
 
 /* Colour-coded appointment hierarchy: blue parent, teal child options. */
@@ -174,24 +151,10 @@ select{cursor:pointer}
 </header>
 <main>
 <form id="requestForm">
-    <section class="baseline-panel" aria-labelledby="baselineTitle">
-      <div class="baseline-head">
-        <h3 id="baselineTitle">Previous settings</h3>
-        <span class="kicker" style="color:#0759a8">Compare & preserve</span>
-      </div>
-      <p>The form first checks your live website for its latest successfully applied settings. It then shows ON/OFF status, permanent or temporary duration, and expiry dates. Leave a setting on “Continue” to preserve it.</p>
-      <div class="baseline-file">
-        <button class="primary" type="button" id="refreshLiveSettings">↻ Fetch live settings</button>
-        <label class="fallback-upload" for="previousJsonFile">Manual backup: <input id="previousJsonFile" type="file" accept=".json,application/json" aria-label="Load previous applied JSON"></label>
-        <button class="secondary" type="button" id="clearPreviousJson">Clear saved backup</button>
-        <button class="secondary" type="button" id="markApplied" disabled>Save generated JSON on this device</button>
-      </div>
-      <div id="baselineStatus" class="baseline-status" role="status" aria-live="polite">Checking the live website settings…</div>
-      <p class="hint">Live settings file: <code>/configuration/current-state.json</code>. If it is unavailable, use the manual JSON backup.</p>
-      <div class="merge-summary" id="mergeSummary" hidden>
-        <div class="merge-chip"><strong id="preservedCount">0</strong> settings preserved</div>
-        <div class="merge-chip"><strong id="changedCount">0</strong> new changes</div>
-        <div class="merge-chip"><strong id="temporaryCount">0</strong> temporary schedules carried forward</div>
+    <section class="section" style="margin-top:0">
+      <div class="field">
+        <label for="previousJsonFile">Upload previous JSON</label>
+        <input id="previousJsonFile" type="file" accept=".json,application/json" aria-label="Upload previous JSON">
       </div>
     </section>
     <section class="section">
@@ -281,16 +244,7 @@ select{cursor:pointer}
     </section>
     <section class="section">
       <div class="section-head"><span class="num">3</span><h2>Create request</h2></div>
-      
-      <div class="field">
-        <label for="requestPassword">Password <span aria-hidden="true">*</span></label>
-        <div class="password-wrap">
-          <input id="requestPassword" type="password" required autocomplete="current-password" placeholder="Enter password" aria-describedby="passwordHint">
-          <button class="password-toggle" type="button" id="togglePassword" aria-label="Show password" aria-pressed="false" title="Show password"><svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-slash" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.8M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7c1.5 0 2.8-.4 4-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>
-        </div>
-        
-      </div>
-    </section>
+</section>
     <div class="actions"><button class="primary" type="button" id="download">↓ Create request</button><button class="secondary" type="reset">Reset form</button></div>
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </form>
@@ -304,10 +258,6 @@ select{cursor:pointer}
   let selectedPhotoPreviewUrl = null;
   let previousConfig = null;
   let previousFileName = '';
-  let lastGeneratedConfig = null;
-  const BASELINE_STORAGE_KEY = 'kidsGastroLastAppliedConfigurationV1';
-  // The deployment workflow must write the active-state snapshot to this same-origin URL.
-  const CURRENT_STATE_URL = '/configuration/current-state.json';
 
   const yes = v => v === true || v === 'yes' || v === 'true' || v === 1 || v === '1' || v === 'enabled' || v === 'on';
   const no = v => v === false || v === 'no' || v === 'false' || v === 0 || v === '0' || v === 'disabled' || v === 'off';
@@ -384,64 +334,26 @@ select{cursor:pointer}
   }
   function loadPreviousJsonObject(obj,name='previous JSON') {
     if(!obj || typeof obj!=='object' || Array.isArray(obj)) throw new Error('The selected file is not a JSON configuration object.');
-    previousConfig=obj; previousFileName=name;
-    try { localStorage.setItem(BASELINE_STORAGE_KEY, JSON.stringify({name,config:obj})); } catch(e) {}
-    $('baselineStatus').textContent=`Loaded ${name}. Previous settings are shown below. “Continue last setting” will carry forward settings found in this file.`;
-    $('baselineStatus').style.borderColor='#9cc9ad';
+    previousConfig=obj;
+    previousFileName=name;
     updatePreviousLabels();
   }
-  async function fetchLiveSettings() {
-    const button = $('refreshLiveSettings');
-    button.disabled = true;
-    button.textContent = 'Fetching live settings…';
-    $('baselineStatus').textContent = 'Connecting to the live website settings file…';
-    try {
-      const response = await fetch(`${CURRENT_STATE_URL}?_=${Date.now()}`, {
-        method: 'GET', cache: 'no-store', credentials: 'same-origin',
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!response.ok) throw new Error(`Server returned ${response.status} ${response.statusText || ''}`.trim());
-      const obj = await response.json();
-      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('The live settings file is not a JSON object.');
-      if (obj.snapshotType !== 'active-website-state') {
-        throw new Error('The file exists, but it is not marked as an active-website-state snapshot. The deployment workflow must publish the latest applied state in the documented format.');
-      }
-      if (!obj.activeConfiguration && !obj.configuration && !obj.settings) {
-        throw new Error('The active settings snapshot is missing activeConfiguration.');
-      }
-      const appliedAt = obj.appliedAt || obj.updatedAt || obj.createdAt;
-      loadPreviousJsonObject(obj, `live website settings${appliedAt ? ` · applied ${formatDate(appliedAt)}` : ''}`);
-      $('baselineStatus').textContent = `Live settings fetched successfully${appliedAt ? ` · last applied ${formatDate(appliedAt)}` : ''}. “Continue” will preserve these settings.`;
-      $('baselineStatus').style.borderColor = '#9cc9ad';
-      return true;
-    } catch (err) {
-      const saved = (() => { try { return JSON.parse(localStorage.getItem(BASELINE_STORAGE_KEY) || 'null'); } catch(e) { return null; } })();
-      if (saved?.config) {
-        previousConfig = saved.config;
-        previousFileName = saved.name || 'saved local backup';
-        updatePreviousLabels();
-        $('baselineStatus').textContent = `Could not fetch live settings (${err.message}). Using the saved local backup: ${previousFileName}. You can upload a newer applied JSON if needed.`;
-      } else {
-        $('baselineStatus').textContent = `Could not fetch live settings (${err.message}). No saved backup is available yet. Use the manual JSON upload, or configure your deployment workflow to publish ${CURRENT_STATE_URL}.`;
-        $('baselineStatus').style.borderColor = '#d98b84';
-      }
-      return false;
-    } finally {
-      button.disabled = false;
-      button.textContent = '↻ Fetch live settings';
-    }
-  }
-  $('refreshLiveSettings').addEventListener('click', fetchLiveSettings);
   $('previousJsonFile').addEventListener('change', async e=>{
-    const file=e.target.files?.[0]; if(!file)return;
-    try { const obj=JSON.parse(await file.text()); loadPreviousJsonObject(obj,file.name); }
-    catch(err){ $('baselineStatus').textContent=`Could not read this JSON: ${err.message}`; $('baselineStatus').style.borderColor='#d98b84'; previousConfig=null; updatePreviousLabels(); }
-  });
-  $('clearPreviousJson').addEventListener('click',()=>{
-    previousConfig=null; previousFileName=''; $('previousJsonFile').value='';
-    try { localStorage.removeItem(BASELINE_STORAGE_KEY); } catch(e) {}
-    $('baselineStatus').textContent='Previous JSON cleared. New selections will be generated without carrying forward previous settings.';
-    $('baselineStatus').style.borderColor=''; updatePreviousLabels();
+    const file=e.target.files?.[0];
+    if(!file) return;
+    try {
+      const obj=JSON.parse(await file.text());
+      loadPreviousJsonObject(obj,file.name);
+      $('status').classList.remove('status-error');
+      $('status').textContent='Previous JSON loaded.';
+    } catch(err) {
+      previousConfig=null;
+      previousFileName='';
+      updatePreviousLabels();
+      $('status').classList.add('status-error');
+      $('status').textContent=`Could not read the selected JSON: ${err.message}`;
+      e.target.value='';
+    }
   });
   $('photoFile').addEventListener('change', () => {
     selectedPhotoFile = $('photoFile').files && $('photoFile').files[0] ? $('photoFile').files[0] : null;
@@ -671,15 +583,7 @@ select{cursor:pointer}
       if (id === 'mainAnnouncementBackgroundColor') applyMainStripBackground();
     });
   });
-  $('requestPassword').addEventListener('input', () => { $('requestPassword').removeAttribute('aria-invalid'); $('status').textContent = ''; $('status').classList.remove('status-error','status-success'); });
-  $('togglePassword').addEventListener('click', () => {
-    const reveal = $('requestPassword').type === 'password';
-    $('requestPassword').type = reveal ? 'text' : 'password';
-    $('togglePassword').classList.toggle('is-visible', reveal);
-    $('togglePassword').setAttribute('aria-label', reveal ? 'Hide password' : 'Show password');
-    $('togglePassword').setAttribute('title', reveal ? 'Hide password' : 'Show password');
-    $('togglePassword').setAttribute('aria-pressed', reveal ? 'true' : 'false');
-  });
+
   updateAnnouncementPreview();
   form.addEventListener('reset', () => setTimeout(() => {
     Object.keys(scheduleState.settings).forEach(k => delete scheduleState.settings[k]);
@@ -698,14 +602,7 @@ select{cursor:pointer}
   }, 0));
 
   $('download').addEventListener('click', () => {
-    const enteredPassword = $('requestPassword').value;
-    if (enteredPassword !== 'Paedsgastro@123') {
-      $('status').textContent = enteredPassword ? 'Incorrect password. JSON was not generated.' : 'Password is required before JSON can be generated.'; $('status').classList.add('status-error');
-      $('requestPassword').setAttribute('aria-invalid', 'true');
-      $('requestPassword').focus();
-      return;
-    }
-    $('requestPassword').removeAttribute('aria-invalid');
+
     if (!changedFields().length && !previousConfig) {
       $('status').textContent = 'Load a previous JSON to carry it forward, or select at least one new website change.';
       $('status').classList.add('status-error');
@@ -885,18 +782,6 @@ select{cursor:pointer}
       schedule: { type: mergedDuration, periods: mergedPeriods, activateTemporary: true },
       mergeMetadata: mergedSummary,
     };
-    const preserved = Object.values(changes.settingActions).filter(v=>v==='continue').length;
-    const modified = Object.values(changes.settingActions).filter(v=>v!=='continue').length;
-    const temporaryCarried = Object.values(mergedScheduleSettings).filter(v=>v.duration==='temporary').length;
-    $('mergeSummary').hidden = false;
-    $('preservedCount').textContent = String(preserved);
-    $('changedCount').textContent = String(modified);
-    $('temporaryCount').textContent = String(temporaryCarried);
-    if (previousConfig) {
-      $('baselineStatus').textContent = `Merged with ${previousFileName}. Previous settings were retained wherever “Continue last setting” was selected. Review the generated JSON before replacing the clone copy.`;
-    }
-    lastGeneratedConfig = data;
-    $('markApplied').disabled = false;
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob); const a = document.createElement('a');
     a.href = url; a.download = 'change-request.json';
@@ -907,29 +792,6 @@ select{cursor:pointer}
       $('status').classList.remove('status-error'); $('status').classList.add('status-success'); $('status').textContent = 'File downloaded.';
     }
   });
-  $('markApplied').addEventListener('click',()=>{
-    if(!lastGeneratedConfig) return;
-    try {
-      localStorage.setItem(BASELINE_STORAGE_KEY, JSON.stringify({name:'last generated JSON (marked applied)',config:lastGeneratedConfig}));
-      previousConfig=lastGeneratedConfig;
-      previousFileName='last generated JSON (marked applied)';
-      $('baselineStatus').textContent='Saved as a local fallback on this device. The live website snapshot will take precedence whenever it can be fetched.';
-      $('baselineStatus').style.borderColor='#9cc9ad';
-      updatePreviousLabels();
-      $('markApplied').disabled=true;
-    } catch(e) {
-      $('baselineStatus').textContent='Could not save this baseline in browser storage. Keep the generated JSON and load it manually next time.';
-    }
-  });
-  try {
-    const saved=localStorage.getItem(BASELINE_STORAGE_KEY);
-    if(saved) {
-      const parsed=JSON.parse(saved);
-      if(parsed && parsed.config) loadPreviousJsonObject(parsed.config, parsed.name || 'saved last-applied configuration');
-    }
-  } catch(e) {}
-  // A fresh server snapshot always takes precedence over the browser's older local copy.
-  fetchLiveSettings();
   refresh();
 })();
 </script>
